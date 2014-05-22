@@ -42,7 +42,7 @@ end
 function scene:createScene( event )
 	local group = self.view
 
-	background = display.newImageRect( "images/2.png", display.contentWidth, display.contentHeight)
+	background = display.newImageRect( "images/2.jpg", display.contentWidth, display.contentHeight)
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	group:insert( background )
@@ -60,6 +60,9 @@ end
 function scene:enterScene( event )
 	local group = self.view
 	print( "1: enterScene event" )
+
+	local priior_scene = storyboard.getPrevious()
+	storyboard.purgeScene( priior_scene )
 
 	background:addEventListener( "touch", onPageSwap)
 

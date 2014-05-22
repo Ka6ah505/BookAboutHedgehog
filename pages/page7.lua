@@ -27,13 +27,14 @@ local function onPageSwap( event )
     	distance = event.xStart - event.x
     	if distance > swipeThreshNext then
 	    	storyboard.removeScene( "pages.page7" )
-			storyboard.gotoScene( "pages.page8", "slideRight ", 400  )
+			storyboard.gotoScene( "pages.page8", "slideDown", 400  )
 		elseif distance < swipeThreshPrev and distance < 0 then
 			storyboard.removeScene( "pages.page7" )
-			storyboard.gotoScene( "pages.page6", "slideLeft", 400  )
+			storyboard.gotoScene( "pages.page6", "slideUp", 400  )
 	    end
-        display.getCurrentStage():setFocus( nil )
-    end
+	            display.getCurrentStage():setFocus( nil )
+
+	end
     
     return true
 end
@@ -42,7 +43,7 @@ end
 function scene:createScene( event )
 	local group = self.view
 
-	background = display.newImageRect( "images/8.png", display.contentWidth, display.contentHeight)
+	background = display.newImageRect( "images/8.jpg", display.contentWidth, display.contentHeight)
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	group:insert( background )
@@ -51,7 +52,7 @@ function scene:createScene( event )
 	text:setFillColor( 255, 255, 255)
 	group:insert( text )
 
-	print( "\n6: createScene event")
+	print( "\n7: createScene event")
 
 end
 
@@ -59,7 +60,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	print( "6: enterScene event" )
+	print( "7: enterScene event" )
 
 	background:addEventListener( "touch", onPageSwap)
 
@@ -71,7 +72,7 @@ function scene:destroyScene( event )
 
 	background:removeEventListener( "touch", onPageSwap)
 
-	print( "6: destroyScene event" )
+	print( "7: destroyScene event" )
 
 end
 

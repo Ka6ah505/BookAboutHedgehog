@@ -27,12 +27,13 @@ local function onPageSwap( event )
     	distance = event.xStart - event.x
     	if distance > swipeThreshNext then
 	    	storyboard.removeScene( "pages.page6" )
-			storyboard.gotoScene( "pages.page7", "slideRight ", 400  )
+			storyboard.gotoScene( "pages.page7", "slideRight", 400  )
 		elseif distance < swipeThreshPrev and distance < 0 then
 			storyboard.removeScene( "pages.page6" )
 			storyboard.gotoScene( "pages.page5", "slideLeft", 400  )
 	    end
-        display.getCurrentStage():setFocus( nil )
+	            display.getCurrentStage():setFocus( nil )
+
     end
     
     return true
@@ -42,7 +43,7 @@ end
 function scene:createScene( event )
 	local group = self.view
 
-	background = display.newImageRect( "images/7.png", display.contentWidth, display.contentHeight)
+	background = display.newImageRect( "images/7.jpg", display.contentWidth, display.contentHeight)
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	group:insert( background )

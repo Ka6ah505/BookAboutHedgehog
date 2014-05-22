@@ -20,7 +20,7 @@ end
 function scene:createScene( event )
 	local group = self.view
  
-	background = display.newImageRect( "images/1.png", display.contentWidth, display.contentHeight )
+	background = display.newImageRect( "images/1.jpg", display.contentWidth, display.contentHeight )
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	group:insert( background )
@@ -35,6 +35,9 @@ function scene:enterScene( event )
 	local group = self.view
 	
 	print( "homePage: enterScene event" )
+
+	--local prior_scene = storyboard.getPrevious()
+	--storyboard.purgeScene( prior_scene )
 
 	background:addEventListener( "touch", onSceneTouch)
 

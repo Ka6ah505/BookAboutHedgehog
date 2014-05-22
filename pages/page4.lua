@@ -42,7 +42,7 @@ end
 function scene:createScene( event )
 	local group = self.view
 
-	background = display.newImageRect( "images/5.png", display.contentWidth, display.contentHeight)
+	background = display.newImageRect( "images/5.jpg", display.contentWidth, display.contentHeight)
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	group:insert( background )
