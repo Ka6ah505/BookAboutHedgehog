@@ -71,6 +71,9 @@ function scene:destroyScene( event )
 
 	background:removeEventListener( "touch", onPageSwap)
 
+	background:removeSelf()
+	background = nil
+	
 	print( "2: destroyScene event" )
 
 end

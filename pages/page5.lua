@@ -40,7 +40,7 @@ end
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
-	local group = self.view
+	group = self.view
 
 	background = display.newImageRect( "images/6.jpg", display.contentWidth, display.contentHeight)
 	background.anchorX, background.anchorY = 0, 0
@@ -58,7 +58,7 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
-	local group = self.view
+	group = self.view
 	print( "2: enterScene event" )
 
 	background:addEventListener( "touch", onPageSwap)
@@ -67,9 +67,14 @@ end
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	local group = self.view
+	group = self.view
 
 	background:removeEventListener( "touch", onPageSwap)
+
+--	background:removeSelf()
+--	background = nil
+
+	group:remove( background )
 
 	print( "2: destroyScene event" )
 

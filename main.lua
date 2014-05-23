@@ -1,7 +1,7 @@
 local storyboard = require "storyboard"
 
-storyboard.removeAll()
-storyboard.purgeOnSceneChange = true
+--storyboard.removeAll()
+--storyboard.purgeOnSceneChange = true
 
 storyboard.isDebug = true
 print( Runtime:addEventListener( "enterFrame", storyboard.printMemUsage ))

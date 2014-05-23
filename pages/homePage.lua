@@ -4,21 +4,30 @@ local scene = storyboard.newScene()
 ---------------------------------------------------------------------------------
 -- Место  для объявления локальных переменных
 local background
+local group
+local swipeThreshNext = 100
 
 ---------------------------------------------------------------------------------
- 
-function onSceneTouch( event )
-	-- body
-	if event.phase == "began" then	
-		storyboard.removeScene( "pages.homePage" )	
-		storyboard.gotoScene( "pages.page1", "flip", 400  )		
-		return true
-	end
+local function onPageSwap( event )
+	local distance
+    if event.phase == "moved" then
+        print( "moved phase" )
+        
+    elseif event.phase == "ended" or event.phase == "cancelled" then
+    	distance = event.xStart - event.x
+    	if distance > swipeThreshNext then
+	    	storyboard.removeScene( "pages.homePage" )
+			storyboard.gotoScene( "pages.page1", "zoomOutIn", 400  )
+        display.getCurrentStage():setFocus( nil )
+    	end
+    end
+    
+    return true
 end
 
 -- Вызывается когда сцена ещё не существует:
 function scene:createScene( event )
-	local group = self.view
+	 group = self.view
  
 	background = display.newImageRect( "images/1.jpg", display.contentWidth, display.contentHeight )
 	background.anchorX, background.anchorY = 0, 0
@@ -32,23 +41,26 @@ end
  
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
-	local group = self.view
+	 group = self.view
 	
 	print( "homePage: enterScene event" )
 
-	--local prior_scene = storyboard.getPrevious()
-	--storyboard.purgeScene( prior_scene )
-
-	background:addEventListener( "touch", onSceneTouch)
+	background:addEventListener( "touch", onPageSwap)
 
 end
  
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	local group = self.view
+	 group = self.view
+
+	background:removeEventListener( "touch", onPageSwap)
+
+	--display.remove( group )
+	group:remove( background )
+	--background:removeSelf()
+	--background = nil
 	print( "homePage: destroyScene")
 
-	background:removeEventListener( "touch", onSceneTouch)
 end
  
 ---------------------------------------------------------------------------------
