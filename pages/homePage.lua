@@ -50,7 +50,7 @@ local function gotoTitle( event )
 
 	if event.phase == "ended" then
 		storyboard.removeScene( "pages.homePage")
-		--storyboard.gotoScene()
+		storyboard.gotoScene( "pages.titlePage" )
 	display.getCurrentStage():setFocus( nil )
 	end
 end
@@ -149,7 +149,7 @@ function scene:destroyScene( event )
 	 group = self.view
 
 	background:removeEventListener( "touch", onPageSwap)
-
+	titles:removeEventListener( "touch", gotoTitle)
 	--display.remove( group )
 	group:remove( background )
 	--background:removeSelf()

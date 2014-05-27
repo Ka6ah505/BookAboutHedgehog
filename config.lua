@@ -1,12 +1,12 @@
 application = {
 	content = {
-		width = 1536,
-        height = 2048,
+		--width = 1536,
+        --height = 2048,
         --scale = "letterBox",
         scale = "zoomEven",
         fps = 30,
-        --width = 768,
-        --height = 1024,
+        width = 768,
+        height = 1024,
 		
 		--[[
         imageSuffix = {
