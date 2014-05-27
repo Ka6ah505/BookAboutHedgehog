@@ -70,6 +70,8 @@ function scene:destroyScene( event )
 	 group = self.view
 
 	background:removeEventListener( "touch", onPageSwap)
+	
+	group:remove( background )
 
 	--display.remove( group )
 	--background:removeSelf()

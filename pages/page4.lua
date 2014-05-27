@@ -6,7 +6,7 @@ local scene = storyboard.newScene()
 local background, text 
 local swipeThreshNext = 100
 local swipeThreshPrev = -100
-
+local group
 local optionText = {
 	text = "",
 	x = 1100,
