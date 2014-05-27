@@ -71,28 +71,28 @@ function scene:createScene( event )
 	images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
 	PagesGroup:insert( images )
 	
-	titles = display.newImageRect( "slicing/ui/text_content.png", 241, 40 )
-	titles.x = display.contentWidth - 200
+	titles = display.newImageRect( "slicing/ui/text_content.png", display.contentWidth/6, display.contentHeight/20 )
+	titles.x = display.contentWidth - display.contentWidth/10
 	titles.y = display.contentHeight - display.contentHeight/3,
 	group:insert( titles )
 
-	separate = display.newImageRect( "slicing/ui/decor_elem.png", 241, 20 )
-	separate.x = display.contentWidth - 200
+	separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/6, display.contentHeight/40 )
+	separate.x = display.contentWidth - display.contentWidth/10
 	separate.y = display.contentHeight - display.contentHeight/3.5
 	group:insert( separate )
 
-	inStart = display.newImageRect( "slicing/ui/text_start.png", 181, 40)
-	inStart.x = display.contentWidth - 200
+	inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/6, display.contentHeight/20)
+	inStart.x = display.contentWidth - display.contentWidth/10
 	inStart.y = display.contentHeight - display.contentHeight/4
 	inStart.isVisible = false
 	group:insert( inStart )	
 	
 	buttonStart = widget.newButton {
 		id = "start",
-		x = display.contentWidth - 200,
+		x = display.contentWidth - display.contentWidth/10,
 		y = display.contentHeight/2,
-		width = 300,
-	    height = 100,
+		width = display.contentWidth/6,
+	    height = display.contentHeight/12,
 		defaultFile = "slicing/ui/btn_read_nonpressed.png",
 		overFile = "slicing/ui/btn_read_pressed.png",
 		label = "",
@@ -103,8 +103,10 @@ function scene:createScene( event )
 
 	arrowNext = widget.newButton {
 		id = "next",
-		x = display.contentWidth - 100,
+		x = display.contentWidth - display.contentWidth/20,
 		y = display.contentHeight - display.contentHeight/11,
+		width = display.contentWidth/12,
+		height = display.contentHeight/12,
 		defaultFile = "slicing/ui/btn_next.png",
 		overFile = "slicing/ui/btn_next.png",
 		label = "",
@@ -115,8 +117,10 @@ function scene:createScene( event )
 
 	arrowBack = widget.newButton {
 		id = "back",
-		x = display.contentWidth - 300,
+		x = display.contentWidth - display.contentWidth/7,
 		y = display.contentHeight - display.contentHeight/11,
+		width = display.contentWidth/12,
+		height = display.contentHeight/12,
 		defaultFile = "slicing/ui/btn_back.png",
 		overFile = "slicing/ui/btn_back.png",
 		label = "",
