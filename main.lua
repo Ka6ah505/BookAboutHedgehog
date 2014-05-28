@@ -1,4 +1,5 @@
 local storyboard = require "storyboard"
+local countPage
 
 --storyboard.removeAll()
 --storyboard.purgeOnSceneChange = true

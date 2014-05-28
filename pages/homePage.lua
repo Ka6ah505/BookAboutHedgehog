@@ -5,42 +5,61 @@ local scene = storyboard.newScene()
 ---------------------------------------------------------------------------------
 -- Место  для объявления локальных переменных
 local background
-local group
-local swipeThreshNext = 100
+local group, imagesGroup
 local images
 local titles, separate, inStart
-local PagesGroup
 local buttonStart
 local arrowNext, arrowBack
 
 ---------------------------------------------------------------------------------
 -- Обработчики событий
-local function onPageSwap( event )
-	local distance
-    if event.phase == "moved" then
-        print( "moved phase" )
-        
-    elseif event.phase == "ended" or event.phase == "cancelled" then
-    	distance = event.xStart - event.x
-    	if distance > swipeThreshNext then
-	    	storyboard.removeScene( "pages.homePage" )
-			storyboard.gotoScene( "pages.page1", "zoomOutIn", 400  )
-        display.getCurrentStage():setFocus( nil )
-    	end
-    end
-    
-    return true
-end
 
 local buttonHandler = function( event )
-	print ("CLICK")
 
-	if event.target.id == "start" then
-		print( "start" )
-		buttonStart.isVisible = false
-		arrowNext.isVisible = true
-		arrowBack.isVisible = true
-		inStart.isVisible = true
+	print ("CLICK")
+	if event.phase == "ended" then
+		if event.target.id == "start" then
+			countPage = 2
+			imagesGroup[1]:removeSelf()
+			images = display.newImageRect( "images/2.jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
+			imagesGroup:insert( images )
+			print( "start" )
+			print( countPage )
+			buttonStart.isVisible = false
+			arrowNext.isVisible = true
+			arrowBack.isVisible = true
+			inStart.isVisible = true
+		end
+
+		if event.target.id == "next" and countPage < 16 then
+			countPage = countPage + 1
+			local tmp = countPage
+			print( countPage )
+			imagesGroup[1]:removeSelf()
+			images = display.newImageRect( "images/"..tmp..".jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+			print("images"..tmp..".jpg")
+			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
+			imagesGroup:insert( images )
+		end
+
+		if event.target.id == "back" and countPage > 1 then
+			countPage = countPage - 1
+			local tmp = countPage
+			print( countPage )
+			imagesGroup[1]:removeSelf()
+			images = display.newImageRect( "images/"..tmp..".jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+			print("images"..tmp..".jpg")
+			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
+			imagesGroup:insert( images )
+
+			if countPage == 1 then
+				buttonStart.isVisible = true
+				arrowNext.isVisible = false
+				arrowBack.isVisible = false
+				inStart.isVisible = false
+			end
+		end
 	end
 end
 
@@ -50,7 +69,7 @@ local function gotoTitle( event )
 
 	if event.phase == "ended" then
 		storyboard.removeScene( "pages.homePage")
-		--storyboard.gotoScene()
+		storyboard.gotoScene()
 	display.getCurrentStage():setFocus( nil )
 	end
 end
@@ -59,21 +78,22 @@ end
 -- Вызывается когда сцена ещё не существует:
 function scene:createScene( event )
 	group = self.view
-	PagesGroup = self.view
+	imagesGroup = display.newGroup()
+
+	countPage = 0
  
 	background = display.newImageRect( "slicing/background/bg_1.png", display.contentWidth, display.contentHeight )
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
-	PagesGroup:insert( background )
-	--group:insert( background )
+	group:insert( background )
 
 	images = display.newImageRect( "images/1.jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
 	images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
-	PagesGroup:insert( images )
+	imagesGroup:insert( images )
 	
 	titles = display.newImageRect( "slicing/ui/text_content.png", display.contentWidth/6, display.contentHeight/20 )
 	titles.x = display.contentWidth - display.contentWidth/10
-	titles.y = display.contentHeight - display.contentHeight/3,
+	titles.y = display.contentHeight - display.contentHeight/3
 	group:insert( titles )
 
 	separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/6, display.contentHeight/40 )
@@ -84,7 +104,7 @@ function scene:createScene( event )
 	inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/6, display.contentHeight/20)
 	inStart.x = display.contentWidth - display.contentWidth/10
 	inStart.y = display.contentHeight - display.contentHeight/4
-	inStart.isVisible = false
+	inStart.isVisible = true
 	group:insert( inStart )	
 	
 	buttonStart = widget.newButton {
@@ -99,6 +119,7 @@ function scene:createScene( event )
 		emboss = true,
 		onEvent = buttonHandler
 	}
+	buttonStart.isVisible = true
 	group:insert( buttonStart )
 
 	arrowNext = widget.newButton {
@@ -130,7 +151,6 @@ function scene:createScene( event )
 	group:insert( arrowBack )
 	print( "\nhomePage: createScene event")
 
-	separate = d
 end
  
  
@@ -140,18 +160,15 @@ function scene:enterScene( event )
 	
 	print( "homePage: enterScene event" )
 
-	background:addEventListener( "touch", onPageSwap )
 	titles:addEventListener( "touch", gotoTitle)
 end
  
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	 group = self.view
-
-	background:removeEventListener( "touch", onPageSwap)
+	group = self.view
 
 	--display.remove( group )
-	group:remove( background )
+	--group:remove( background )
 	--background:removeSelf()
 	--background = nil
 	print( "homePage: destroyScene")
