@@ -68,10 +68,37 @@ local function gotoTitle( event )
 	print( "go to title" )
 
 	if event.phase == "ended" then
-		storyboard.removeScene( "pages.homePage")
-		storyboard.gotoScene()
-	display.getCurrentStage():setFocus( nil )
+
+		group:removeSelf()
+		imagesGroup:removeSelf()
+		--storyboard:removeScene( "pages.homePage" )
+		storyboard:gotoScene( "pages.titlePage", "slideRight", 400 )
+		display.getCurrentStage():setFocus( nil )
 	end
+	return true
+end
+
+local function gotoStart( event )
+	if event.phase == "ended" then
+		print("gotoStart")
+		countPage = 1
+		buttonStart.isVisible = true
+		arrowNext.isVisible = false
+		arrowBack.isVisible = false
+		inStart.isVisible = false
+		imagesGroup[1]:removeSelf()
+		images = display.newImageRect( "images/"..countPage..".jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+		print("images"..countPage..".jpg")
+		images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
+		imagesGroup:insert( images )
+
+		--group:removeSelf()
+		--imagesGroup:removeSelf()	
+		--storyboard.removeScene( "pages.homePage")
+		--storyboard.gotoScene( "pages.homePage", "slideRight", 400 )
+	end
+		--display.getCurrentStage():setFocus( nil )
+	return true
 end
 
 -----------------------------------------------------------------------------------
@@ -79,15 +106,17 @@ end
 function scene:createScene( event )
 	group = self.view
 	imagesGroup = display.newGroup()
+	
+	local tmp = countPage
+	print("v home countPage="..tmp)
 
-	countPage = 0
- 
 	background = display.newImageRect( "slicing/background/bg_1.png", display.contentWidth, display.contentHeight )
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	group:insert( background )
 
-	images = display.newImageRect( "images/1.jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+	--imagesGroup[1]:removeSelf()
+	images = display.newImageRect( "images/"..tmp..".jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
 	images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
 	imagesGroup:insert( images )
 	
@@ -104,7 +133,7 @@ function scene:createScene( event )
 	inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/6, display.contentHeight/20)
 	inStart.x = display.contentWidth - display.contentWidth/10
 	inStart.y = display.contentHeight - display.contentHeight/4
-	inStart.isVisible = true
+	inStart.isVisible = false
 	group:insert( inStart )	
 	
 	buttonStart = widget.newButton {
@@ -160,14 +189,26 @@ function scene:enterScene( event )
 	
 	print( "homePage: enterScene event" )
 
-	titles:addEventListener( "touch", gotoTitle)
+	if countPage ~= 1 then
+		buttonStart.isVisible = false
+			arrowNext.isVisible = true
+			arrowBack.isVisible = true
+			inStart.isVisible = true
+	end
+
+	titles:addEventListener( "touch", gotoTitle )
+	inStart:addEventListener( "touch", gotoStart )
 end
  
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
 	group = self.view
 
+	titles:removeEventListener( "touch", gotoTitle )
+	inStart:removeEventListener( "touch", gotoStart )
+	--storyboard.removeScene( "pages.homePage")
 	--display.remove( group )
+	--display.remove( imagesGroup )
 	--group:remove( background )
 	--background:removeSelf()
 	--background = nil

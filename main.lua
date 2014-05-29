@@ -1,11 +1,11 @@
 local storyboard = require "storyboard"
-local countPage
+countPage = 1
 
 --storyboard.removeAll()
 --storyboard.purgeOnSceneChange = true
 
 storyboard.isDebug = true
-print( Runtime:addEventListener( "enterFrame", storyboard.printMemUsage ))
+--print( Runtime:addEventListener( "enterFrame", storyboard.printMemUsage ))
 
 --скрытие статус бара 
 display.setStatusBar( display.HiddenStatusBar )
