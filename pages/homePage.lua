@@ -5,8 +5,8 @@ local scene = storyboard.newScene()
 ---------------------------------------------------------------------------------
 -- Место  для объявления локальных переменных
 local background
-local group, imagesGroup
-local images
+local group, imagesGroup, textGroup
+local images, imageTexts
 local titles, separate, inStart
 local buttonStart
 local arrowNext, arrowBack
@@ -16,14 +16,23 @@ local arrowNext, arrowBack
 
 local buttonHandler = function( event )
 
+	local copyImage = images
+
 	print ("CLICK")
 	if event.phase == "ended" then
 		if event.target.id == "start" then
 			countPage = 2
+
+			textGroup[1]:removeSelf()
+			imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
+			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/6.3, display.contentHeight/3
+			imageTexts.alpha = 1
+			textGroup:insert( imageTexts )
+
 			imagesGroup[1]:removeSelf()
-			images = display.newImageRect( "images/2.jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+			images = display.newImageRect( "images/2.png", display.contentWidth/1.3, display.contentHeight/1.1 )
 			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
-			imagesGroup:insert( images )
+			imagesGroup:insert(images)
 			print( "start" )
 			print( countPage )
 			buttonStart.isVisible = false
@@ -36,9 +45,23 @@ local buttonHandler = function( event )
 			countPage = countPage + 1
 			local tmp = countPage
 			print( countPage )
+
+			textGroup[1]:removeSelf()
+			if countPage > 15 then
+				imageTexts = display.newImageRect( "text/15.png", display.contentWidth/2, display.contentHeight/2 )
+				imageTexts.alpha = 0
+			else
+				imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
+				imageTexts.alpha = 1
+			end
+			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/6.3, display.contentHeight/3
+			textGroup:insert( imageTexts )
+
 			imagesGroup[1]:removeSelf()
-			images = display.newImageRect( "images/"..tmp..".jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+			images = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
 			print("images"..tmp..".jpg")
+			images.alpha = 0
+			transition.dissolve(copyImage, images, 1000, 200)
 			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
 			imagesGroup:insert( images )
 		end
@@ -47,10 +70,24 @@ local buttonHandler = function( event )
 			countPage = countPage - 1
 			local tmp = countPage
 			print( countPage )
+
+			textGroup[1]:removeSelf()
+			if countPage == 1 then 
+				imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
+				imageTexts.alpha = 0
+			else
+				imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
+				imageTexts.alpha = 1
+			end
+			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/6.3, display.contentHeight/3
+			textGroup:insert( imageTexts )
+
 			imagesGroup[1]:removeSelf()
-			images = display.newImageRect( "images/"..tmp..".jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+			images = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
 			print("images"..tmp..".jpg")
 			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
+			images.alpha = 0
+			transition.dissolve(copyImage, images, 1000, 200)
 			imagesGroup:insert( images )
 
 			if countPage == 1 then
@@ -71,6 +108,8 @@ local function gotoTitle( event )
 
 		group:removeSelf()
 		imagesGroup:removeSelf()
+		textGroup:removeSelf()
+		--imageTexts.alpha = 0
 		--storyboard:removeScene( "pages.homePage" )
 		storyboard:gotoScene( "pages.titlePage", "slideRight", 400 )
 		display.getCurrentStage():setFocus( nil )
@@ -87,7 +126,9 @@ local function gotoStart( event )
 		arrowBack.isVisible = false
 		inStart.isVisible = false
 		imagesGroup[1]:removeSelf()
-		images = display.newImageRect( "images/"..countPage..".jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+		--textGroup[1]:removeSelf()
+		imageTexts.alpha = 0
+		images = display.newImageRect( "images/"..countPage..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
 		print("images"..countPage..".jpg")
 		images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
 		imagesGroup:insert( images )
@@ -106,31 +147,43 @@ end
 function scene:createScene( event )
 	group = self.view
 	imagesGroup = display.newGroup()
+	textGroup = display.newGroup()
 	
 	local tmp = countPage
 	print("v home countPage="..tmp)
 
-	background = display.newImageRect( "slicing/background/bg_1.png", display.contentWidth, display.contentHeight )
+	background = display.newImageRect( "slicing/background/bg_1.png", display.actualContentWidth, display.actualContentHeight )
 	background.anchorX, background.anchorY = 0, 0
-	background.x, background.y = 0, 0
+	background.x, background.y = display.screenOriginX, display.screenOriginY
 	group:insert( background )
 
-	--imagesGroup[1]:removeSelf()
-	images = display.newImageRect( "images/"..tmp..".jpg", display.contentWidth/1.3, display.contentHeight/1.1 )
+	if countPage == 1 then
+		imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
+		imageTexts.alpha = 0
+	elseif countPage > 15 then
+		imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
+		imageTexts.alpha = 0
+	else
+		imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
+	end
+	imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/6.3, display.contentHeight/3
+	textGroup:insert( imageTexts )
+
+	images = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
 	images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
 	imagesGroup:insert( images )
 	
-	titles = display.newImageRect( "slicing/ui/text_content.png", display.contentWidth/6, display.contentHeight/20 )
+	titles = display.newImageRect( "slicing/ui/text_content.png", display.contentWidth/8, display.contentHeight/24 )
 	titles.x = display.contentWidth - display.contentWidth/10
 	titles.y = display.contentHeight - display.contentHeight/3
 	group:insert( titles )
 
-	separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/6, display.contentHeight/40 )
+	separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/8, display.contentHeight/40 )
 	separate.x = display.contentWidth - display.contentWidth/10
 	separate.y = display.contentHeight - display.contentHeight/3.5
 	group:insert( separate )
 
-	inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/6, display.contentHeight/20)
+	inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/8, display.contentHeight/24)
 	inStart.x = display.contentWidth - display.contentWidth/10
 	inStart.y = display.contentHeight - display.contentHeight/4
 	inStart.isVisible = false
@@ -138,10 +191,10 @@ function scene:createScene( event )
 	
 	buttonStart = widget.newButton {
 		id = "start",
-		x = display.contentWidth - display.contentWidth/10,
+		x = display.actualContentWidth - display.actualContentWidth/10,
 		y = display.contentHeight/2,
-		width = display.contentWidth/6,
-	    height = display.contentHeight/12,
+		width = display.contentWidth/8,
+	    height = display.contentHeight/16,
 		defaultFile = "slicing/ui/btn_read_nonpressed.png",
 		overFile = "slicing/ui/btn_read_pressed.png",
 		label = "",
@@ -155,7 +208,7 @@ function scene:createScene( event )
 		id = "next",
 		x = display.contentWidth - display.contentWidth/20,
 		y = display.contentHeight - display.contentHeight/11,
-		width = display.contentWidth/12,
+		width = display.contentWidth/15,
 		height = display.contentHeight/12,
 		defaultFile = "slicing/ui/btn_next.png",
 		overFile = "slicing/ui/btn_next.png",
@@ -169,7 +222,7 @@ function scene:createScene( event )
 		id = "back",
 		x = display.contentWidth - display.contentWidth/7,
 		y = display.contentHeight - display.contentHeight/11,
-		width = display.contentWidth/12,
+		width = display.contentWidth/15,
 		height = display.contentHeight/12,
 		defaultFile = "slicing/ui/btn_back.png",
 		overFile = "slicing/ui/btn_back.png",
@@ -179,7 +232,6 @@ function scene:createScene( event )
 	arrowBack.isVisible = false
 	group:insert( arrowBack )
 	print( "\nhomePage: createScene event")
-
 end
  
  
@@ -191,9 +243,9 @@ function scene:enterScene( event )
 
 	if countPage ~= 1 then
 		buttonStart.isVisible = false
-			arrowNext.isVisible = true
-			arrowBack.isVisible = true
-			inStart.isVisible = true
+		arrowNext.isVisible = true
+		arrowBack.isVisible = true
+		inStart.isVisible = true
 	end
 
 	titles:addEventListener( "touch", gotoTitle )

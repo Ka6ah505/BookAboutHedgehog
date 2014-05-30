@@ -13,7 +13,7 @@ local eightPage, ninePage, tenPage, elevenPage
 local function buttonHandler( event )
 	-- body
 	if event.phase == "ended" then
-		if event.target.id == "home"      	 then countPage = 1
+		if event.target.id == "home"      	 then countPage = 1 
 		elseif event.target.id == "one"   	 then countPage = 2
 		elseif event.target.id == "two"   	 then countPage = 3
 		elseif event.target.id == "three" 	 then countPage = 4
@@ -43,6 +43,8 @@ function scene:createScene( event )
 	print( "\ntitle: createScene event")
 	storyboard.removeScene("pages.homePage")
 	group = self.view
+	--background = display.newImageRect( "file.gif", display.contentWidth, display.contentHeight )
+
 	background = display.newImageRect( "slicing/background/bg_1.png", display.contentWidth, display.contentHeight )
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
