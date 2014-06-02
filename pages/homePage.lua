@@ -28,11 +28,25 @@ local buttonHandler = function( event )
 			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
 			imageTexts.alpha = 1
 			textGroup:insert( imageTexts )
+----------------------------------------------------------------------------------
+			--local gr = display.newGroup()
+			local tmpimages = display.newImageRect( "images/1.png", display.contentWidth/1.3, display.contentHeight/1.1 )
+			tmpimages.x, tmpimages.y = display.contentWidth/2.4, display.contentHeight/2
+			tmpimages.alpha = 1
+			transition.moveTo( tmpimages, { time=1000, alpha=0, x=300, y=display.contentHeight/2} )	
+			--gr:insert( tmpimages )
+			--gr[1]:removeSelf()
+			--tmpimages = nil
+			--transition.to( tmpimages, { time=500, delay=2500, alpha=0.0 } )
+			--transition.to( images, { time=1500, alpha=0, x=-(display.contentWidth-50), y=display.contentHeight/2} )
 
+----------------------------------------------------------------------------------
 			imagesGroup[1]:removeSelf()
 			images = display.newImageRect( "images/2.png", display.contentWidth/1.3, display.contentHeight/1.1 )
 			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
+			images.alpha = 1
 			imagesGroup:insert(images)
+
 			print( "start" )
 			print( countPage )
 			buttonStart.isVisible = false
@@ -43,9 +57,24 @@ local buttonHandler = function( event )
 
 		if event.target.id == "next" and countPage < 16 then
 			countPage = countPage + 1
-			local tmp = countPage
 			print( countPage )
+----------------------------------------------------------------------------------
+			--local gr = display.newGroup()
+			local tmp = countPage - 1
+			local tmpimages = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
+			tmpimages.x, tmpimages.y = display.contentWidth/2.4, display.contentHeight/2
+			tmpimages.alpha = 1
+			--tmpimages = nil
+			transition.to( tmpimages, { time=1500, alpha=0, x=-(500), y=display.contentHeight/2} )
+			--gr[1]:removeSelf()
+			--gr:insert( tmpimages )
+			--display:remove( gr ) 
+			--tmpimages = nil
+			--storyboard:purgeScene( "pages.homePage" )
+			--transition.to( tmpimages, { time=500, delay=2500, alpha=0.0 } )
+			--transition.to( images, { time=1500, alpha=0, x=-(display.contentWidth-50), y=display.contentHeight/2} )
 
+----------------------------------------------------------------------------------
 			textGroup[1]:removeSelf()
 			if countPage > 15 then
 				imageTexts = display.newImageRect( "text/15.png", display.contentWidth/2, display.contentHeight/2 )
@@ -58,7 +87,7 @@ local buttonHandler = function( event )
 			textGroup:insert( imageTexts )
 
 			imagesGroup[1]:removeSelf()
-			images = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
+			images = display.newImageRect( "images/"..countPage..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
 			print("images"..tmp..".jpg")
 			images.alpha = 0
 			transition.dissolve(copyImage, images, 1000, 200)
@@ -70,7 +99,21 @@ local buttonHandler = function( event )
 			countPage = countPage - 1
 			local tmp = countPage
 			print( countPage )
+----------------------------------------------------------------------------------------------------------------------------------
+			--local gr = display.newGroup()
+			local tmp = countPage + 1
+			local tmpimages = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
+			tmpimages.x, tmpimages.y = display.contentWidth/2.4, display.contentHeight/2
+			tmpimages.alpha = 1
+			transition.moveBy( tmpimages, { time=1000, alpha = 0, x = 1000, y = 0} )
+			--gr:insert( tmpimages )
+			--gr[1]:removeSelf()
+			--tmpimages = nil
+			--transition.to( tmpimages, { time=1500, alpha=0, x = 500, y=display.contentHeight/2} )	
+			--transition.to( tmpimages, { time=500, delay=2500, alpha=0.0 } )
+			--transition.to( images, { time=1500, alpha=0, x=-(display.contentWidth-50), y=display.contentHeight/2} )
 
+----------------------------------------------------------------------------------------------------------------------------------
 			textGroup[1]:removeSelf()
 			if countPage == 1 then 
 				imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
@@ -83,7 +126,7 @@ local buttonHandler = function( event )
 			textGroup:insert( imageTexts )
 
 			imagesGroup[1]:removeSelf()
-			images = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
+			images = display.newImageRect( "images/"..countPage..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
 			print("images"..tmp..".jpg")
 			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
 			images.alpha = 0
@@ -110,7 +153,7 @@ local function gotoTitle( event )
 		imagesGroup:removeSelf()
 		textGroup:removeSelf()
 		--imageTexts.alpha = 0
-		--storyboard:removeScene( "pages.homePage" )
+		--storyboard:purgeScene( "pages.homePage" )
 		storyboard:gotoScene( "pages.titlePage", "slideRight", 400 )
 		display.getCurrentStage():setFocus( nil )
 	end

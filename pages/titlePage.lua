@@ -30,7 +30,7 @@ local function buttonHandler( event )
 		elseif event.target.id == "fourteen" then countPage = 15
 		elseif event.target.id == "end"      then countPage = 16
 		end
-
+		isTextView = true
 		storyboard.removeScene("pages.titlePage")
 		storyboard.gotoScene("pages.homePage")
 	end
