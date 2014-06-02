@@ -10,7 +10,7 @@ local images, imageTexts
 local titles, separate, inStart
 local buttonStart
 local arrowNext, arrowBack
-
+local isTextView = true
 ---------------------------------------------------------------------------------
 -- Обработчики событий
 
@@ -25,7 +25,7 @@ local buttonHandler = function( event )
 
 			textGroup[1]:removeSelf()
 			imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
-			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/6.3, display.contentHeight/3
+			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
 			imageTexts.alpha = 1
 			textGroup:insert( imageTexts )
 
@@ -54,7 +54,7 @@ local buttonHandler = function( event )
 				imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
 				imageTexts.alpha = 1
 			end
-			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/6.3, display.contentHeight/3
+			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
 			textGroup:insert( imageTexts )
 
 			imagesGroup[1]:removeSelf()
@@ -79,7 +79,7 @@ local buttonHandler = function( event )
 				imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
 				imageTexts.alpha = 1
 			end
-			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/6.3, display.contentHeight/3
+			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
 			textGroup:insert( imageTexts )
 
 			imagesGroup[1]:removeSelf()
@@ -142,6 +142,18 @@ local function gotoStart( event )
 	return true
 end
 
+local function transitionRight( event )
+	if event.phase == "ended" then
+		print("tap on imageTexts")
+		if isTextView == true then
+			isTextView = false
+			transition.moveTo(textGroup, {x = display.contentWidth-display.contentWidth/1.5, y = 0, time = 2000 } )
+		else
+			isTextView = true
+			transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
+		end
+	end
+end
 -----------------------------------------------------------------------------------
 -- Вызывается когда сцена ещё не существует:
 function scene:createScene( event )
@@ -166,24 +178,24 @@ function scene:createScene( event )
 	else
 		imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
 	end
-	imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/6.3, display.contentHeight/3
+	imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
 	textGroup:insert( imageTexts )
 
 	images = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
 	images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
 	imagesGroup:insert( images )
 	
-	titles = display.newImageRect( "slicing/ui/text_content.png", display.contentWidth/8, display.contentHeight/24 )
+	titles = display.newImageRect( "slicing/ui/text_content.png", display.contentWidth/10, display.contentHeight/34 )
 	titles.x = display.contentWidth - display.contentWidth/10
 	titles.y = display.contentHeight - display.contentHeight/3
 	group:insert( titles )
 
-	separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/8, display.contentHeight/40 )
+	separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/14, display.contentHeight/50 )
 	separate.x = display.contentWidth - display.contentWidth/10
 	separate.y = display.contentHeight - display.contentHeight/3.5
 	group:insert( separate )
 
-	inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/8, display.contentHeight/24)
+	inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/10, display.contentHeight/34)
 	inStart.x = display.contentWidth - display.contentWidth/10
 	inStart.y = display.contentHeight - display.contentHeight/4
 	inStart.isVisible = false
@@ -250,6 +262,7 @@ function scene:enterScene( event )
 
 	titles:addEventListener( "touch", gotoTitle )
 	inStart:addEventListener( "touch", gotoStart )
+	textGroup:addEventListener( "touch", transitionRight )
 end
  
 -- Called prior to the removal of scene's "view" (display group)
@@ -258,6 +271,7 @@ function scene:destroyScene( event )
 
 	titles:removeEventListener( "touch", gotoTitle )
 	inStart:removeEventListener( "touch", gotoStart )
+	textGroup:removeEventListener( "touch", transitionRight )
 	--storyboard.removeScene( "pages.homePage")
 	--display.remove( group )
 	--display.remove( imagesGroup )
