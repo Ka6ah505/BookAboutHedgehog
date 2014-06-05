@@ -11,7 +11,6 @@ local eightPage, ninePage, tenPage, elevenPage
 ---------------------------------------------------------------------------------
 
 local function buttonHandler( event )
-	-- body
 	if event.phase == "ended" then
 		if event.target.id == "home"      	 then countPage = 1 
 		elseif event.target.id == "one"   	 then countPage = 2
@@ -31,7 +30,6 @@ local function buttonHandler( event )
 		elseif event.target.id == "end"      then countPage = 16
 		end
 		isTextView = true
-		storyboard.removeScene("pages.titlePage")
 		storyboard.gotoScene("pages.homePage")
 	end
 	return true
@@ -41,16 +39,17 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	print( "\ntitle: createScene event")
-	storyboard.removeScene("pages.homePage")
 	group = self.view
-	--background = display.newImageRect( "file.gif", display.contentWidth, display.contentHeight )
+
+	storyboard.removeScene("pages.homePage")
+
 
 	background = display.newImageRect( "slicing/background/bg_1.png", display.contentWidth, display.contentHeight )
 	background.anchorX, background.anchorY = 0, 0
 	background.x, background.y = 0, 0
 	group:insert( background )
 
-----------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 	mainPage = widget.newButton {
 		id = "home",
 		x = display.contentWidth/8,
@@ -165,7 +164,7 @@ function scene:createScene( event )
 	}
 	sevenPage.isVisible = true
 	group:insert( sevenPage )
-------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 
 	eightPage = widget.newButton {
 		id = "eight",
@@ -222,8 +221,7 @@ function scene:createScene( event )
 	}
 	elevenPage.isVisible = true
 	group:insert( elevenPage )
-
------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 
 	twelvePage = widget.newButton {
 		id = "twelve",
