@@ -1,329 +1,374 @@
-local storyboard = require( "storyboard" )
-local widget = require( "widget" )
-local scene = storyboard.newScene()
- 
----------------------------------------------------------------------------------
--- Место  для объявления локальных переменных
-local background
-local group, imagesGroup--, textGroup
-local images, imageTexts
-local titles, separate, inStart
-local buttonStart
+local composer = require( "composer" )
+local widget = require ( "widget" )
+
+local scene = composer.newScene()
+
+-- -----------------------------------------------------------------------------------------------------------------
+-- All code outside of the listener functions will only be executed ONCE unless "composer.removeScene()" is called.
+-- -----------------------------------------------------------------------------------------------------------------
+
+local background, rightRect, leftRect
+local images, imagesGroup, textGroup
+local buttonStart, arrowNext, arrowBack
+local imageTexts, titles, separate, inStart
 local arrowNext, arrowBack
-local isTextView = true
-local tmpimages
----------------------------------------------------------------------------------
-
-local function gotoPageNext() 
-	countPage = countPage + 1
-	print( countPage )
-----------------------------------------------------------------------------------
-	local tmp = countPage - 1
-	tmpimages = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
-	tmpimages.x, tmpimages.y = display.contentWidth/2.4, display.contentHeight/2
-	tmpimages.alpha = 1
-	transition.to( tmpimages, { time=1500, alpha=0, x=-(500), y=display.contentHeight/2} )
-----------------------------------------------------------------------------------
-	textGroup[1]:removeSelf()
-	if countPage > 15 then
-		imageTexts = display.newImageRect( "text/15.png", display.contentWidth/2, display.contentHeight/2 )
-		imageTexts.alpha = 0
-	else
-		imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
-		imageTexts.alpha = 1
-	end
-	imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
-	textGroup:insert( imageTexts )
-
-	imagesGroup[1]:removeSelf()
-	images = display.newImageRect( "images/"..countPage..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
-	print("images"..tmp..".jpg")
-	images.alpha = 0
-	transition.dissolve(copyImage, images, 1000, 200)
-	images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
-	imagesGroup:insert( images )
-end
-
-function gotoPagePrev()
-	countPage = countPage - 1
-	local tmp = countPage
-	print( countPage )
+local soundBackdround, soundChanel
 
 ----------------------------------------------------------------------------------
-	--local gr = display.newGroup()
-	local tmp = countPage + 1
+function transitionRight( event )
+    print("tap on imageTexts")
 
-	tmpimages = display.newImageRect( "images/"..tmp..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
-	tmpimages.x, tmpimages.y = display.contentWidth/2.4, display.contentHeight/2
-	tmpimages.alpha = 1
-	transition.moveBy( tmpimages, { time=1000, alpha = 0, x = 1000, y = 0} )
-	--gr:insert( tmpimages )
-	--gr[1]:removeSelf()
-	--tmpimages = nil
-	--transition.to( tmpimages, { time=1500, alpha=0, x = 500, y=display.contentHeight/2} )	
-	--transition.to( tmpimages, { time=500, delay=2500, alpha=0.0 } )
-	--transition.to( images, { time=1500, alpha=0, x=-(display.contentWidth-50), y=display.contentHeight/2} )
-
-----------------------------------------------------------------------------------
-	textGroup[1]:removeSelf()
-	if countPage == 1 then 
-		imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
-		imageTexts.alpha = 0
-	else
-		imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
-		imageTexts.alpha = 1
-	end
-	imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
-	textGroup:insert( imageTexts )
-
-	imagesGroup[1]:removeSelf()
-	images = display.newImageRect( "images/"..countPage..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
-	print("images"..tmp..".jpg")
-	images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
-	images.alpha = 0
-	transition.dissolve(copyImage, images, 1000, 200)
-	imagesGroup:insert( images )
-
-	if countPage == 1 then
-		buttonStart.isVisible = true
-		arrowNext.isVisible = false
-		arrowBack.isVisible = false
-		inStart.isVisible = false
-	end
-end
-
--- Обработчики событий
-
-local buttonHandler = function( event )
-
-	print ("CLICK")
-	if event.phase == "ended" then
-		if event.target.id == "start" then
-			countPage = 2
-
-			textGroup[1]:removeSelf()
-			imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
-			imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
-			imageTexts.alpha = 1
-			textGroup:insert( imageTexts )
-
-			imagesGroup[1]:removeSelf()
-			images = display.newImageRect( "images/2.png", display.contentWidth/1.3, display.contentHeight/1.1 )
-			images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
-			images.alpha = 1
-			imagesGroup:insert(images)
-
-			print( "start" )
-			print( countPage )
-			buttonStart.isVisible = false
-			arrowNext.isVisible = true
-			arrowBack.isVisible = true
-			inStart.isVisible = true
-		end
-
-		if event.target.id == "next" and countPage < 16 then
-			gotoPageNext()
-			print("Lua memory size, Kb = "..gcinfo())
-		end
-
-		if event.target.id == "back" and countPage > 1 then
-			gotoPagePrev()
-		end
-	end
-	if isTextView == false then
-		transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
-	end
+    if event.phase == "ended" then
+        print("bilo: ")
+        print(isTextView )
+        if isTextView == true then
+            isTextView = false
+            transition.moveTo(textGroup, {x = display.contentWidth-display.contentWidth/1.5, y = 0, time = 2000 } )
+            --transition.moveTo(textGroup, {x = leftRect.width+leftRect.width/3, y = 0, time = 1500 } )
+            print("stalo: ")
+            print(isTextView)
+        else
+            isTextView = true
+            transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
+            --transition.moveTo(textGroup, {x = -(leftRect.width - leftRect.width/3), y = 0, time = 1500 } )
+            print("stalo: ")
+            print(isTextView)
+        end
+    end
 end
 
 local function gotoStart( event )
-	if event.phase == "ended" then
-		print("gotoStart")
-		countPage = 1
-		buttonStart.isVisible = true
-		arrowNext.isVisible = false
-		arrowBack.isVisible = false
-		inStart.isVisible = false
-		imagesGroup[1]:removeSelf()
-		imageTexts.alpha = 0
-		images = display.newImageRect( "images/"..countPage..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
-		print("images"..countPage..".jpg")
-		images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
-		imagesGroup:insert( images )
-	end
-	return true
+    if event.phase == "ended" then
+        print("gotoStart")
+        countPage = 1
+        buttonStart.isVisible = true
+        arrowNext.isVisible = false
+        arrowBack.isVisible = false
+        inStart.isVisible = false
+        imagesGroup[1]:removeSelf()
+        imageTexts.alpha = 0
+        images = display.newImageRect( "images/"..countPage..""..typeFile..".jpg", rightRect.width, rightRect.height )
+        images.x, images.y = rightRect.x, rightRect.y
+        images.anchorX, images.anchorY = 0, 0
+        imagesGroup:insert( images )
+        --audio.stop( soundChanel )
+        audio.play( soundBackdround )
+    end
+    return true
 end
 
---движение сихотворения на странице
-local function transitionRight( event )
-	if event.phase == "ended" then
-		print("tap on imageTexts")
-		if isTextView == true then
-			isTextView = false
-			transition.moveTo(textGroup, {x = display.contentWidth-display.contentWidth/1.5, y = 0, time = 2000 } )
-		else
-			isTextView = true
-			transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
-		end
-	end
+function layoutComponent( sceneGroup, imagesGroup )
+    background = display.newImageRect( "slicing/background/bg_1.png", h, w )
+    background.anchorX, background.anchorY = 0, 0
+    background.x, background.y = display.screenOriginY, display.screenOriginX
+    sceneGroup:insert( background )
+
+    rightRect = display.newRect( display.screenOriginX, display.screenOriginY, widthRightRect, w)
+    rightRect.anchorX, rightRect.anchorY = 0, 0
+    rightRect:setFillColor( 0.5 )
+    rightRect.alpha = 0
+    sceneGroup:insert( rightRect )
+
+    leftRect = display.newRect( display.screenOriginX+rightRect.height+rightRect.height/4, display.screenOriginY, widthLeftRect, w )
+    leftRect.anchorX, leftRect.anchorY = 0, 0
+    leftRect:setFillColor( 0 )
+    leftRect.alpha = 0
+    sceneGroup:insert( leftRect )
+
+    images = display.newImageRect( "images/"..countPage..""..typeFile..".jpg", rightRect.width, rightRect.height )
+    images.anchorX, images.anchorY = 0, 0
+    images.alpha = 1
+    imagesGroup:insert( images )
+    images.x, images,y = rightRect.x, rightRect.y   
 end
---создание и распоожение кнопок на странице
-local function createButton()
-	buttonStart = widget.newButton {
-		id = "start",
-		x = display.actualContentWidth - display.actualContentWidth/10,
-		y = display.contentHeight/2,
-		width = display.contentWidth/8,
-	    height = display.contentHeight/16,
-		defaultFile = "slicing/ui/btn_read_nonpressed.png",
-		overFile = "slicing/ui/btn_read_pressed.png",
-		label = "",
-		emboss = true,
-		onEvent = buttonHandler
-	}
-	buttonStart.isVisible = true
-	group:insert( buttonStart )
 
-	arrowNext = widget.newButton {
-		id = "next",
-		x = display.contentWidth - display.contentWidth/20,
-		y = display.contentHeight - display.contentHeight/11,
-		width = display.contentWidth/15,
-		height = display.contentHeight/12,
-		defaultFile = "slicing/ui/btn_next.png",
-		overFile = "slicing/ui/btn_next.png",
-		label = "",
-		onEvent = buttonHandler
-	}
-	arrowNext.isVisible = false
-	group:insert( arrowNext )
+function layoutText( sceneGroup )
+    titles = display.newImageRect( "slicing/ui/text_content.png", display.contentWidth/9, display.contentHeight/30 )
+    titles.x = display.screenOriginX+rightRect.width+leftRect.width/2
+    titles.y = leftRect.contentHeight - leftRect.contentHeight/3--display.contentHeight - display.contentHeight/3
+    sceneGroup:insert( titles )
 
-	arrowBack = widget.newButton {
-		id = "back",
-		x = display.contentWidth - display.contentWidth/7,
-		y = display.contentHeight - display.contentHeight/11,
-		width = display.contentWidth/15,
-		height = display.contentHeight/12,
-		defaultFile = "slicing/ui/btn_back.png",
-		overFile = "slicing/ui/btn_back.png",
-		label = "",
-		onEvent = buttonHandler
-	}
-	arrowBack.isVisible = false
-	group:insert( arrowBack )
+    separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/16, display.contentHeight/80 )
+    separate.x = display.screenOriginX+rightRect.width+leftRect.width/2
+    separate.y = leftRect.contentHeight - leftRect.contentHeight/3.5
+    sceneGroup:insert( separate )
+
+    inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/11, display.contentHeight/30)
+    inStart.x = display.screenOriginX+rightRect.width+leftRect.width/2
+    inStart.y = leftRect.contentHeight - leftRect.contentHeight/4
+    inStart.isVisible = false
+    sceneGroup:insert( inStart )
+
+    if countPage == 1 then
+        imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
+        imageTexts.alpha = 0
+        soundChanel = audio.play( soundBackdround, {loop = -1} )
+    elseif countPage > 15 then
+        imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
+        imageTexts.alpha = 0
+    else
+        imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
+    end
+    imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
+    textGroup:insert( imageTexts )
 end
---создание всех надписей на странице
-local function createTextForPage()
-	if countPage == 1 then
-		imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
-		imageTexts.alpha = 0
-	elseif countPage > 15 then
-		imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
-		imageTexts.alpha = 0
-	else
-		imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
-	end
-	imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
-	textGroup:insert( imageTexts )
 
-	titles = display.newImageRect( "slicing/ui/text_content.png", display.contentWidth/10, display.contentHeight/34 )
-	titles.x = display.contentWidth - display.contentWidth/10
-	titles.y = display.contentHeight - display.contentHeight/3
-	group:insert( titles )
+function gotoTitle( event )
+    print( "go to title" )
 
-	separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/14, display.contentHeight/50 )
-	separate.x = display.contentWidth - display.contentWidth/10
-	separate.y = display.contentHeight - display.contentHeight/3.5
-	group:insert( separate )
-
-	inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/10, display.contentHeight/34)
-	inStart.x = display.contentWidth - display.contentWidth/10
-	inStart.y = display.contentHeight - display.contentHeight/4
-	inStart.isVisible = false
-	group:insert( inStart )
+    if event.phase == "ended" then  
+        imagesGroup:removeSelf()
+        textGroup:removeSelf()
+        composer.removeScene( "pages.homePage" )
+        composer:gotoScene( "pages.titlePage", "slideRight", 400 )
+        display.getCurrentStage():setFocus( nil )
+        audio.stop( soundChanel )
+    end
+    return true
 end
---переход к оглавению
-local function gotoTitle( event )
-	print( "go to title" )
 
-	if event.phase == "ended" then	
-		group:removeSelf()
-		textGroup:removeSelf()
-		imagesGroup:removeSelf()
-		storyboard:gotoScene( "pages.titlePage", "slideRight", 400 )
-		display.getCurrentStage():setFocus( nil )
-	end
-	return true
+function createButton( sceneGroup )
+    buttonStart = widget.newButton {
+        id = "start",
+        x = display.screenOriginX+rightRect.width+leftRect.width/2,
+        y = leftRect.contentHeight/2,
+        width = display.contentWidth/8,
+        height = display.contentHeight/16,
+        defaultFile = "slicing/ui/btn_read_nonpressed.png",
+        overFile = "slicing/ui/btn_read_pressed.png",
+        label = "",
+        emboss = true,
+        onEvent = buttonHandler
+    }
+    buttonStart.isVisible = true
+    sceneGroup:insert( buttonStart )
+
+    arrowNext = widget.newButton {
+        id = "next",
+        x = display.screenOriginX+rightRect.width+leftRect.width-leftRect.width/4,
+        y = w - w/10,
+        width = display.contentWidth/arrowWidth,
+        height = display.contentHeight/arrowHeight,
+        defaultFile = "slicing/ui/btn_next.png",
+        overFile = "slicing/ui/btn_next.png",
+        label = "",
+        onEvent = buttonHandler
+    }
+    arrowNext.isVisible = false
+    sceneGroup:insert( arrowNext )
+
+    arrowBack = widget.newButton {
+        id = "back",
+        x = display.screenOriginX+rightRect.width+leftRect.width/4,
+        y = w - w/10,
+        width = display.contentWidth/arrowWidth,
+        height = display.contentHeight/arrowHeight,
+        defaultFile = "slicing/ui/btn_back.png",
+        overFile = "slicing/ui/btn_back.png",
+        label = "",
+        onEvent = buttonHandler
+    }
+    arrowBack.isVisible = false
+    sceneGroup:insert( arrowBack )
 end
------------------------------------------------------------------------------------
--- Вызывается когда сцена ещё не существует:
-function scene:createScene( event )
-	group = self.view
-	imagesGroup = display.newGroup()
-	textGroup = display.newGroup()
 
-	storyboard.removeScene( "pages.titlePage" )	
+function buttonHandler( event )
+    print ("CLICK")
+    if event.phase == "ended" then
+        if event.target.id == "start" then
+            countPage = 2
 
-	print("v home countPage="..countPage)
-	background = display.newImageRect( "slicing/background/bg_1.png", display.actualContentWidth, display.actualContentHeight )
-	background.anchorX, background.anchorY = 0, 0
-	background.x, background.y = display.screenOriginX, display.screenOriginY
-	group:insert( background )
+            textGroup[1]:removeSelf()
+            imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
+            imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
+            imageTexts.alpha = 1
+            textGroup:insert( imageTexts )
 
-	images = display.newImageRect( "images/"..countPage..".png", display.contentWidth/1.3, display.contentHeight/1.1 )
-	images.x, images.y = display.contentWidth/2.4, display.contentHeight/2
-	imagesGroup:insert( images )
+            imagesGroup[1]:removeSelf()
+            images = display.newImageRect( "images/"..countPage..""..typeFile..".jpg", rightRect.width, rightRect.height )
+            images.x, images.y = rightRect.x, rightRect.y
+            images.anchorX, images.anchorY = 0, 0
 
-	createTextForPage()
-	createButton()
+            images.alpha = 1
+            imagesGroup:insert( images )
 
-	print( "\nhomePage: createScene event")
+            buttonStart.isVisible = false
+            arrowNext.isVisible = true
+            arrowBack.isVisible = true
+            inStart.isVisible = true
+            audio.stop( soundChanel )
+        end
+
+        if event.target.id == "next" and countPage < 16 then
+            gotoPageNext()
+            print("Lua memory size, Kb = "..gcinfo())
+        end
+
+        if event.target.id == "back" and countPage > 1 then
+            gotoPagePrev()
+        end
+    end
+    if isTextView == false then
+        transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
+    end
 end
- 
--- Called immediately after scene has moved onscreen:
-function scene:enterScene( event )
-	group = self.view
-	
-	print( "homePage: enterScene event" )
 
-	if countPage ~= 1 then
-		buttonStart.isVisible = false
-		arrowNext.isVisible = true
-		arrowBack.isVisible = true
-		inStart.isVisible = true
-	end
+function gotoPageNext()
+    countPage = countPage + 1
 
-	titles:addEventListener( "touch", gotoTitle )
-	inStart:addEventListener( "touch", gotoStart )
-	textGroup:addEventListener( "touch", transitionRight )
+    local tmp = countPage - 1
+    tmpimages = display.newImageRect( "images/"..tmp..""..typeFile..".jpg", rightRect.width, rightRect.height )
+    tmpimages.x, tmpimages.y = display.contentWidth/2.5, display.contentHeight/2
+    tmpimages.alpha = 1
+    transition.to( tmpimages, { time=2500, alpha=0, x=-(500), y=display.contentHeight/2} )
+
+    textGroup[1]:removeSelf()
+    if countPage > 15 then
+        imageTexts = display.newImageRect( "text/15.png", display.contentWidth/2, display.contentHeight/2 )
+        imageTexts.alpha = 0
+    else
+        imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
+        imageTexts.alpha = 1
+    end
+    imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
+    textGroup:insert( imageTexts )
+
+    print("typeFile: "..typeFile )
+    imagesGroup[1]:removeSelf()
+    images = display.newImageRect( "images/"..countPage..""..typeFile..".jpg", rightRect.width, rightRect.height )
+    images.alpha = 0
+    transition.dissolve( copyImage, images, 1000, 200 )
+    images.anchorX, images.anchorY = 0, 0
+    images.x, images.y = rightRect.x, rightRect.y
+    imagesGroup:insert( images )
+
+    isTextView = true
 end
- 
--- Called prior to the removal of scene's "view" (display group)
-function scene:destroyScene( event )
-	group = self.view
 
-	titles:removeEventListener( "touch", gotoTitle )
-	inStart:removeEventListener( "touch", gotoStart )
-	textGroup:removeEventListener( "touch", transitionRight )
+function gotoPagePrev( event )
+    countPage = countPage - 1
+    local tmp = countPage
+    print( countPage )
 
-	print( "homePage: destroyScene")
+    local tmp = countPage + 1
+    tmpimages = display.newImageRect( "images/"..tmp..""..typeFile..".jpg", rightRect.width, rightRect.height )
+    tmpimages.x, tmpimages.y = display.contentWidth/2.5, display.contentHeight/2
+    tmpimages.alpha = 1
+    transition.moveBy( tmpimages, { time=2500, alpha = 0, x = 1000, y = 0} )
+
+    textGroup[1]:removeSelf()
+    if countPage == 1 then 
+        imageTexts = display.newImageRect( "text/2.png", display.contentWidth/2, display.contentHeight/2 )
+        imageTexts.alpha = 0
+        soundChanel = audio.play( soundBackdround, { loop = -1 } )
+    else
+        imageTexts = display.newImageRect( "text/"..countPage..".png", display.contentWidth/2, display.contentHeight/2 )
+        imageTexts.alpha = 1
+    end
+    imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3
+    textGroup:insert( imageTexts )
+
+    imagesGroup[1]:removeSelf()
+    images = display.newImageRect( "images/"..countPage..""..typeFile..".jpg", rightRect.width, rightRect.height )
+    images.x, images.y = rightRect.width, rightRect.height
+    images.alpha = 0
+    transition.dissolve(copyImage, images, 1000, 200) 
+    images.anchorX, images.anchorY = 1, 1
+    imagesGroup:insert( images )
+
+    if countPage == 1 then
+        buttonStart.isVisible = true
+        arrowNext.isVisible = false
+        arrowBack.isVisible = false
+        inStart.isVisible = false
+    end
+
+    isTextView = true
+end
+
+-- "scene:create()"
+function scene:create( event )
+
+    local sceneGroup = self.view
+    imagesGroup = display.newGroup()
+    textGroup = display.newGroup()
+
+    soundBackdround = audio.loadSound( "SoundBackground.mp3" )
+
+    layoutComponent( sceneGroup, imagesGroup )
+    layoutText( sceneGroup )
+    createButton( sceneGroup )
+    print( "create homePage" )    
+end
+
+
+-- "scene:show()"
+function scene:show( event )
+
+    local sceneGroup = self.view
+    local phase = event.phase
+
+    if countPage ~= 1 then
+        buttonStart.isVisible = false
+        arrowNext.isVisible = true
+        arrowBack.isVisible = true
+        inStart.isVisible = true
+    end
+
+    if ( phase == "will" ) then
+        -- Called when the scene is still off screen (but is about to come on screen).
+    elseif ( phase == "did" ) then
+        -- Called when the scene is now on screen.
+        -- Insert code here to make the scene come alive.
+        -- Example: start timers, begin animation, play audio, etc.
+        textGroup:addEventListener( "touch", transitionRight )
+        titles:addEventListener( "touch", gotoTitle )
+        inStart:addEventListener( "touch", gotoStart )
+    end
 
 end
- 
----------------------------------------------------------------------------------
--- END OF YOUR IMPLEMENTATION
----------------------------------------------------------------------------------
- 
--- "createScene" event is dispatched if scene's view does not exist
-scene:addEventListener( "createScene", scene )
- 
--- "enterScene" event is dispatched whenever scene transition has finished
-scene:addEventListener( "enterScene", scene )
- 
--- "destroyScene" event is dispatched before view is unloaded, which can be
--- automatically unloaded in low memory situations, or explicitly via a call to
--- storyboard.purgeScene() or storyboard.removeScene().
-scene:addEventListener( "destroyScene", scene )
- 
----------------------------------------------------------------------------------
- 
+
+
+-- "scene:hide()"
+function scene:hide( event )
+
+    local sceneGroup = self.view
+    local phase = event.phase
+
+    if ( phase == "will" ) then
+        -- Called when the scene is on screen (but is about to go off screen).
+        -- Insert code here to "pause" the scene.
+        -- Example: stop timers, stop animation, stop audio, etc.
+    elseif ( phase == "did" ) then
+        -- Called immediately after scene goes off screen.
+    end
+end
+
+
+-- "scene:destroy()"
+function scene:destroy( event )
+
+    local sceneGroup = self.view
+
+    print("destroy")
+    --titles.removeEventListener( "touch", gotoTitle )
+    --inStart.removeEventListener( "touch", gotoStart )
+    --textGroup:removeEventListener( "touch", transitionRight )
+    audio.stop()
+    -- Called prior to the removal of scene's view ("sceneGroup").
+    -- Insert code here to clean up the scene.
+    -- Example: remove display objects, save state, etc.
+end
+
+
+-- -------------------------------------------------------------------------------
+
+-- Listener setup
+scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
+
+-- -------------------------------------------------------------------------------
+
 return scene

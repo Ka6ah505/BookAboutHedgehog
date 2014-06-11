@@ -1,17 +1,14 @@
 application = {
 	content = {
-		width = 1536,
-        height = 2048,
-        scale = "letterBox",
+
+        scale = "LetterBox",
         fps = 30,
-        --width = 768,
-        --height = 1024,
 		
-		--[[
+		
         imageSuffix = {
 		    ["@2x"] = 2,
 		}
-		--]]
+		
 	},
 
     --[[
