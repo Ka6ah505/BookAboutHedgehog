@@ -2,13 +2,13 @@ application = {
 	content = {
 
         scale = "LetterBox",
-        fps = 30,
+        fps = 60,
 		
 		
-        imageSuffix = {
+        --[[imageSuffix = {
 		    ["@2x"] = 2,
 		}
-		
+        --]]
 	},
 
     --[[

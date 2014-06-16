@@ -11,7 +11,7 @@ h = display.actualContentHeight
 --typeFile, arrowWidth, arrowHeight, widthRightRect, widthLeftRect
 
 if h/w > 1.34 then
-	arrowHeight = 10
+	arrowHeight = 9
 	arrowWidth = 15
 	typeFile = "@2"
 	widthRightRect = w + w/4
