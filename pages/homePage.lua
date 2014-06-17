@@ -116,7 +116,7 @@ function layoutText( sceneGroup )
 
     inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/11, display.contentHeight/30)
     inStart.x = display.screenOriginX+rightRect.width+leftRect.width/2
-    inStart.y = leftRect.contentHeight - leftRect.contentHeight/4.2
+    inStart.y = leftRect.contentHeight - leftRect.contentHeight/4.3
     inStart.isVisible = false
     sceneGroup:insert( inStart )
 
