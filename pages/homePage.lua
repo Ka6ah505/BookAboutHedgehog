@@ -8,9 +8,9 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 local background, rightRect, leftRect, centerRect, rectSound
-local images, imagesGroup, textGroup, soundGroup
+local images, imagesGroup, textGroup, soundGroup, backGroup
 local buttonStart, arrowNext, arrowBack
-local imageTexts, titles, separate, inStart
+local imageTexts, titles, inStart
 local arrowNext, arrowBack
 
 
@@ -71,15 +71,18 @@ local function gotoStart( event )
         images.x, images.y = centerRect.x, centerRect.y
         images.anchorX, images.anchorY = 0, 0
         imagesGroup:insert( images )
+        changeBackground(false)
     end
     return true
 end
 
 function layoutComponent( sceneGroup, imagesGroup )
-    background = display.newImageRect( "slicing/background/bg_1.png", h, w )
+    background = display.newImageRect( "slicing/background/bg_"..countPage..".jpg", h, w )
     background.anchorX, background.anchorY = 0, 0
     background.x, background.y = display.screenOriginY, display.screenOriginX
-    sceneGroup:insert( background )
+    backGroup:insert( background )
+    backGroup:toBack()
+
 
     rightRect = display.newRect( display.screenOriginX, display.screenOriginY, widthRightRect, w)
     rightRect.anchorX, rightRect.anchorY = 0, 0
@@ -104,7 +107,6 @@ function layoutComponent( sceneGroup, imagesGroup )
     images.alpha = 1
     imagesGroup:insert( images )
     images.x, images.y = centerRect.x, centerRect.y
-
 end
 
 function layoutText( sceneGroup )
@@ -112,11 +114,6 @@ function layoutText( sceneGroup )
     titles.x = display.screenOriginX+rightRect.width+leftRect.width/2
     titles.y = leftRect.contentHeight - leftRect.contentHeight/3
     sceneGroup:insert( titles )
-
-    --[[separate = display.newImageRect( "slicing/ui/decor_elem.png", display.contentWidth/16, display.contentHeight/80 )
-    separate.x = display.screenOriginX+rightRect.width+leftRect.width/2
-    separate.y = leftRect.contentHeight - leftRect.contentHeight/3.5
-    sceneGroup:insert( separate )]]
 
     inStart = display.newImageRect( "slicing/ui/text_start.png", display.contentWidth/11, display.contentHeight/30)
     inStart.x = display.screenOriginX+rightRect.width+leftRect.width/2
@@ -139,7 +136,8 @@ end
 
 function gotoTitle( event )
     print( "go to title" )
-    if event.phase == "ended" then  
+    if event.phase == "ended" then 
+        backGroup:removeSelf() 
         imagesGroup:removeSelf()
         soundGroup:removeSelf()
         textGroup:removeSelf()
@@ -172,7 +170,7 @@ function createButton( sceneGroup )
         width = display.contentWidth/arrowWidth,
         height = display.contentHeight/arrowHeight,
         defaultFile = "slicing/ui/btn_next.png",
-        overFile = "slicing/ui/btn_next.png",
+        overFile = "slicing/ui/btn_next_pressed.png",
         onEvent = buttonHandler
     }
     arrowNext.isVisible = false
@@ -185,11 +183,36 @@ function createButton( sceneGroup )
         width = display.contentWidth/arrowWidth,
         height = display.contentHeight/arrowHeight,
         defaultFile = "slicing/ui/btn_back.png",
-        overFile = "slicing/ui/btn_back.png",
+        overFile = "slicing/ui/btn_back_pressed.png",
         onEvent = buttonHandler
     }
     arrowBack.isVisible = false
     sceneGroup:insert( arrowBack )
+end
+
+function changeBackground( isPage )
+    -- body
+    local tmp
+    if isPage then
+        tmp = countPage-1
+    else 
+        tmp = countPage+1
+    end
+    local tmpBackground = display.newImageRect( "slicing/background/bg_"..tmp..".jpg", h, w )
+    tmpBackground.x, tmpBackground.y = display.screenOriginY, display.screenOriginX
+    tmpBackground.anchorX, tmpBackground.anchorY = 0, 0
+    tmpBackground.alpha = 1
+    tmpBackground:toBack()
+
+    backGroup[1]:removeSelf()
+    background = display.newImageRect( "slicing/background/bg_"..countPage..".jpg", h, w )
+    background.x, background.y = display.screenOriginY, display.screenOriginX
+    background.anchorX, background.anchorY = 0, 0
+    background.alpha = 0
+
+    transition.dissolve( tmpBackground, background, 1000, 200)
+    backGroup:insert( background )
+    backGroup:toBack()
 end
 
 function buttonHandler( event )
@@ -215,6 +238,9 @@ function buttonHandler( event )
             arrowNext.isVisible = true
             arrowBack.isVisible = true
             inStart.isVisible = true
+
+            changeBackground()
+            system.openURL("http://www.coronalabs.com")
         end
 
         if event.target.id == "next" and countPage < 16 then
@@ -229,16 +255,14 @@ function buttonHandler( event )
     if isTextView == false then
         transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
     end
-    isCheckPage()
+    isCheckPage(true)
 end
 
 function gotoPageNext()
     countPage = countPage + 1
 
     local tmp = countPage - 1
-    tmpimages = display.newImageRect( "images/"..tmp..""..typeFile..".jpg", centerRect.width, centerRect.height )
-
-    --------???????????????
+    local tmpimages = display.newImageRect( "images/"..tmp..""..typeFile..".jpg", centerRect.width, centerRect.height )
     tmpimages.x, tmpimages.y = display.contentWidth/2.9, display.contentHeight/2
     tmpimages.alpha = 1
     transition.moveBy(tmpimages, { time=2000, alpha=0, x=-(1000), y=0})
@@ -267,6 +291,7 @@ function gotoPageNext()
 
     isCheckPage()
     isTextView = true
+    changeBackground(true)
 end
 
 function gotoPagePrev( event )
@@ -275,7 +300,7 @@ function gotoPagePrev( event )
     print( countPage )
 
     local tmp = countPage + 1
-    tmpimages = display.newImageRect( "images/"..tmp..""..typeFile..".jpg", centerRect.width, centerRect.height )
+    local tmpimages = display.newImageRect( "images/"..tmp..""..typeFile..".jpg", centerRect.width, centerRect.height )
     tmpimages.x, tmpimages.y = display.contentWidth/2.5, display.contentHeight/2
     tmpimages.alpha = 1
     transition.moveBy( tmpimages, { time=2000, alpha = 0, x = 1000, y = 0} )
@@ -309,6 +334,7 @@ function gotoPagePrev( event )
     end
     isCheckPage()
     isTextView = true
+    changeBackground(false)
 end
 
 function soundMute( event )
@@ -339,6 +365,7 @@ function scene:create( event )
     imagesGroup = display.newGroup()
     textGroup = display.newGroup()
     soundGroup = display.newGroup()
+    backGroup = display.newGroup()
 
     layoutComponent( sceneGroup, imagesGroup )
     layoutText( sceneGroup )

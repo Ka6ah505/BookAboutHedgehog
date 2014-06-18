@@ -276,7 +276,7 @@ function scene:create( event )
 
     group = self.view
 
-    background = display.newImageRect( "slicing/background/bg_1.png", h, w )
+    background = display.newImageRect( "slicing/background/bg_1.jpg", h, w )
     background.anchorX, background.anchorY = 0, 0
     background.x, background.y = display.screenOriginY, display.screenOriginX
     group:insert( background )

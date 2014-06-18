@@ -1,7 +1,7 @@
 local composer = require( "composer" )
 
 soundBackdround = audio.loadSound( "SoundBackground.mp3" )
-soundChanel = audio.play( soundBackdround, {loop = -1} )
+soundChanel = audio.play( soundBackdround, {loops = -1} )
 
 isCheckSound = true
 
