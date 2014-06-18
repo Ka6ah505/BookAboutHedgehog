@@ -33,7 +33,7 @@ local function buttonHandler( event )
         elseif event.target.id == "end"      then countPage = 16
         end
         isTextView = true
-        composer.removeScene( "pages.titlePage" )
+        --composer.removeScene( "pages.titlePage" )
         composer.gotoScene("pages.homePage")
     end
     return true
@@ -47,7 +47,7 @@ local function createButton()
         y = display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_1.png",
+        defaultFile = "slicing/content-images/contant_image_1.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -62,7 +62,7 @@ local function createButton()
         y = display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_2.png",
+        defaultFile = "slicing/content-images/contant_image_2.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -76,7 +76,7 @@ local function createButton()
         y = display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_3.png",
+        defaultFile = "slicing/content-images/contant_image_3.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -90,7 +90,7 @@ local function createButton()
         y = display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_4.png",
+        defaultFile = "slicing/content-images/contant_image_4.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -105,7 +105,7 @@ local function createButton()
         y = display.contentHeight - 5.2*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_5.png",
+        defaultFile = "slicing/content-images/contant_image_5.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -120,7 +120,7 @@ local function createButton()
         y = display.contentHeight - 5.2*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_6.png",
+        defaultFile = "slicing/content-images/contant_image_6.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -134,7 +134,7 @@ local function createButton()
         y = display.contentHeight - 5.2*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_7.png",
+        defaultFile = "slicing/content-images/contant_image_7.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -148,7 +148,7 @@ local function createButton()
         y = display.contentHeight - 5.2*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_8.png",
+        defaultFile = "slicing/content-images/contant_image_9.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -160,10 +160,10 @@ local function createButton()
     eightPage = widget.newButton {
         id = "eight",
         x = display.contentWidth/8,
-        y = display.contentHeight - 3.2*display.contentHeight/8,
+        y = display.contentHeight - 2.9*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_9.png",
+        defaultFile = "slicing/content-images/contant_image_9.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -174,10 +174,10 @@ local function createButton()
     ninePage = widget.newButton {
         id = "nine",
         x = display.contentWidth - 5.3*display.contentWidth/8,
-        y = display.contentHeight - 3.3*display.contentHeight/8,
+        y = display.contentHeight - 2.9*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_10.png",
+        defaultFile = "slicing/content-images/contant_image_10.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -188,10 +188,10 @@ local function createButton()
     tenPage = widget.newButton {
         id = "ten",
         x = display.contentWidth - 3.6*display.contentWidth/8,
-        y = display.contentHeight - 3.3*display.contentHeight/8,
+        y = display.contentHeight - 2.9*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_11.png",
+        defaultFile = "slicing/content-images/contant_image_11.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -202,10 +202,10 @@ local function createButton()
     elevenPage = widget.newButton {
         id = "eleven",
         x = display.contentWidth - 1.9*display.contentWidth/8,
-        y = display.contentHeight - 3.3*display.contentHeight/8,
+        y = display.contentHeight - 2.9*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_12.png",
+        defaultFile = "slicing/content-images/contant_image_12.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -217,10 +217,10 @@ local function createButton()
     twelvePage = widget.newButton {
         id = "twelve",
         x = display.contentWidth/8,
-        y = display.contentHeight - 1.3*display.contentHeight/8,
+        y = display.contentHeight - 1.1*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_13.png",
+        defaultFile = "slicing/content-images/contant_image_13.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -231,10 +231,10 @@ local function createButton()
     thirteenPage = widget.newButton {
         id = "thirteen",
         x = display.contentWidth - 5.3*display.contentWidth/8,
-        y = display.contentHeight - 1.3*display.contentHeight/8,
+        y = display.contentHeight - 1.1*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_14.png",
+        defaultFile = "slicing/content-images/contant_image_14.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -245,10 +245,10 @@ local function createButton()
     fourteenPage = widget.newButton {
         id = "fourteen",
         x = display.contentWidth - 3.6*display.contentWidth/8,
-        y = display.contentHeight - 1.3*display.contentHeight/8,
+        y = display.contentHeight - 1.1*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_15.png",
+        defaultFile = "slicing/content-images/contant_image_15.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -259,10 +259,10 @@ local function createButton()
     fifteenPage = widget.newButton {
         id = "end",
         x = display.contentWidth - 1.9*display.contentWidth/8,
-        y = display.contentHeight - 1.3*display.contentHeight/8,
+        y = display.contentHeight - 1.1*display.contentHeight/8,
         width = display.contentWidth/5,
         height = display.contentHeight/5,
-        defaultFile = "slicing/content-images/contant_image_16.png",
+        defaultFile = "slicing/content-images/contant_image_16.jpg",
         label = "",
         emboss = true,
         onEvent = buttonHandler
@@ -280,8 +280,6 @@ function scene:create( event )
     background.anchorX, background.anchorY = 0, 0
     background.x, background.y = display.screenOriginY, display.screenOriginX
     group:insert( background )
-    print("w: "..h )
-    print("h: "..w )
 
     createButton() 
 end
