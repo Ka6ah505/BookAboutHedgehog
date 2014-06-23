@@ -188,6 +188,7 @@ function createButton( sceneGroup )
     }
     arrowBack.isVisible = false
     sceneGroup:insert( arrowBack )
+    sceneGroup:toFront()
 end
 
 function changeBackground( isPage )
@@ -240,7 +241,7 @@ function buttonHandler( event )
             inStart.isVisible = true
 
             changeBackground()
-            system.openURL("http://www.coronalabs.com")
+            --system.openURL("http://www.coronalabs.com")
         end
 
         if event.target.id == "next" and countPage < 16 then
@@ -265,7 +266,8 @@ function gotoPageNext()
     local tmpimages = display.newImageRect( "images/"..tmp..""..typeFile..".jpg", centerRect.width, centerRect.height )
     tmpimages.x, tmpimages.y = display.contentWidth/2.9, display.contentHeight/2
     tmpimages.alpha = 1
-    transition.moveBy(tmpimages, { time=2000, alpha=0, x=-(1000), y=0})
+    tmpimages:toBack()
+    transition.moveBy(tmpimages, { time=1000, alpha=0, x=-(1000), y=0})
 
     textGroup[1]:removeSelf()
     if countPage > 15 then
@@ -283,10 +285,12 @@ function gotoPageNext()
     print("typeFile: "..typeFile )
     imagesGroup[1]:removeSelf()
     images = display.newImageRect( "images/"..countPage..""..typeFile..".jpg", centerRect.width, centerRect.height )
-    images.alpha = 0
-    transition.dissolve( copyImage, images, 1000, 200 )
+    images.alpha = 1
     images.anchorX, images.anchorY = 0, 0
-    images.x, images.y = centerRect.x, centerRect.y
+    images.x, images.y = centerRect.x+1300, centerRect.y
+    images:toBack()
+    transition.moveBy( images, {time = 1000, x=-(1300), y=0} )
+    transition.dissolve(  copyImage, images, 1000, 20 )
     imagesGroup:insert( images )
 
     isCheckPage()
@@ -303,7 +307,8 @@ function gotoPagePrev( event )
     local tmpimages = display.newImageRect( "images/"..tmp..""..typeFile..".jpg", centerRect.width, centerRect.height )
     tmpimages.x, tmpimages.y = display.contentWidth/2.5, display.contentHeight/2
     tmpimages.alpha = 1
-    transition.moveBy( tmpimages, { time=2000, alpha = 0, x = 1000, y = 0} )
+    tmpimages:toBack()
+    transition.moveBy( tmpimages, { time=1000, alpha = 0, x = 1000, y = 0} )
 
     textGroup[1]:removeSelf()
     if countPage == 1 then 
@@ -317,14 +322,15 @@ function gotoPagePrev( event )
     imageTexts.x, imageTexts.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( imageTexts )
 
+    imagesGroup:toBack()
     imagesGroup[1]:removeSelf()
     images = display.newImageRect( "images/"..countPage..""..typeFile..".jpg", centerRect.width, centerRect.height )
     images.alpha = 0
-    transition.dissolve(copyImage, images, 1000, 200) 
     images.anchorX, images.anchorY = 0, 0
-    images.x, images.y = centerRect.x, centerRect.y
+    images.x, images.y = centerRect.x-1100, centerRect.y
+    transition.moveBy( images, {time = 1000, x=1100, y=0} )
+    transition.dissolve(copyImage, images, 1000, 20) 
     imagesGroup:insert( images )
-
 
     if countPage == 1 then
         buttonStart.isVisible = true
@@ -371,6 +377,7 @@ function scene:create( event )
     layoutText( sceneGroup )
     createButton( sceneGroup )
 
+    sceneGroup:toFront()
     if isCheckSound then
         rectSound = display.newImageRect( "slicing/ui/on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
     else
