@@ -49,7 +49,7 @@ function transitionRight( event )
             print(isTextView)
         else
             isTextView = true
-            transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
+            transition.moveTo(textGroup, {x = -(display.contentWidth/1200), y = 0, time = 2000 } )
             --transition.moveTo(textGroup, {x = -(leftRect.width - leftRect.width/3), y = 0, time = 1500 } )
             print("stalo: ")
             print(isTextView)
@@ -77,12 +77,12 @@ local function gotoStart( event )
 end
 
 function layoutComponent( sceneGroup, imagesGroup )
+
     background = display.newImageRect( "slicing/background/bg_"..countPage..".jpg", h, w )
     background.anchorX, background.anchorY = 0, 0
     background.x, background.y = display.screenOriginY, display.screenOriginX
     backGroup:insert( background )
     backGroup:toBack()
-
 
     rightRect = display.newRect( display.screenOriginX, display.screenOriginY, widthRightRect, w)
     rightRect.anchorX, rightRect.anchorY = 0, 0
@@ -107,6 +107,7 @@ function layoutComponent( sceneGroup, imagesGroup )
     images.alpha = 1
     imagesGroup:insert( images )
     images.x, images.y = centerRect.x, centerRect.y
+
 end
 
 function layoutText( sceneGroup )
@@ -228,12 +229,13 @@ function buttonHandler( event )
             imageTexts.alpha = 1
             textGroup:insert( imageTexts )
 
-            imagesGroup[1]:removeSelf()
+            --[[imagesGroup[1]:removeSelf()
             images = display.newImageRect( "images/"..countPage..""..typeFile..".jpg", centerRect.width, centerRect.height )
             images.x, images.y = centerRect.x, centerRect.y
             images.anchorX, images.anchorY = 0, 0
             images.alpha = 1
-            imagesGroup:insert( images )
+            imagesGroup:insert( images )]]
+            composer.gotoScene("pages.twoPage", "fromRight", 1000 )
 
             buttonStart.isVisible = false
             arrowNext.isVisible = true
