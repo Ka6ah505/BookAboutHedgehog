@@ -10,26 +10,31 @@ local scene = composer.newScene()
 -- local forward references should go here
 local textGroup
 local imageGroup
-local image1, image
+local image, chat
+local soundBackdround1, soundChanel1
 -- -------------------------------------------------------------------------------
-function transitionRight( event )
-    print("tap on imageTexts")
 
+function playText( event )
+    -- body
     if event.phase == "ended" then
-        print("bilo: ")
-        print(isTextView )
+        local result = audio.usedChannels
+        print( "chanels"..result )
+        if result > 1 then
+            audio.stop( soundChanel1 )
+        else
+            soundChanel1 = audio.play( soundBackdround1, {loops = 0} )
+        end
+    end
+end
+
+function transitionRight( event )
+    if event.phase == "ended" then
         if isTextView == true then
             isTextView = false
             transition.moveTo(textGroup, {x = display.contentWidth-display.contentWidth/1.5, y = 0, time = 2000 } )
-            --transition.moveTo(textGroup, {x = leftRect.width+leftRect.width/3, y = 0, time = 1500 } )
-            print("stalo: ")
-            print(isTextView)
         else
             isTextView = true
             transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
-            --transition.moveTo(textGroup, {x = -(leftRect.width - leftRect.width/3), y = 0, time = 1500 } )
-            print("stalo: ")
-            print(isTextView)
         end
     end
 end
@@ -49,6 +54,12 @@ function scene:create( event )
     local txt = display.newImageRect( "text/10.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    chat = display.newImageRect( "slicing/ui/chat.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
+    chat.anchorX, chat.anchorY = 0, 0
+    chat.x, chat.y = rightRect.width+leftRect.width/knopka+leftRect.width/4, display.contentHeight/2.3
+    imageGroup:insert( chat )
+    soundBackdround1 = audio.loadSound( "sound/9.mp3" )
 end
 
 -- "scene:show()"
@@ -64,7 +75,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        
+        chat:addEventListener( "touch", playText )
         textGroup:addEventListener( "touch", transitionRight )
     end
 end
@@ -93,6 +104,8 @@ function scene:destroy( event )
     imageGroup:removeSelf()
     textGroup:removeSelf()
     textGroup:removeEventListener( "touch", transitionRight )
+    chat:removeEventListener( "touch", playText )
+    audio.stop( soundChanel1 )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

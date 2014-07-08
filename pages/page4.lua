@@ -10,8 +10,23 @@ local scene = composer.newScene()
 -- local forward references should go here
 local textGroup
 local imageGroup
-local image1, image
+local image, chat
+local soundBackdround1, soundChanel1
 -- -------------------------------------------------------------------------------
+
+function playText( event )
+    -- body
+    if event.phase == "ended" then
+        local result = audio.usedChannels
+        print( "chanels"..result )
+        if result > 1 then
+            audio.stop( soundChanel1 )
+        else
+            soundChanel1 = audio.play( soundBackdround1, {loops = 0} )
+        end
+    end
+end
+
 function transitionRight( event )
     print("tap on imageTexts")
 
@@ -44,12 +59,17 @@ function scene:create( event )
     image = display.newImageRect( "images/4.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
-    --imageGroup:insert( image )
     group:insert( image )
 
     local txt = display.newImageRect( "text/4.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    chat = display.newImageRect( "slicing/ui/chat.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
+    chat.anchorX, chat.anchorY = 0, 0
+    chat.x, chat.y = rightRect.width+leftRect.width/knopka+leftRect.width/4, display.contentHeight/2.3
+    imageGroup:insert( chat )
+    soundBackdround1 = audio.loadSound( "sound/3.mp3" )
 end
 
 -- "scene:show()"
@@ -66,7 +86,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        
+        chat:addEventListener( "touch", playText )
         textGroup:addEventListener( "touch", transitionRight )
     end
 end
@@ -95,6 +115,8 @@ function scene:destroy( event )
     textGroup:removeSelf()
     imageGroup:removeSelf()
     textGroup:removeEventListener( "touch", transitionRight )
+    chat:removeEventListener( "touch", playText )
+    audio.stop( soundChanel1 )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

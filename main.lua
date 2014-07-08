@@ -4,7 +4,7 @@ local widget = require( "widget" )
 --скрытие статус бара 
 display.setStatusBar( display.HiddenStatusBar )
 
-soundBackdround = audio.loadSound( "SoundBackground.mp3" )
+soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
 soundChanel = audio.play( soundBackdround, {loops = -1} )
 
 local backGroup
@@ -243,6 +243,7 @@ function buttonHandler( event )
             inStart.isVisible = false
             titles.isVisible = false
             composer.removeScene( "pages.page"..countPage )
+            composer.removeScene ( "pages.mainPage" )
             composer:gotoScene( "pages.titlePage", "fade", 400 )
             rectSound.isVisible = false
         end
@@ -254,12 +255,10 @@ function changeBackground( isPage )
     local tmp
     if isPage then
         tmp = countPage-1
-        if tmp == 0 then
-            tmp = 1
-        end
     else 
         tmp = countPage+1
     end
+
     local tmpBackground = display.newImageRect( "slicing/background/bg_"..tmp..".jpg", h, w )
     tmpBackground.x, tmpBackground.y = display.screenOriginY, display.screenOriginX
     tmpBackground.anchorX, tmpBackground.anchorY = 0, 0
