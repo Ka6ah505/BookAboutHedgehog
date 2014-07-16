@@ -12,6 +12,7 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local isTextView = true
 -- -------------------------------------------------------------------------------
 
 function playText( event )
@@ -19,46 +20,49 @@ function playText( event )
     if event.phase == "ended" then
         local result = audio.usedChannels
         print( "chanels"..result )
+        imageGroup[1]:removeSelf()
         if result > 1 then
+            chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
+            chat.anchorX, chat.anchorY = 0, 0
+            chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
             audio.stop( soundChanel1 )
         else
+            chat = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
+            chat.anchorX, chat.anchorY = 0, 0
+            chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
             soundChanel1 = audio.play( soundBackdround1, {loops = 0} )
         end
+        imageGroup:insert( chat )
     end
 end
 
-function transitionRight( event )
-    print("tap on imageTexts")
-
-    if event.phase == "ended" then
-        print("bilo: ")
-        print(isTextView )
-        if isTextView == true then
-            isTextView = false
-            transition.moveTo(textGroup, {x = display.contentWidth-display.contentWidth/1.5, y = 0, time = 2000 } )
-            --transition.moveTo(textGroup, {x = leftRect.width+leftRect.width/3, y = 0, time = 1500 } )
-            print("stalo: ")
-            print(isTextView)
-        else
-            isTextView = true
-            transition.moveTo(textGroup, {x = -(display.contentWidth/120), y = 0, time = 2000 } )
-            --transition.moveTo(textGroup, {x = -(leftRect.width - leftRect.width/3), y = 0, time = 1500 } )
-            print("stalo: ")
-            print(isTextView)
+local function onPageSwap( event )
+    local distance
+    if event.phase == "moved" then       
+    elseif event.phase == "ended" or event.phase == "cancelled" then
+        distance = event.xStart - event.x
+        if distance > 100 then
+            countPage = 3
+            composer.removeScene( "pages.page2" )
+            composer.gotoScene( "pages.page3", "slideLeft", 1500  )
+            changeBackground(true)
         end
+        isCheckPage()
+        display.getCurrentStage():setFocus( nil )
     end
+    return true
 end
 
 -- "scene:create()"
 function scene:create( event )
-    print("two: create")
+    print("2: create")
     group = self.view
     local params = event.params
     textGroup = display.newGroup()
     imageGroup = display.newGroup()
     params = event.params
 
-    image = display.newImageRect( "images/2"..typeFile..".jpg", crW, crH )
+    image = display.newImageRect( "images/2.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = (crX), crY
     group:insert( image )
@@ -67,16 +71,17 @@ function scene:create( event )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
 
-    chat = display.newImageRect( "slicing/ui/chat.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
+    chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
     chat.anchorX, chat.anchorY = 0, 0
-    chat.x, chat.y = rightRect.width+leftRect.width/knopka+leftRect.width/4, display.contentHeight/2.3
+    chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
     imageGroup:insert( chat )
     soundBackdround1 = audio.loadSound( "sound/1.mp3" )
 end
 
+
 -- "scene:show()"
 function scene:show( event )
-    print("two: show")
+    print("2: show")
     local sceneGroup = self.view
     local phase = event.phase
     params = event.params
@@ -87,15 +92,15 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        textGroup:addEventListener( "touch", transitionRight )
-        chat:addEventListener( "touch", playText )
+        imageGroup:addEventListener( "touch", playText )
+        image:addEventListener( "touch", onPageSwap )
     end
 end
 
 
 -- "scene:hide()"
 function scene:hide( event )
-    print("two: hide")
+    print("2: hide")
     local sceneGroup = self.view
     local phase = event.phase
 
@@ -106,25 +111,23 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
     end
-
 end
 
 
 -- "scene:destroy()"
 function scene:destroy( event )
-    print("two: destroy")
+    print("2: destroy")
     local sceneGroup = self.view
     group:removeSelf()
     textGroup:removeSelf()
     imageGroup:removeSelf()
-    textGroup:removeEventListener( "touch", transitionRight )
-    chat:removeEventListener( "touch", playText )
+    image:removeEventListener( "touch", onPageSwap )
+    imageGroup:removeEventListener( "touch", playText )
     audio.stop( soundChanel1 )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
 end
-
 
 -- -------------------------------------------------------------------------------
 

@@ -4,7 +4,6 @@ application = {
         scale = "LetterBox",
         fps = 60,
 		
-		
         --[[imageSuffix = {
 		    ["@2x"] = 2,
 		}

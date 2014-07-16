@@ -3,6 +3,7 @@ local widget = require( "widget" )
 
 --скрытие статус бара 
 display.setStatusBar( display.HiddenStatusBar )
+--display.setDrawMode( "wireframe", true )
 
 soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
 soundChanel = audio.play( soundBackdround, {loops = -1} )
@@ -39,8 +40,8 @@ if h/w > 1.34 then
     widthRightRect = w
     widthLeftRect = h-w
     plus = 60
-    otstup = 80
-    knopka = 2.5
+    otstup = 20
+    knopka = 3.5
 else
 	arrowHeight = 10
 	arrowWidth = 15
@@ -80,18 +81,17 @@ end
 function layoutText( sceneGroup )
 	titles = widget.newButton {
 		id = "title",
-		x = rightRect.width+leftRect.width/knopka,
-		y = leftRect.contentHeight - leftRect.contentHeight/3,
+		x = rightRect.width+leftRect.width/2,
+		y = leftRect.contentHeight - leftRect.contentHeight/3.2,
 		width = display.contentWidth/9,
 		height = display.contentHeight/30,
 		defaultFile = "slicing/ui/text_content.png",
 		onEvent = buttonHandler
 	}
-    --sceneGroup:insert( titles )
 
     inStart = widget.newButton {
     	id = "inStart",
-		x = rightRect.width+leftRect.width/knopka,
+		x = rightRect.width+leftRect.width/2,
 		y = leftRect.contentHeight - leftRect.contentHeight/4.3,
 		width = display.contentWidth/14,
 		height = display.contentHeight/30,
@@ -110,7 +110,7 @@ function layoutComponent()
     background.alpha = 1
     backGroup:toBack()
 
-    rightRect = display.newRect( display.screenOriginX, display.screenOriginY, widthRightRect+plus, w)
+    rightRect = display.newRect( display.screenOriginX, display.screenOriginY, widthRightRect, w)
     rightRect.anchorX, rightRect.anchorY = 0, 0
     rightRect:setFillColor( 0.4 )
     rightRect.alpha = 0
@@ -137,8 +137,8 @@ end
 function createButton()
     buttonStart = widget.newButton {
         id = "start",
-        x = rightRect.width+leftRect.width/knopka,
-        y = leftRect.contentHeight/2,
+        x = rightRect.width+leftRect.width/2,
+        y = leftRect.contentHeight/2.2,
         width = display.contentWidth/6,
         height = display.contentHeight/12,
         defaultFile = "slicing/ui/btn_read_nonpressed.png",
@@ -150,7 +150,7 @@ function createButton()
 
     arrowNext = widget.newButton {
         id = "next",
-        x = rightRect.width+leftRect.width/knopka+leftRect.width/4,
+        x = rightRect.width+leftRect.width/2+leftRect.width/4,
         y = w - w/10,
         width = display.contentWidth/arrowWidth,
         height = display.contentWidth/arrowWidth,
@@ -162,7 +162,7 @@ function createButton()
 
     arrowBack = widget.newButton {
         id = "back",
-        x = rightRect.width+leftRect.width/knopka-leftRect.width/4,
+        x = rightRect.width+leftRect.width/2-leftRect.width/4,
         y = w - w/10,
         width = display.contentWidth/arrowWidth,
         height = display.contentWidth/arrowWidth,
@@ -177,14 +177,9 @@ function buttonHandler( event )
     print ("CLICK")
     if event.phase == "ended" then
         if event.target.id == "start" then
-            options = {
-                params = {
-                    var = ""
-                }
-            }
             countPage = 2
             composer.removeScene("pages.mainPage" )
-            composer.gotoScene("pages.page2", options)
+            composer.gotoScene("pages.page2")
             buttonStart.isVisible = false
             arrowNext.isVisible = true
             arrowBack.isVisible = true
@@ -194,18 +189,10 @@ function buttonHandler( event )
         end
 
         if event.target.id == "next" and countPage < 16 then
-
-            options = {
-            time = 2000,
-            effect = "slideLeft",
-                params = {
-                    var = "next"
-                }
-            }
         	composer.removeScene( "pages.page"..countPage )
         	countPage = countPage + 1
             composer.loadScene("pages.page"..countPage)
-            composer.gotoScene( "pages.page"..countPage, options )
+            composer.gotoScene( "pages.page"..countPage, "slideLeft", 1500 )
             print("Lua memory size, Kb = "..gcinfo())
             print(countPage)
             changeBackground(true)
@@ -213,17 +200,11 @@ function buttonHandler( event )
         end
 
         if event.target.id == "back" and countPage > 1 then      
-            options = {
-            time = 2000,
-            effect = "slideRight",
-                params = {
-                    var = "back"
-                }
-            } 	
         	composer.removeScene( "pages.page"..countPage )
             countPage = countPage - 1 
-            composer.gotoScene( "pages.page"..countPage, options )
+            composer.gotoScene( "pages.page"..countPage, "slideRight", 1500 )
             print("Lua memory size, Kb = "..gcinfo())
+            print(countPage)
             changeBackground(false)
             isCheckPage()
         end
@@ -282,13 +263,13 @@ function soundMute( event )
     if event.phase == "ended" then
         soundGroup[1]:removeSelf()
         if isCheckSound == true then 
-            rectSound = display.newImageRect( "slicing/ui/off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
-            rectSound.x, rectSound.y = rightRect.width+leftRect.width/knopka, leftRect.contentHeight/1.7
+            rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+            rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
             isCheckSound = false
             audio.pause( soundChanel )
         elseif isCheckSound == false then
-            rectSound = display.newImageRect( "slicing/ui/on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
-            rectSound.x, rectSound.y = rightRect.width+leftRect.width/knopka, leftRect.contentHeight/1.7
+            rectSound = display.newImageRect( "slicing/ui/icon_music_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+            rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
             isCheckSound = true
             audio.resume( soundChanel )
         end
@@ -304,8 +285,8 @@ function Main()
 	layoutComponent()
 	createButton()
 	layoutText()
-    rectSound = display.newImageRect( "slicing/ui/on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
-    rectSound.x, rectSound.y = rightRect.width+leftRect.width/knopka, leftRect.contentHeight/1.7
+    rectSound = display.newImageRect( "slicing/ui/icon_music_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
     soundGroup:insert( rectSound )
     soundGroup:addEventListener( "touch", soundMute )
 	composer.gotoScene( "pages.mainPage" )
