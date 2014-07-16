@@ -191,7 +191,7 @@ function buttonHandler( event )
         if event.target.id == "next" and countPage < 16 then
         	composer.removeScene( "pages.page"..countPage )
         	countPage = countPage + 1
-            composer.loadScene("pages.page"..countPage)
+            --composer.loadScene("pages.page"..countPage)
             composer.gotoScene( "pages.page"..countPage, "slideLeft", 1500 )
             print("Lua memory size, Kb = "..gcinfo())
             print(countPage)

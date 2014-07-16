@@ -13,6 +13,16 @@ local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
 -- -------------------------------------------------------------------------------
+function checkChanel( event )
+    -- body
+    if event.completed then
+        imageGroup[1]:removeSelf()
+        chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
+        chat.anchorX, chat.anchorY = 0, 0
+        chat.x, chat.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
+        imageGroup:insert( chat )
+    end
+end
 
 function playText( event )
     -- body
@@ -29,7 +39,7 @@ function playText( event )
             chat = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
             chat.anchorX, chat.anchorY = 0, 0
             chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
-            soundChanel1 = audio.play( soundBackdround1, {loops = 0} )
+            soundChanel1 = audio.play( soundBackdround1, {loops = 0, onComplete=checkChanel} )
         end
         imageGroup:insert( chat )
     end
@@ -79,6 +89,7 @@ function scene:create( event )
     chat.x, chat.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     imageGroup:insert( chat )
     soundBackdround1 = audio.loadSound( "sound/8.mp3" )
+    imageGroup:addEventListener( "touch", playText )
 end
 
 
@@ -95,7 +106,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        imageGroup:addEventListener( "touch", playText )
+        
         image:addEventListener( "touch", onPageSwap )
     end
 end
@@ -125,6 +136,7 @@ function scene:destroy( event )
     textGroup:removeSelf()
     imageGroup:removeEventListener( "touch", playText )
     audio.stop( soundChanel1 )
+    soundChanel1 = nil
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

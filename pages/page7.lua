@@ -13,6 +13,17 @@ local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
 -- -------------------------------------------------------------------------------
+function checkChanel( event )
+    -- body
+    if event.completed then
+        imageGroup[1]:removeSelf()
+        chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
+        chat.anchorX, chat.anchorY = 0, 0
+        chat.x, chat.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
+        imageGroup:insert( chat )
+    end
+end
+
 function playText( event )
     -- body
     if event.phase == "ended" then
@@ -28,7 +39,7 @@ function playText( event )
             chat = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
             chat.anchorX, chat.anchorY = 0, 0
             chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
-            soundChanel1 = audio.play( soundBackdround1, {loops = 0} )
+            soundChanel1 = audio.play( soundBackdround1, {loops = 0, onComplete=checkChanel} )
         end
         imageGroup:insert( chat )
     end
