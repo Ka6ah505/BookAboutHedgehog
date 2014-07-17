@@ -38,22 +38,20 @@ local function buttonHandler( event )
             elseif event.target.id == "fourteen" then countPage = 15
             elseif event.target.id == "end"      then countPage = 16
             end
-        optios = {
-            params = {
-                var = ""
-            }
-        }
         isTextView = true
         composer.removeScene( "pages.titlePage" )
         if countPage == 1 then
             composer.gotoScene("pages.mainPage" )
         else
-            composer.gotoScene("pages.page"..countPage, optios )
+            composer.gotoScene("pages.page"..countPage )
         end
         titles.isVisible = true
+        speakSound.isVisible = true
         rectSound.isVisible = true
         isCheckPage()
         changeBackground(true)
+        changeSoundSpeak()
+        checkBackgroundMute()
     end
     return true
 end
@@ -363,9 +361,11 @@ function gotoMainPage( event )
         composer.removeScene("pages.titlePage")
         composer.gotoScene( "pages.mainPage", "fade", 100 )
         titles.isVisible = true
+        speakSound.isVisible = true
         rectSound.isVisible = true
         isCheckPage()
         changeBackground()
+        changeSoundSpeak()
     elseif event.phase == "moved" then
         
     end
@@ -398,6 +398,7 @@ function scene:create( event )
     createButton() 
     scrollView:insert(slideGroup)
     group:insert(scrollView)
+    offSpeakMute()
 end
 
 

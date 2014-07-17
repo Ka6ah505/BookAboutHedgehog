@@ -3,10 +3,29 @@ local widget = require( "widget" )
 
 --скрытие статус бара 
 display.setStatusBar( display.HiddenStatusBar )
+system.setIdleTimer( false ) 
 --display.setDrawMode( "wireframe", true )
 
 soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
-soundChanel = audio.play( soundBackdround, {loops = -1} )
+
+soundTable = {
+    sound1  = audio.loadSound( "sound/start.mp3" ),
+    sound2  = audio.loadSound( "sound/1.mp3"  ),
+    sound3  = audio.loadSound( "sound/2.mp3"  ),
+    sound4  = audio.loadSound( "sound/3.mp3"  ),
+    sound5  = audio.loadSound( "sound/4.mp3"  ),
+    sound6  = audio.loadSound( "sound/5.mp3"  ),
+    sound7  = audio.loadSound( "sound/6.mp3"  ),
+    sound8  = audio.loadSound( "sound/7.mp3"  ),
+    sound9  = audio.loadSound( "sound/8.mp3"  ),
+    sound10 = audio.loadSound( "sound/9.mp3"  ),
+    sound11 = audio.loadSound( "sound/10.mp3" ),
+    sound12 = audio.loadSound( "sound/11.mp3" ),
+    sound13 = audio.loadSound( "sound/12.mp3" ),
+    sound14 = audio.loadSound( "sound/13.mp3" ),
+    sound15 = audio.loadSound( "sound/14.mp3" ),
+    sound16 = audio.loadSound( "sound/15.mp3" )
+}
 
 local backGroup
 local centerRect
@@ -16,7 +35,8 @@ crH = 1
 crX = 1
 crY = 1
 
-isCheckSound = true
+isCheckSound = false
+isCheckSoundSpeak = false
 
 countPage = 1
 countTextImage = 2
@@ -32,6 +52,11 @@ buttonHandler = {}
 isCheckPage = {}
 layoutText = {}
 soundMute = {}
+offMute = {}
+offMuteSpecial = {}
+onMute = {}
+changeSoundSpeak = {}
+checkBackgroundMute = {}
 
 if h/w > 1.34 then
     arrowHeight = 10
@@ -61,6 +86,9 @@ function isCheckPage()
         arrowBack.isVisible = true
         inStart.isVisible = true 
     elseif countPage == 2 then
+        if isCheckSound then
+            onMute()
+        end
         buttonStart.isVisible = false
         arrowNext.isVisible = true
         arrowBack.isVisible = false
@@ -71,6 +99,7 @@ function isCheckPage()
         arrowBack.isVisible = true
         inStart.isVisible = true   
     elseif countPage == 1 then
+        offMuteSpecial()
 	    buttonStart.isVisible = true
         arrowNext.isVisible = false
         arrowBack.isVisible = false
@@ -185,17 +214,19 @@ function buttonHandler( event )
             arrowBack.isVisible = true
             inStart.isVisible = true
             changeBackground()
+            changeSoundSpeak()
             isCheckPage()
         end
 
         if event.target.id == "next" and countPage < 16 then
         	composer.removeScene( "pages.page"..countPage )
         	countPage = countPage + 1
-            --composer.loadScene("pages.page"..countPage)
+            composer.loadScene("pages.page"..countPage)
             composer.gotoScene( "pages.page"..countPage, "slideLeft", 1500 )
             print("Lua memory size, Kb = "..gcinfo())
             print(countPage)
             changeBackground(true)
+            changeSoundSpeak()
             isCheckPage()
         end
 
@@ -206,6 +237,7 @@ function buttonHandler( event )
             print("Lua memory size, Kb = "..gcinfo())
             print(countPage)
             changeBackground(false)
+            changeSoundSpeak()
             isCheckPage()
         end
 
@@ -214,6 +246,7 @@ function buttonHandler( event )
         	composer.gotoScene( "pages.mainPage" )
         	countPage = 1
         	changeBackground()
+            changeSoundSpeak()
             isCheckPage()
        	end
 
@@ -225,9 +258,19 @@ function buttonHandler( event )
             titles.isVisible = false
             composer.removeScene( "pages.page"..countPage )
             composer.removeScene ( "pages.mainPage" )
-            composer:gotoScene( "pages.titlePage", "fade", 400 )
+            composer:gotoScene( "pages.titlePage" )
             rectSound.isVisible = false
+            speakSound.isVisible = false
         end
+    end
+end
+
+function checkBackgroundMute()
+    -- body
+    if isCheckSound == false then 
+        offMute()
+    elseif isCheckSound == true then
+        onMute()
     end
 end
 
@@ -236,6 +279,9 @@ function changeBackground( isPage )
     local tmp
     if isPage then
         tmp = countPage-1
+        if countPage == 1 then
+            tmp = 1
+        end
     else 
         tmp = countPage+1
     end
@@ -257,39 +303,128 @@ function changeBackground( isPage )
     backGroup:toBack()
 end
 
+function checkChanelSpeak( event )
+    -- body
+    if event.completed then
+        speakGroup[1]:removeSelf()
+        speakSound = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+        speakSound.anchorX, speakSound.anchorY = 0, 0
+        speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
+        isCheckSoundSpeak = true
+        speakGroup:insert( speakSound )
+    end
+end
+
+function changeSoundSpeak()
+    -- body
+    if isCheckSoundSpeak == false then
+        audio.stop( soundChanelSpeak )
+        speakGroup[1]:removeSelf()
+        speakSound = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+        speakSound.anchorX, speakSound.anchorY = 0, 0
+        speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
+        speakGroup:insert( speakSound )
+        soundChanelSpeak = audio.play( soundTable["sound"..countPage], {onComplete=checkChanelSpeak} )
+    end
+end
+
+function offMute( event )
+    -- body
+    soundGroup[1]:removeSelf()
+    rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
+    isCheckSound = false
+    audio.pause( soundChanel )
+    soundGroup:insert( rectSound )
+end
+function offMuteSpecial( event )
+    -- body
+    soundGroup[1]:removeSelf()
+    rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
+    --isCheckSound = false
+    audio.pause( soundChanel )
+    soundGroup:insert( rectSound )
+end
+
+function onMute( event )
+    -- body
+    soundGroup[1]:removeSelf()
+    rectSound = display.newImageRect( "slicing/ui/icon_music_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
+    isCheckSound = true
+    audio.resume( soundChanel )
+    soundGroup:insert( rectSound )
+end
+
 function soundMute( event )
     -- body
     print("In soundMute: start")
-    if event.phase == "ended" then
-        soundGroup[1]:removeSelf()
+    if event.phase == "ended" then  
         if isCheckSound == true then 
-            rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
-            rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
-            isCheckSound = false
-            audio.pause( soundChanel )
+            offMute()
         elseif isCheckSound == false then
-            rectSound = display.newImageRect( "slicing/ui/icon_music_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
-            rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
-            isCheckSound = true
-            audio.resume( soundChanel )
+            onMute()
         end
-        soundGroup:insert( rectSound )
     end
-        print("In soundMute: end")
+    print("In soundMute: end")
+end
+
+function onSpeakMute( event )
+    -- body
+    speakGroup[1]:removeSelf()
+    speakSound = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    speakSound.anchorX, speakSound.anchorY = 0, 0
+    speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
+    speakGroup:insert( speakSound )
+    soundChanelSpeak = audio.play( soundTable["sound"..countPage], {onComplete=checkChanelSpeak} )
+end
+
+function offSpeakMute( event )
+    -- body
+    speakGroup[1]:removeSelf()
+    speakSound = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    speakSound.anchorX, speakSound.anchorY = 0, 0
+    speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
+    speakGroup:insert( speakSound )
+    audio.stop( soundChanelSpeak )
+end
+
+function speakText( event )
+    -- body
+    if event.phase == "ended" then
+        if isCheckSoundSpeak == true then
+            onSpeakMute()
+            isCheckSoundSpeak = false
+        elseif isCheckSoundSpeak == false then
+            offSpeakMute()
+            isCheckSoundSpeak = true
+        end
+    end
 end
 
 function Main()
 	-- body
 	backGroup = display.newGroup()
     soundGroup = display.newGroup()
+    speakGroup = display.newGroup()
 	layoutComponent()
 	createButton()
 	layoutText()
-    rectSound = display.newImageRect( "slicing/ui/icon_music_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+
+    rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
     rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
     soundGroup:insert( rectSound )
+
+    speakSound = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    speakSound.anchorX, speakSound.anchorY = 0, 0
+    speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
+    speakGroup:insert( speakSound )
+
+    speakGroup:addEventListener( "touch", speakText )
     soundGroup:addEventListener( "touch", soundMute )
 	composer.gotoScene( "pages.mainPage" )
 end
-
+soundChanelSpeak = audio.play( soundTable["sound1"], {onComplete=checkChanelSpeak} )
+soundChanel = audio.play( soundBackdround, {loops = -1} )
 Main()

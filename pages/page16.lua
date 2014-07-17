@@ -12,48 +12,17 @@ local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
 -- -------------------------------------------------------------------------------
-function checkChanel( event )
-    -- body
-    if event.completed then
-        imageGroup[1]:removeSelf()
-        chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
-        chat.anchorX, chat.anchorY = 0, 0
-        chat.x, chat.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
-        imageGroup:insert( chat )
-    end
-end
-
-function playText( event )
-    -- body
-    if event.phase == "ended" then
-        local result = audio.usedChannels
-        print( "chanels"..result )
-        imageGroup[1]:removeSelf()
-        if result > 1 then
-            chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
-            chat.anchorX, chat.anchorY = 0, 0
-            chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
-            audio.stop( soundChanel1 )
-        else
-            chat = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
-            chat.anchorX, chat.anchorY = 0, 0
-            chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
-            soundChanel1 = audio.play( soundBackdround1, { loops = 0, onComplete=checkChanel } )
-        end
-        imageGroup:insert( chat )
-    end
-end
-
 local function onPageSwap( event )
     local distance
     if event.phase == "moved" then       
-    elseif event.phase == "ended" or event.phase == "cancelled" then
+    elseif event.phase == "ended" then
         distance = event.xStart - event.x
         if distance < -100 and distance < 0 then
             countPage = 15
             composer.removeScene( "pages.page16" )
             composer.gotoScene( "pages.page15", "slideRight", 1500  )
             changeBackground(false)
+            changeSoundSpeak()
         end
         isCheckPage()
         display.getCurrentStage():setFocus( nil )
@@ -72,13 +41,6 @@ function scene:create( event )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
     group:insert( image )
-    
-    chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
-    chat.anchorX, chat.anchorY = 0, 0
-    chat.x, chat.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
-    imageGroup:insert( chat )
-    soundBackdround1 = audio.loadSound( "sound/15.mp3" )
-    imageGroup:addEventListener( "touch", playText )
 end
 
 
@@ -122,9 +84,7 @@ function scene:destroy( event )
     print("16: destroy")
     local sceneGroup = self.view
     imageGroup:removeSelf()
-    imageGroup:removeEventListener( "touch", playText )
     image:removeEventListener( "touch", onPageSwap)
-    audio.stop( soundChanel1 )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

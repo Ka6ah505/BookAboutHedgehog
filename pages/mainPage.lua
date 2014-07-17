@@ -8,40 +8,8 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 -- local forward references should go here
-local soundBackdround1, soundChanel1
 local chat, imageGroup
 -- -------------------------------------------------------------------------------
-function checkChanel( event )
-    -- body
-    if event.completed then
-        imageGroup[1]:removeSelf()
-        chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
-        chat.anchorX, chat.anchorY = 0, 0
-        chat.x, chat.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
-        imageGroup:insert( chat )
-    end
-end
-
-function playText( event )
-    -- body
-    if event.phase == "ended" then
-        local result = audio.usedChannels
-        print( "chanels"..result )
-        imageGroup[1]:removeSelf()
-        if result > 1 then
-            chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
-            chat.anchorX, chat.anchorY = 0, 0
-            chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
-            audio.stop( soundChanel1 )
-        else
-            chat = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
-            chat.anchorX, chat.anchorY = 0, 0
-            chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
-            soundChanel1 = audio.play( soundBackdround1, {loops = 0, onComplete=checkChanel} )
-        end
-        imageGroup:insert( chat )
-    end
-end
 
 -- "scene:create()"
 function scene:create( event )
@@ -53,13 +21,7 @@ function scene:create( event )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
     group:insert( image )
-
-    chat = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth)
-    chat.anchorX, chat.anchorY = 0, 0
-    chat.x, chat.y = rightRect.width+leftRect.width/2+display.contentWidth/26, leftRect.contentHeight/1.8
-    imageGroup:insert( chat )
-    soundBackdround1 = audio.loadSound( "sound/start.mp3" )
-    imageGroup:addEventListener( "touch", playText )
+    audio.pause( soundChanel )
 end
 
 
@@ -100,8 +62,6 @@ function scene:destroy( event )
     print("destroy: create")
     local sceneGroup = self.view
     imageGroup:removeSelf()
-    imageGroup:removeEventListener( "touch", playText )
-    audio.stop( soundChanel1 )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
