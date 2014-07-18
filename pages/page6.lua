@@ -26,7 +26,7 @@ local function onPageSwap( event )
             changeBackground(true)
             changeSoundSpeak()
         elseif distance < -100 and distance < 0 then
-            countPage = 8
+            countPage = 5
             composer.removeScene( "pages.page6" )
             composer.gotoScene( "pages.page5", "slideRight", 1500 )
             changeBackground(false)

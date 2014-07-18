@@ -310,7 +310,7 @@ function checkChanelSpeak( event )
         speakSound = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
         speakSound.anchorX, speakSound.anchorY = 0, 0
         speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
-        isCheckSoundSpeak = true
+        --isCheckSoundSpeak = true
         speakGroup:insert( speakSound )
     end
 end
