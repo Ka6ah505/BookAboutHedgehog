@@ -58,25 +58,7 @@ onMute = {}
 changeSoundSpeak = {}
 checkBackgroundMute = {}
 
-if h/w > 1.34 then
-    arrowHeight = 10
-    arrowWidth = 15
-    typeFile = ""
-    widthRightRect = w
-    widthLeftRect = h-w
-    plus = 60
-    otstup = 20
-    knopka = 3.5
-else
-	arrowHeight = 10
-	arrowWidth = 15
-	typeFile = ""
-	widthRightRect = w
-	widthLeftRect = h-w
-    plus = 0
-    otstup = 20
-    knopka = 2
-end
+arrowWidth = 15
 
 function isCheckPage()
     -- body
@@ -139,18 +121,18 @@ function layoutComponent()
     background.alpha = 1
     backGroup:toBack()
 
-    rightRect = display.newRect( display.screenOriginX, display.screenOriginY, widthRightRect, w)
+    rightRect = display.newRect( display.screenOriginX, display.screenOriginY, w, w)
     rightRect.anchorX, rightRect.anchorY = 0, 0
     rightRect:setFillColor( 0.4 )
     rightRect.alpha = 0
     rightRect:toBack()
 
-    leftRect = display.newRect( rightRect.width, display.screenOriginY, widthLeftRect, w )
+    leftRect = display.newRect( rightRect.width, display.screenOriginY, h-w, w )
     leftRect.anchorX, leftRect.anchorY = 0, 0
     leftRect:setFillColor( 0.7 )
     leftRect.alpha = 0
 
-    centerRect = display.newRect( rightRect.x+otstup, rightRect.y+20, rightRect.height-40, rightRect.height-40 )
+    centerRect = display.newRect( rightRect.x+20, rightRect.y+20, rightRect.height-40, rightRect.height-40 )
     centerRect.anchorX, centerRect.anchorY = 0, 0
     centerRect:setFillColor( 0.9 )
     centerRect.alpha = 0

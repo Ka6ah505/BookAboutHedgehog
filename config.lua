@@ -1,6 +1,5 @@
 application = {
 	content = {
-
         scale = "LetterBox",
         fps = 60,
 		
