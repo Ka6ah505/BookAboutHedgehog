@@ -60,17 +60,6 @@ function scene:create( event )
     local params = event.params
     textGroup = display.newGroup()
 
-    --[[if w == 800 and h == 1280 then
-        xMaskScale, yMaskScale, scaleEzik = 6.7, 13, 0.7
-    elseif w == 1200 and h == 1920 then
-        xMaskScale, yMaskScale, scaleEzik = 10.2, 20, 1
-    elseif w == 1536 and h == 2048 then
-        xMaskScale, yMaskScale, scaleEzik = 13, 100, 1.5
-    elseif w == 768 and h == 1024 then
-        xMaskScale, yMaskScale, scaleEzik = 6.5, 13, 0.7
-    elseif w == 752 and h == 1280 then
-        xMaskScale, yMaskScale, scaleEzik = 6.3, 13, 0.7
-    end]]
     xMaskScale, yMaskScale, scaleEzik = w/118-0.1, 100, w/1024
 
     image = display.newImageRect( "images/2.jpg", crW, crH )
@@ -89,6 +78,7 @@ function scene:create( event )
     textGroup:insert( txt )
 
     createAnimation()
+    moveTimer = timer.performWithDelay(20, update, 0)
 end
 
 
@@ -106,7 +96,7 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
         instance:play()
-        moveTimer = timer.performWithDelay(20, update, 0)
+        
     end
 end
 
@@ -134,6 +124,7 @@ function scene:destroy( event )
     group:removeSelf()
     textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )
+    timer.pause( moveTimer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
