@@ -12,6 +12,7 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local moveTimer
 -- -------------------------------------------------------------------------------
 local function onPageSwap( event )
     local distance
@@ -37,6 +38,13 @@ local function onPageSwap( event )
     return true
 end
 
+function update( event )
+    -- body
+    timer.performWithDelay(1000, function() secondHand.rotation = secondHand.rotation + 6; end, 0)
+    transition.to( image, { rotation=90, time=500, transition=easing.inOutCubic })
+end
+
+
 -- "scene:create()"
 function scene:create( event )
     print("11: create")
@@ -46,13 +54,15 @@ function scene:create( event )
     imageGroup = display.newGroup()
 
     image = display.newImageRect( "images/11.jpg", crW, crH )
-    image.anchorX, image.anchorY = 0, 0
-    image.x, image.y = crX, crY
+    image.anchorX, image.anchorY = 0.5, 0.5
+    image.x, image.y = crX+crW/2, crY+crH/2
     group:insert( image )
 
     local txt = display.newImageRect( "text/11.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    moveTimer = timer.performWithDelay(1000, function() image.rotation = image.rotation + 90; end, 0)
 end
 
 
@@ -97,6 +107,7 @@ function scene:destroy( event )
     local sceneGroup = self.view
     imageGroup:removeSelf()
     textGroup:removeSelf()
+    timer.pause( moveTimer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

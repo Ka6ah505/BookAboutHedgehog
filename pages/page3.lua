@@ -12,8 +12,44 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
-local isTextView = true
+local collection = {}
+
+local screenTop = crW/2
+local screenBottom = crW/2+crW/3
+local screenLeft = crH/3+display.contentWidth/16
+local screenRight = crH/2+crH/3.2
 -- -------------------------------------------------------------------------------
+local function newFish()
+    for i = 1, 3, 1 do
+        local fish = display.newImageRect( "animation/fish"..i..".png", display.contentWidth/20, display.contentWidth/20 )
+        fish.x, fish.y = crW/2+i*10, crH/2+crH/4
+        fish.xdir = 1
+        fish.ydir = 1
+        fish.xspeed = 0.1+i
+        fish.yspeed = .2+i
+        fish.radius = (display.contentWidth/arrowWidth)/2
+        imageGroup:insert( fish )
+    end
+end
+
+function collection:enterFrame( event )
+    for i = 1, 3, 1 do
+        local dx = ( imageGroup[i].xspeed * imageGroup[i].xdir );
+        local dy = ( imageGroup[i].yspeed * imageGroup[i].ydir );
+        local xNew, yNew = imageGroup[i].x + dx, imageGroup[i].y + dy
+
+        local radius = imageGroup[i].radius
+        if ( xNew > screenRight - radius or xNew < screenLeft + radius ) then
+            imageGroup[i].xdir = -imageGroup[i].xdir
+        end
+        if ( yNew > screenBottom - radius or yNew < screenTop + radius ) then
+            imageGroup[i].ydir = -imageGroup[i].ydir
+        end
+
+        imageGroup[i]:translate( dx, dy )
+    end
+end
+
 local function onPageSwap( event )
     local distance
     if event.phase == "moved" then       
@@ -46,7 +82,6 @@ function scene:create( event )
     local params = event.params
     textGroup = display.newGroup()
     imageGroup = display.newGroup()
-    params = event.params
 
     image = display.newImageRect( "images/3.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
@@ -56,6 +91,9 @@ function scene:create( event )
     local txt = display.newImageRect( "text/3.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    newFish()
+    group:insert(imageGroup)
 end
 
 
@@ -73,6 +111,7 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.      
         image:addEventListener( "touch", onPageSwap )
+        Runtime:addEventListener( "enterFrame", collection );
     end
 end
 
@@ -97,6 +136,7 @@ end
 function scene:destroy( event )
     print("3: destroy")
     local sceneGroup = self.view
+    Runtime:removeEventListener( "enterFrame", collection );
     textGroup:removeSelf()
     imageGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )

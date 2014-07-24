@@ -20,7 +20,7 @@ function createAnimation()
     sheetImage = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
     instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=500 } )
     instance.x = w+268
-    instance.y = display.contentHeight/2 +20
+    instance.y = display.contentHeight/2 + 20
     instance.xScale = scaleEzik
     instance.yScale = scaleEzik
     group:insert( instance )
@@ -31,7 +31,7 @@ function update( event )
     instance.x = instance.x - 3
     if instance.x < -268 then
         print("pause")
-        instance.x = w+268--display.contentWidth/2 +200
+        instance.x = w+268
     end
 end
 
@@ -67,9 +67,9 @@ function scene:create( event )
     image.x, image.y = (crX), crY
     group:insert( image )
 
-    imageMask2 = graphics.newMask( "images/mask7.png")
+    imageMask = graphics.newMask( "images/mask7.png")
 
-    group:setMask( imageMask2 )
+    group:setMask( imageMask )
     group.maskScaleX, group.maskScaleY = xMaskScale, yMaskScale
     group.maskX, group.maskY = display.actualContentWidth/2, group.height
 -----------------------------------------------
