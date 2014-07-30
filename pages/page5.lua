@@ -13,6 +13,7 @@ local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
 -- -------------------------------------------------------------------------------
+
 local function onPageSwap( event )
     local distance
     if event.phase == "moved" then       
@@ -69,7 +70,6 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        
         image:addEventListener( "touch", onPageSwap )
     end
 end

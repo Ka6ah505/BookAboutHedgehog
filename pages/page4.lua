@@ -12,7 +12,37 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local instance, sheetImage, instance1, sheetImage1
 -- -------------------------------------------------------------------------------
+
+function createAnimation()
+    -- body
+    sheetImage = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+    instance = display.newSprite( sheetImage, { name="door1", start=1, count=3, time=2500 } )
+--------------------------------------
+    instance.x, instance.y = crX, crY
+    instance.anchorX, instance.anchorY = 0, 0
+    instance.xScale = w/1200-0.1
+    instance.yScale = w/1200
+    group:insert( instance )
+
+    sheetImage1 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+    instance1 = display.newSprite( sheetImage1, { name="door2", start=1, count=3, time=3500 } )
+    instance1.x, instance1.y = crX+30, crY
+    instance1.anchorX, instance1.anchorY = 0, 0
+    instance1.xScale = w/1200-0.1
+    instance1.yScale = w/1200
+    group:insert( instance1 )
+
+    sheetImage2 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+    instance2 = display.newSprite( sheetImage2, { name="door3", start=1, count=3, time=4500 } )
+    instance2.x, instance2.y = crX+30, crY
+    instance2.anchorX, instance2.anchorY = 0, 0
+    instance2.xScale = w/1200-0.1
+    instance2.yScale = w/1200
+    group:insert( instance2 )
+end
+
 local function onPageSwap( event )
     local distance
     if event.phase == "moved" then       
@@ -53,6 +83,8 @@ function scene:create( event )
     local txt = display.newImageRect( "text/4.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    createAnimation()
 end
 
 
@@ -70,6 +102,9 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.   
+        instance:play()
+        instance1:play()
+        instance2:play()
         image:addEventListener( "touch", onPageSwap )
     end
 end
@@ -97,6 +132,9 @@ function scene:destroy( event )
     local sceneGroup = self.view
     textGroup:removeSelf()
     imageGroup:removeSelf()
+    instance:pause()
+    instance1:pause()
+    instance2:pause()
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

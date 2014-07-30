@@ -19,6 +19,7 @@ local screenBottom = crW/2+crW/3
 local screenLeft = crH/3+display.contentWidth/16
 local screenRight = crH/2+crH/3.2
 -- -------------------------------------------------------------------------------
+
 local function newFish()
     for i = 1, 3, 1 do
         local fish = display.newImageRect( "animation/fish"..i..".png", display.contentWidth/20, display.contentWidth/20 )
@@ -40,7 +41,8 @@ function collection:enterFrame( event )
 
         local radius = imageGroup[i].radius
         if ( xNew > screenRight - radius or xNew < screenLeft + radius ) then
-            imageGroup[i].xdir = -imageGroup[i].xdir
+            imageGroup[i].xdir = -imageGroup[i].xdir    
+            imageGroup[i]:scale( -1, 1 )
         end
         if ( yNew > screenBottom - radius or yNew < screenTop + radius ) then
             imageGroup[i].ydir = -imageGroup[i].ydir

@@ -44,6 +44,7 @@ isTextView = true
 
 w = display.actualContentWidth
 h = display.actualContentHeight
+print(w..";"..h)
 
 Main = {}
 layoutComponent = {}

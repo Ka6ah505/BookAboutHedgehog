@@ -96,7 +96,6 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
         instance:play()
-        
     end
 end
 
