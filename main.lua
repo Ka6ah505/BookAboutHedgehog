@@ -407,6 +407,7 @@ function Main()
     speakGroup:addEventListener( "touch", speakText )
     soundGroup:addEventListener( "touch", soundMute )
 	composer.gotoScene( "pages.mainPage" )
+    --composer.gotoScene( "pages.page12" )
 end
 soundChanelSpeak = audio.play( soundTable["sound1"], {onComplete=checkChanelSpeak} )
 soundChanel = audio.play( soundBackdround, {loops = -1} )

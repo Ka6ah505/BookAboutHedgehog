@@ -38,11 +38,11 @@ local function onPageSwap( event )
     return true
 end
 
-function update( event )
+--[[function update( event )
     -- body
     timer.performWithDelay(1000, function() secondHand.rotation = secondHand.rotation + 6; end, 0)
     transition.to( image, { rotation=90, time=500, transition=easing.inOutCubic })
-end
+end]]
 
 
 -- "scene:create()"
@@ -107,7 +107,8 @@ function scene:destroy( event )
     local sceneGroup = self.view
     imageGroup:removeSelf()
     textGroup:removeSelf()
-    timer.pause( moveTimer )
+    --timer.pause( moveTimer )
+    timer.cancel( moveTimer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

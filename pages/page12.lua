@@ -12,7 +12,35 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local ezik, _timer
+local bamm = true
 -- -------------------------------------------------------------------------------
+
+local function flyEzik()
+    ezik = display.newImageRect( "animation/animation_12.png", crW/2, crH/2 )
+    ezik.x, ezik.y = crW/2, crH/2
+    ezik.anchorX, ezik.anchorY = .5, .5
+    ezik.yspeed = 2
+    group:insert( ezik )
+end
+
+local function update( event )
+     -- body
+    if ezik.y < crH/3 then
+        bamm = true
+    elseif ezik.y > crH-crH/3 then
+        bamm = false
+    end
+
+    if bamm then
+       local dy = ezik.y + ezik.yspeed
+        ezik.y = dy
+    else
+        local dy = ezik.y - ezik.yspeed
+        ezik.y = dy
+    end
+end
+
 local function onPageSwap( event )
     local distance
     if event.phase == "moved" then       
@@ -53,6 +81,8 @@ function scene:create( event )
     local txt = display.newImageRect( "text/12.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    flyEzik()
 end
 
 
@@ -68,9 +98,9 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
-        -- Example: start timers, begin animation, play audio, etc.
-        
+        -- Example: start timers, begin animation, play audio, etc. 
         image:addEventListener( "touch", onPageSwap )
+        _timer = timer.performWithDelay(20, update, 0)
     end
 end
 
@@ -95,8 +125,11 @@ end
 function scene:destroy( event )
     print("12: destroy")
     local sceneGroup = self.view
+    _timer = nil
     imageGroup:removeSelf()
     textGroup:removeSelf()
+    image:removeEventListener( "touch", onPageSwap )
+    --timer.cancel( _timer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

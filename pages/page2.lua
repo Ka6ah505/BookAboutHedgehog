@@ -64,7 +64,7 @@ function scene:create( event )
 
     image = display.newImageRect( "images/2.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
-    image.x, image.y = (crX), crY
+    image.x, image.y = crX, crY
     group:insert( image )
 
     imageMask = graphics.newMask( "images/mask7.png")

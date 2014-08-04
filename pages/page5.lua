@@ -12,7 +12,33 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local sheetImage, instance, moveTimer
+local imageMask, xMaskScale, yMaskScale
+local scaleEzik
 -- -------------------------------------------------------------------------------
+
+function createAnimation()
+    -- body
+    sheetImage = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=3 } )
+    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=500 } )
+    instance.anchorX, instance.anchorY = 0, 0
+    instance.x = crW+20
+    instance.y = crH-150
+    instance.xScale = scaleEzik
+    instance.yScale = scaleEzik
+    group:insert( instance )
+end
+
+function update( event )
+    -- body
+    instance.x = instance.x - 3
+    instance.y = instance.y - 3
+    if instance.x < -368 then
+        print("pause")
+        instance.x = crW+20
+        instance.y = crH-150
+    end
+end
 
 local function onPageSwap( event )
     local distance
@@ -45,15 +71,26 @@ function scene:create( event )
     params = event.params
     textGroup = display.newGroup()
     imageGroup = display.newGroup() 
-     
+        
+    xMaskScale, yMaskScale, scaleEzik = w/118-0.1, h/118, w/1024
+
     image = display.newImageRect( "images/5.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
     group:insert( image )  
 
+    imageMask = graphics.newMask( "images/mask7.png")
+
+    group:setMask( imageMask )
+    group.maskScaleX, group.maskScaleY = xMaskScale, yMaskScale-2.29
+    group.maskX, group.maskY = display.actualContentWidth/2, display.actualContentHeight/2-138
+
     local txt = display.newImageRect( "text/5.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    createAnimation()
+    moveTimer = timer.performWithDelay(20, update, 0)
 end
 
 
@@ -71,6 +108,7 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
+        instance:play()
     end
 end
 
@@ -97,6 +135,7 @@ function scene:destroy( event )
     local sceneGroup = self.view
     imageGroup:removeSelf()
     textGroup:removeSelf()
+    timer.pause( moveTimer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
