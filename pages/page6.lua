@@ -16,24 +16,6 @@ local sheetImageHeart, sheetImageMale, sheetImageFemale, instance, moveTimer, in
 -- -------------------------------------------------------------------------------
 function createAnimation()
     -- body
-    --[[sheetImage = graphics.newImageSheet( "animation/animation_6_3.png", { x=0, y=0, width=72, height=87, numFrames=3 } )
-    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=500 } )
-    instance.anchorX, instance.anchorY = 0, 0
-    instance.x = crW/2
-    instance.y = crH/2+crH/5
-    --instance.xScale = scaleEzik
-    --instance.yScale = scaleEzik
-    group:insert( instance )]]
-
-    --[[sheetImageMale = graphics.newImageSheet( "animation/animation_6_1.png", { x=0, y=0, width=246, height=185, numFrames=4 } )
-    instance1 = display.newSprite( sheetImageMale, { name="ezikMan", start=1, count=4, time=1500 } )
-    instance1.anchorX, instance1.anchorY = 1, 0
-    instance1.x = image.width/2--crW/4-123
-    instance1.y = crH/2+crH/6
-    instance1.xScale = scaleEzik-0.1
-    instance1.yScale = scaleEzik-0.1
-    group:insert( instance1 )]]
-
     sheetImageFemale = graphics.newImageSheet( "animation/animation_6_2_1.png", { x=0, y=0, width=738, height=220, numFrames=7 } )
     instance2 = display.newSprite( sheetImageFemale, { name="ezikWoman", start=1, count=7, time=5500 } )
     instance2.anchorX, instance2.anchorY = 0, 0

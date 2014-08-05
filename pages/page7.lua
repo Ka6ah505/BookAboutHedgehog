@@ -12,7 +12,21 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local sheetImage, instance
 -- -------------------------------------------------------------------------------
+
+function createAnimation()
+    -- body
+    sheetImage = graphics.newImageSheet( "animation/animation_6.png", { x=0, y=0, width=1079, height=1024, numFrames=4 } )
+    
+    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=4, time=2000 } )
+    instance.anchorX, instance.anchorY = 0, 0
+    instance.x = crX
+    instance.y = crY
+    instance.xScale = scaleEzik
+    instance.yScale = scaleEzik
+    group:insert( instance )
+end
 
 local function onPageSwap( event )
     local distance
@@ -46,6 +60,8 @@ function scene:create( event )
     textGroup = display.newGroup()
     imageGroup = display.newGroup()
 
+    scaleEzik = w/1100
+
     image = display.newImageRect( "images/7.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
@@ -54,6 +70,8 @@ function scene:create( event )
     local txt = display.newImageRect( "text/7.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    createAnimation()
 end
 
 
@@ -71,6 +89,7 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
+        instance:play()
     end
 end
 
@@ -98,6 +117,7 @@ function scene:destroy( event )
 
     imageGroup:removeSelf()
     textGroup:removeSelf()
+    image:removeEventListener( "touch", onPageSwap )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
