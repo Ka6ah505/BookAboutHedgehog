@@ -126,6 +126,7 @@ function scene:destroy( event )
     print("12: destroy")
     local sceneGroup = self.view
     _timer = nil
+    group:removeSelf()
     imageGroup:removeSelf()
     textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )

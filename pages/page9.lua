@@ -19,8 +19,8 @@ local s1, s2, ig
 
 function createAnimation()
     -- body
-    sheetImage1 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
-    instance1 = display.newSprite( sheetImage1, { name="ezik", start=1, count=3, time=3000 } )
+    --sheetImage1 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
+    instance1 = display.newSprite( sheet91, { name="ezik", start=1, count=3, time=3000 } )
     instance1.anchorX, instance1.anchorY = 0, 0
     instance1.x = 20
     instance1.y = 20
@@ -28,8 +28,8 @@ function createAnimation()
     instance1.yScale = scaleEzik
     group:insert( instance1 )
 
-    sheetImage = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
-    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=3000 } )
+    --sheetImage = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
+    instance = display.newSprite( sheet92, { name="ezik", start=1, count=3, time=3000 } )
     instance.anchorX, instance.anchorY = 0, 1
     instance.x = crX
     instance.y = crH+20
@@ -126,6 +126,7 @@ end
 function scene:destroy( event )
     print("9: destroy")
     local sceneGroup = self.view
+    group:removeSelf()
     imageGroup:removeSelf()
     textGroup:removeSelf()
     instance:removeEventListener( "touch", onPageSwap )

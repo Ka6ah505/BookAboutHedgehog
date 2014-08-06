@@ -12,7 +12,21 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local sheetImage, instance, scaleEzik
 -- -------------------------------------------------------------------------------
+
+function createAnimation()
+    -- body
+    sheetImage = graphics.newImageSheet( "animation/animation_15.png", { x=0, y=0, width=1079, height=1024, numFrames=5 } )
+    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=5, time=2000 } )
+    instance.anchorX, instance.anchorY = 0, 0
+    instance.x = crX
+    instance.y = crY
+    instance.xScale = scaleEzik
+    instance.yScale = scaleEzik
+    group:insert( instance )
+end
+
 local function onPageSwap( event )
     local distance
     if event.phase == "moved" then       
@@ -45,6 +59,8 @@ function scene:create( event )
     textGroup = display.newGroup()
     imageGroup = display.newGroup()
 
+    scaleEzik = w/1100
+
     image = display.newImageRect( "images/15.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
@@ -53,6 +69,8 @@ function scene:create( event )
     local txt = display.newImageRect( "text/15.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    --createAnimation()
 end
 
 
@@ -69,7 +87,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        
+        --instance:play()
         image:addEventListener( "touch", onPageSwap )
     end
 end
@@ -95,8 +113,10 @@ end
 function scene:destroy( event )
     print("15: destroy")
     local sceneGroup = self.view
+    group:removeSelf()
     imageGroup:removeSelf()
     textGroup:removeSelf()
+    image:removeEventListener( "touch", onPageSwap )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

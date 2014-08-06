@@ -8,20 +8,18 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 -- local forward references should go here
-local chat, imageGroup
+
 -- -------------------------------------------------------------------------------
 
 -- "scene:create()"
 function scene:create( event )
     print("main: create")
     group = self.view
-    local params = event.params
-    imageGroup = display.newGroup()
     local image = display.newImageRect( "images/1.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
     group:insert( image )
-    audio.pause( soundChanel )
+    --audio.pause( soundChanel )
 end
 
 
@@ -61,7 +59,7 @@ end
 function scene:destroy( event )
     print("destroy: create")
     local sceneGroup = self.view
-    imageGroup:removeSelf()
+    group:removeSelf()
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

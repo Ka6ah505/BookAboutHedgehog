@@ -9,33 +9,33 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
-local instance, sheetImage, instance1, sheetImage1
+local image
+local instance, sheetImage, instance1, sheetImage1, sheetImage2, instance2
 -- -------------------------------------------------------------------------------
 
-function createAnimation()
+local function createAnimation()
     -- body
-    sheetImage = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-    instance = display.newSprite( sheetImage, { name="door1", start=1, count=3, time=2500 } )
---------------------------------------
+    --sheetImage = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+    --instance = display.newSprite( sheetImage, { name="door1", start=1, count=3, time=2500 } )
+    instance = display.newSprite( sheet31, { name="door1", start=1, count=3, time=2500 } )
     instance.x, instance.y = crX, crY
     instance.anchorX, instance.anchorY = 0, 0
     instance.xScale = w/1200-0.1
     instance.yScale = w/1200
     group:insert( instance )
 
-    sheetImage1 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-    instance1 = display.newSprite( sheetImage1, { name="door2", start=1, count=3, time=3500 } )
+    --sheetImage1 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+    --instance1 = display.newSprite( sheetImage1, { name="door2", start=1, count=3, time=3500 } )
+    instance1 = display.newSprite( sheet32, { name="door1", start=1, count=3, time=3500 } )
     instance1.x, instance1.y = crX+30, crY
     instance1.anchorX, instance1.anchorY = 0, 0
     instance1.xScale = w/1200-0.1
     instance1.yScale = w/1200
     group:insert( instance1 )
 
-    sheetImage2 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-    instance2 = display.newSprite( sheetImage2, { name="door3", start=1, count=3, time=4500 } )
+    --sheetImage2 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+    --instance2 = display.newSprite( sheetImage2, { name="door3", start=1, count=3, time=4500 } )
+    instance2 = display.newSprite( sheet33, { name="door3", start=1, count=3, time=4500 } )
     instance2.x, instance2.y = crX+30, crY
     instance2.anchorX, instance2.anchorY = 0, 0
     instance2.xScale = w/1200-0.1
@@ -71,9 +71,7 @@ end
 function scene:create( event )
     print("4: create")
     group = self.view
-    params = event.params
     textGroup = display.newGroup()
-    imageGroup = display.newGroup()
 
     image = display.newImageRect( "images/4.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
@@ -93,7 +91,6 @@ function scene:show( event )
     print("4: show")
     local sceneGroup = self.view
     local phase = event.phase
-    params = event.params
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen).
@@ -130,8 +127,9 @@ end
 function scene:destroy( event )
     print("4: destroy")
     local sceneGroup = self.view
+    image:removeEventListener( "touch", onPageSwap )
     textGroup:removeSelf()
-    imageGroup:removeSelf()
+    --group:removeSelf()
     instance:pause()
     instance1:pause()
     instance2:pause()

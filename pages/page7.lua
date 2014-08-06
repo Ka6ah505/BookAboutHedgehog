@@ -9,20 +9,17 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
-local sheetImage, instance
+local image
+local sheetImage, instance, scaleEzik
 -- -------------------------------------------------------------------------------
 
 function createAnimation()
     -- body
-    sheetImage = graphics.newImageSheet( "animation/animation_6.png", { x=0, y=0, width=1079, height=1024, numFrames=4 } )
-    
-    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=4, time=2000 } )
+    --sheetImage = graphics.newImageSheet( "animation/animation_7.png", { x=0, y=0, width=1079, height=1024, numFrames=4 } ) 
+    instance = display.newSprite( sheet6, { name="ezik", start=1, count=4, time=2000 } )
     instance.anchorX, instance.anchorY = 0, 0
-    instance.x = crX
-    instance.y = crY
+    instance.x = 20
+    instance.y = 20
     instance.xScale = scaleEzik
     instance.yScale = scaleEzik
     group:insert( instance )
@@ -58,7 +55,6 @@ function scene:create( event )
     group = self.view
     local params = event.params
     textGroup = display.newGroup()
-    imageGroup = display.newGroup()
 
     scaleEzik = w/1100
 
@@ -114,8 +110,7 @@ end
 function scene:destroy( event )
     print("7: destroy")
     local sceneGroup = self.view
-
-    imageGroup:removeSelf()
+    --group:removeSelf()
     textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )
     -- Called prior to the removal of scene's view ("sceneGroup").

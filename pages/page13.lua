@@ -97,6 +97,8 @@ function scene:destroy( event )
     local sceneGroup = self.view
     imageGroup:removeSelf()
     textGroup:removeSelf()
+    group:removeSelf()
+    image:removeEventListener( "touch", onPageSwap )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

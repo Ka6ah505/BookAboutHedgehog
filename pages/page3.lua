@@ -10,8 +10,7 @@ local scene = composer.newScene()
 -- local forward references should go here
 local textGroup
 local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
+local image
 local collection = {}
 
 local screenTop = crW/2
@@ -81,7 +80,6 @@ end
 function scene:create( event )
     print("3: create")
     group = self.view
-    local params = event.params
     textGroup = display.newGroup()
     imageGroup = display.newGroup()
 
@@ -104,7 +102,6 @@ function scene:show( event )
     print("3: show")
     local sceneGroup = self.view
     local phase = event.phase
-    params = event.params
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen).
@@ -138,10 +135,11 @@ end
 function scene:destroy( event )
     print("3: destroy")
     local sceneGroup = self.view
-    Runtime:removeEventListener( "enterFrame", collection );
+    image:removeEventListener( "touch", onPageSwap )
     textGroup:removeSelf()
     imageGroup:removeSelf()
-    image:removeEventListener( "touch", onPageSwap )
+    --group:removeSelf()
+    Runtime:removeEventListener( "enterFrame", collection );
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

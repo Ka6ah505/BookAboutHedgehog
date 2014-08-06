@@ -9,18 +9,16 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
+local image
 local sheetImage, instance, moveTimer
 local imageMask, xMaskScale, yMaskScale
 local scaleEzik
 -- -------------------------------------------------------------------------------
 
-function createAnimation()
+local function createAnimation()
     -- body
-    sheetImage = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=3 } )
-    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=500 } )
+    --sheetImage = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=3 } )
+    instance = display.newSprite( sheet4, { name="ezik", start=1, count=3, time=500 } )
     instance.anchorX, instance.anchorY = 0, 0
     instance.x = crW+20
     instance.y = crH-150
@@ -29,7 +27,7 @@ function createAnimation()
     group:insert( instance )
 end
 
-function update( event )
+local function update( event )
     -- body
     instance.x = instance.x - 3
     instance.y = instance.y - 3
@@ -68,9 +66,7 @@ end
 function scene:create( event )
     print("5: create")
     group = self.view
-    params = event.params
     textGroup = display.newGroup()
-    imageGroup = display.newGroup() 
         
     xMaskScale, yMaskScale, scaleEzik = w/118-0.1, h/118, w/1024
 
@@ -99,7 +95,6 @@ function scene:show( event )
     print("5: show")
     local sceneGroup = self.view
     local phase = event.phase
-    params = event.params
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen).
@@ -133,9 +128,11 @@ end
 function scene:destroy( event )
     print("5: destroy")
     local sceneGroup = self.view
-    imageGroup:removeSelf()
+    image:removeEventListener( "touch", onPageSwap )
     textGroup:removeSelf()
-    timer.pause( moveTimer )
+    --group:removeSelf()
+    timer.cancel( moveTimer )
+
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

@@ -9,9 +9,7 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
+local image
 local sheetImage, instance, moveTimer
 local imageMask, xMaskScale, yMaskScale
 local scaleEzik
@@ -19,8 +17,8 @@ local scaleEzik
 
 function createAnimation()
     -- body
-    sheetImage = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
-    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=2, time=1000 } )
+    --sheetImage = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
+    instance = display.newSprite( sheet8, { name="ezik", start=1, count=2, time=1000 } )
     instance.x = w + 220
     instance.y = display.contentHeight/2 + 20
     instance.xScale = scaleEzik
@@ -130,11 +128,10 @@ end
 function scene:destroy( event )
     print("8: destroy")
     local sceneGroup = self.view
-    --imageGroup:removeSelf()
+    group:removeSelf()
     textGroup:removeSelf()
     timer.pause( moveTimer )
     image:removeEventListener( "touch", onPageSwap )
-    timer.pause( moveTimer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

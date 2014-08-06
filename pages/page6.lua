@@ -9,21 +9,19 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
-local sheetImageHeart, sheetImageMale, sheetImageFemale, instance, moveTimer, instance1, instance2
+local image
+local sheetImage, instance, scaleEzik
 -- -------------------------------------------------------------------------------
-function createAnimation()
+local function createAnimation()
     -- body
-    sheetImageFemale = graphics.newImageSheet( "animation/animation_6_2_1.png", { x=0, y=0, width=738, height=220, numFrames=7 } )
-    instance2 = display.newSprite( sheetImageFemale, { name="ezikWoman", start=1, count=7, time=5500 } )
-    instance2.anchorX, instance2.anchorY = 0, 0
-    instance2.x = image.width/4--crW - crW/4
-    instance2.y = crH/2+crH/6
-    instance2.xScale = scaleEzik-0.2
-    instance2.yScale = scaleEzik-0.2
-    group:insert( instance2 )
+    --sheetImage = graphics.newImageSheet( "animation/animation_6.png", { x=0, y=0, width=738, height=220, numFrames=7 } )
+    instance = display.newSprite( sheet5, { name="eziki", start=1, count=7, time=5500 } )
+    instance.anchorX, instance.anchorY = 0, 0
+    instance.x = image.width/4
+    instance.y = crH/2+crH/6
+    instance.xScale = scaleEzik-0.2
+    instance.yScale = scaleEzik-0.2
+    group:insert( instance )
 end
 
 local function onPageSwap( event )
@@ -54,9 +52,7 @@ end
 function scene:create( event )
     print("6: create")
     group = self.view
-    local params = event.params
     textGroup = display.newGroup()
-    imageGroup = display.newGroup()
 
     scaleEzik = w/1024
 
@@ -78,7 +74,6 @@ function scene:show( event )
     print("6: show")
     local sceneGroup = self.view
     local phase = event.phase
-    local params = event.params
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen).
@@ -87,9 +82,7 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.   
         image:addEventListener( "touch", onPageSwap )
-        --instance:play()
-        --instance1:play()
-        instance2:play()
+        instance:play()
     end
 end
 
@@ -114,8 +107,9 @@ end
 function scene:destroy( event )
     print("6: destroy")
     local sceneGroup = self.view
-    imageGroup:removeSelf()
+    image:removeEventListener( "touch", onPageSwap )
     textGroup:removeSelf()
+    --group:removeSelf()
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

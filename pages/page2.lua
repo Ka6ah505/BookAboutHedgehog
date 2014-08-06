@@ -9,16 +9,16 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local image, chat
-local soundBackdround1, soundChanel1
+local image
 local sheetImage, instance, moveTimer
 local imageMask, xMaskScale, yMaskScale
 local scaleEzik
 -- -------------------------------------------------------------------------------
-function createAnimation()
+local function createAnimation()
     -- body
-    sheetImage = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
-    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=500 } )
+    --sheetImage = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
+    --instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=500 } )
+    instance = display.newSprite( sheet1, { name="ezik", start=1, count=3, time=500 } )
     instance.x = w+268
     instance.y = display.contentHeight/2 + 20
     instance.xScale = scaleEzik
@@ -26,7 +26,7 @@ function createAnimation()
     group:insert( instance )
 end
 
-function update( event )
+local function update( event )
     -- body
     instance.x = instance.x - 3
     if instance.x < -268 then
@@ -57,7 +57,6 @@ end
 function scene:create( event )
     print("2: create")
     group = self.view
-    local params = event.params
     textGroup = display.newGroup()
 
     xMaskScale, yMaskScale, scaleEzik = w/118-0.1, 100, w/1024
@@ -120,9 +119,9 @@ end
 function scene:destroy( event )
     print("2: destroy")
     local sceneGroup = self.view
-    group:removeSelf()
-    textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )
+    textGroup:removeSelf()
+    group:removeSelf()
     timer.pause( moveTimer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.

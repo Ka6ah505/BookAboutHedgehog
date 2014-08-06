@@ -83,6 +83,7 @@ end
 function scene:destroy( event )
     print("16: destroy")
     local sceneGroup = self.view
+    group:removeSelf()
     imageGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap)
     -- Called prior to the removal of scene's view ("sceneGroup").

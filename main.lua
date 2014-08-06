@@ -6,7 +6,22 @@ display.setStatusBar( display.HiddenStatusBar )
 system.setIdleTimer( false ) 
 --display.setDrawMode( "wireframe", true )
 
+local options5 = { frames = require("animation.sequence6").frames, }
+local options6 = { frames = require("animation.sequence7").frames, }
+local options14 = { frames = require("animation.sequence14").frames, }
+
 soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
+sheet1 = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
+sheet31 = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+sheet32 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+sheet33 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+sheet4 = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=3 } )
+sheet5 = graphics.newImageSheet( "animation/animation_6.png", options5 )
+sheet6 = graphics.newImageSheet( "animation/animation_7.png", options6 )
+sheet8 = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
+sheet91 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
+sheet92 = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
+sheet14 = graphics.newImageSheet( "animation/animation_14.png", options14 )
 
 soundTable = {
     sound1  = audio.loadSound( "sound/start.mp3" ),
@@ -407,8 +422,11 @@ function Main()
     speakGroup:addEventListener( "touch", speakText )
     soundGroup:addEventListener( "touch", soundMute )
 	composer.gotoScene( "pages.mainPage" )
-    --composer.gotoScene( "pages.page9" )
+
+    soundChanelSpeak = audio.play( soundTable["sound1"], {onComplete=checkChanelSpeak} )
+    soundChanel = audio.play( soundBackdround, {loops = -1} )
+    audio.pause( soundChanel )
+    --composer.gotoScene( "pages.page5" )
 end
-soundChanelSpeak = audio.play( soundTable["sound1"], {onComplete=checkChanelSpeak} )
-soundChanel = audio.play( soundBackdround, {loops = -1} )
+
 Main()
