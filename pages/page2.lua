@@ -19,7 +19,7 @@ local function createAnimation()
     --sheetImage = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
     --instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=500 } )
     instance = display.newSprite( sheet1, { name="ezik", start=1, count=3, time=500 } )
-    instance.x = w+268
+    instance.x = w/2
     instance.y = display.contentHeight/2 + 20
     instance.xScale = scaleEzik
     instance.yScale = scaleEzik

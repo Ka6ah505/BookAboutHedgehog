@@ -8,6 +8,7 @@ system.setIdleTimer( false )
 
 local options5 = { frames = require("animation.sequence6").frames, }
 local options6 = { frames = require("animation.sequence7").frames, }
+local options13 = { frames = require("animation.sequence13").frames, }
 local options14 = { frames = require("animation.sequence14").frames, }
 
 soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
@@ -21,6 +22,7 @@ sheet6 = graphics.newImageSheet( "animation/animation_7.png", options6 )
 sheet8 = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
 sheet91 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
 sheet92 = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
+sheet13 = graphics.newImageSheet( "animation/animation_13.png", options13 )
 sheet14 = graphics.newImageSheet( "animation/animation_14.png", options14 )
 
 soundTable = {
@@ -421,12 +423,12 @@ function Main()
 
     speakGroup:addEventListener( "touch", speakText )
     soundGroup:addEventListener( "touch", soundMute )
-	composer.gotoScene( "pages.mainPage" )
-
-    soundChanelSpeak = audio.play( soundTable["sound1"], {onComplete=checkChanelSpeak} )
-    soundChanel = audio.play( soundBackdround, {loops = -1} )
-    audio.pause( soundChanel )
-    --composer.gotoScene( "pages.page5" )
+    --composer.gotoScene( "pages.mainPage" )
+    composer.gotoScene( "pages.page13" )
 end
 
 Main()
+
+soundChanelSpeak = audio.play( soundTable["sound1"], {onComplete=checkChanelSpeak} )
+soundChanel = audio.play( soundBackdround, {loops = -1} )
+audio.pause( soundChanel )

@@ -25,11 +25,12 @@ local function newFish()
         fish.x, fish.y = crW/2+i*10, crH/2+crH/4
         fish.xdir = 1
         fish.ydir = 1
-        fish.xspeed = 0.1+i
+        fish.xspeed = 0.1+i + w/1024
         fish.yspeed = .2+i
         fish.radius = (display.contentWidth/arrowWidth)/2
         imageGroup:insert( fish )
     end
+    group:insert(imageGroup)
 end
 
 function collection:enterFrame( event )
@@ -93,7 +94,7 @@ function scene:create( event )
     textGroup:insert( txt )
 
     newFish()
-    group:insert(imageGroup)
+    Runtime:addEventListener( "enterFrame", collection );
 end
 
 
@@ -110,7 +111,6 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.      
         image:addEventListener( "touch", onPageSwap )
-        Runtime:addEventListener( "enterFrame", collection );
     end
 end
 

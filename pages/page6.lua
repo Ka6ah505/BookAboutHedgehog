@@ -10,18 +10,28 @@ local scene = composer.newScene()
 -- local forward references should go here
 local textGroup
 local image
-local sheetImage, instance, scaleEzik
+local sheetImage, instance, scaleEzik, sequenceData, _timer
 -- -------------------------------------------------------------------------------
 local function createAnimation()
     -- body
     --sheetImage = graphics.newImageSheet( "animation/animation_6.png", { x=0, y=0, width=738, height=220, numFrames=7 } )
-    instance = display.newSprite( sheet5, { name="eziki", start=1, count=7, time=5500 } )
+    sequenceData = {
+        { name = "walk", sheet = sheet5, start = 1, count = 7, time = 2000, loopCount = 1 },
+        { name = "hearz", sheet = sheet5, start = 5, count = 3, time = 1000, loopCount = 0 }
+    }
+    --instance = display.newSprite( sheet5, { name="eziki", start=1, count=7, time=2000 } )
+    instance = display.newSprite( sheet5, sequenceData )
     instance.anchorX, instance.anchorY = 0, 0
     instance.x = image.width/4
     instance.y = crH/2+crH/6
     instance.xScale = scaleEzik-0.2
     instance.yScale = scaleEzik-0.2
     group:insert( instance )
+end
+
+local function swapSheet()
+        instance:setSequence( "hearz" )
+        instance:play()
 end
 
 local function onPageSwap( event )
@@ -83,6 +93,8 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.   
         image:addEventListener( "touch", onPageSwap )
         instance:play()
+        --_timer = timer.performWithDelay( 2000, swapSheet )
+        timer.performWithDelay( 2000, swapSheet )
     end
 end
 
@@ -109,6 +121,7 @@ function scene:destroy( event )
     local sceneGroup = self.view
     image:removeEventListener( "touch", onPageSwap )
     textGroup:removeSelf()
+    --timer.cancel( _timer )
     --group:removeSelf()
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.

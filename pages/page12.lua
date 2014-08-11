@@ -83,6 +83,7 @@ function scene:create( event )
     textGroup:insert( txt )
 
     flyEzik()
+    _timer = timer.performWithDelay(20, update, 0)
 end
 
 
@@ -100,7 +101,6 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc. 
         image:addEventListener( "touch", onPageSwap )
-        _timer = timer.performWithDelay(20, update, 0)
     end
 end
 

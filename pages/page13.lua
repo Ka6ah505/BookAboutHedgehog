@@ -12,7 +12,20 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local instance, scaleEzik
 -- -------------------------------------------------------------------------------
+
+function createAnimation()
+    -- body
+    instance = display.newSprite( sheet13, { name="ezik", start=1, count=8, time=5000 } )
+    instance.anchorX, instance.anchorY = 0, 0
+    instance.x = crX
+    instance.y = crY+40
+    instance.xScale = scaleEzik*2
+    instance.yScale = scaleEzik*2
+    group:insert( instance )
+end
+
 local function onPageSwap( event )
     local distance
     if event.phase == "moved" then       
@@ -45,6 +58,8 @@ function scene:create( event )
     textGroup = display.newGroup()
     imageGroup = display.newGroup()
 
+    scaleEzik = w/1150
+
     image = display.newImageRect( "images/13.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
@@ -53,6 +68,8 @@ function scene:create( event )
     local txt = display.newImageRect( "text/13.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    createAnimation()
 end
 
 
@@ -69,7 +86,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        
+        instance:play()
         image:addEventListener( "touch", onPageSwap )
     end
 end
