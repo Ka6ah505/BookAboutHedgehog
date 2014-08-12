@@ -17,13 +17,12 @@ local sheetImage, instance, scaleEzik
 
 function createAnimation()
     -- body
-    sheetImage = graphics.newImageSheet( "animation/animation_15.png", { x=0, y=0, width=1079, height=1024, numFrames=5 } )
-    instance = display.newSprite( sheetImage, { name="ezik", start=1, count=5, time=2000 } )
+    instance = display.newSprite( sheet15, { name="ezik", start=1, count=4, time=2000, loopCount = 1 } )
     instance.anchorX, instance.anchorY = 0, 0
     instance.x = crX
     instance.y = crY
-    instance.xScale = scaleEzik
-    instance.yScale = scaleEzik
+    instance.xScale = scaleEzik*2
+    instance.yScale = scaleEzik*2
     group:insert( instance )
 end
 
@@ -70,7 +69,7 @@ function scene:create( event )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
 
-    --createAnimation()
+    createAnimation()
 end
 
 
@@ -87,7 +86,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        --instance:play()
+        instance:play()
         image:addEventListener( "touch", onPageSwap )
     end
 end

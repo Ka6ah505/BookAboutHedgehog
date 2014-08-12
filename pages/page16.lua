@@ -11,6 +11,7 @@ local scene = composer.newScene()
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local vkBtn
 -- -------------------------------------------------------------------------------
 local function onPageSwap( event )
     local distance
@@ -30,6 +31,18 @@ local function onPageSwap( event )
     return true
 end
 
+local function gotoVK( event )
+    -- body
+    if event.phase == "ended" then
+        if event.target.id == "vk" then
+            --network.upload()
+            --local webView = native.newWebView( display.contentCenterX, display.contentCenterY, 320, 480 )
+            --webView:request( "http://vk.com/gleblok" )
+            native.showWebPopup( "http://vk.com/gleblok" )
+        end
+    end
+end
+
 -- "scene:create()"
 function scene:create( event )
     print("16: create")
@@ -41,6 +54,18 @@ function scene:create( event )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
     group:insert( image )
+
+    vkBtn = widget.newButton {
+        id = "vk",
+        x = crW/1.6,
+        y = crH/3+ crH/3,
+        width = crW/1.8,
+        height = crH/8,
+        defaultFile = "slicing/ui/vk_btn.png",
+        label = "",
+        onEvent = gotoVK
+    }
+    group:insert( vkBtn )
 end
 
 

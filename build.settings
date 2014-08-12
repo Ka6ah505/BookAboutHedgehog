@@ -40,7 +40,7 @@ settings = {
 	-- Android permissions
 
 	androidPermissions = {
-  		--"android.permission.INTERNET",
+  		"android.permission.INTERNET",
   	},
 
 	

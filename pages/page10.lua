@@ -12,7 +12,28 @@ local textGroup
 local imageGroup
 local image, chat
 local soundBackdround1, soundChanel1
+local sheetImage, instance, scaleEzi, instance1
 -- -------------------------------------------------------------------------------
+
+function createAnimation()
+    -- body
+    instance = display.newSprite( sheet101, { name="ezik", start=1, count=5, time=1000, loopDirection = "bounce" } )
+    instance.anchorX, instance.anchorY = 0, 0
+    instance.x = crX
+    instance.y = crY
+    instance.xScale = scaleEzik*2
+    instance.yScale = scaleEzik*2
+    group:insert( instance )
+
+    instance1 = display.newSprite( sheet102, { name="ezik", start=1, count=10, time=4000 } )
+    instance1.anchorX, instance1.anchorY = 0, 0
+    instance1.x = crX
+    instance1.y = crY
+    instance1.xScale = scaleEzik*2
+    instance1.yScale = scaleEzik*2
+    group:insert( instance1 )
+end
+
 local function onPageSwap( event )
     local distance
     if event.phase == "moved" then       
@@ -45,6 +66,8 @@ function scene:create( event )
     textGroup = display.newGroup()
     imageGroup = display.newGroup()
 
+    scaleEzik = w/1100
+
     image = display.newImageRect( "images/10.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
@@ -53,6 +76,8 @@ function scene:create( event )
     local txt = display.newImageRect( "text/10.png", display.contentWidth/2, display.contentHeight/2 )
     txt.x, txt.y = display.contentWidth-display.contentWidth/7.3, display.contentHeight/3.7
     textGroup:insert( txt )
+
+    createAnimation()
 end
 
 
@@ -72,7 +97,8 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         print("10: show: did")
-        
+        instance:play()
+        instance1:play()
         image:addEventListener( "touch", onPageSwap )
     end
 end

@@ -8,22 +8,9 @@ system.setIdleTimer( false )
 
 local options5 = { frames = require("animation.sequence6").frames, }
 local options6 = { frames = require("animation.sequence7").frames, }
+local options10 = { frames = require("animation.sequence10").frames, }
 local options13 = { frames = require("animation.sequence13").frames, }
 local options14 = { frames = require("animation.sequence14").frames, }
-
-soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
-sheet1 = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
-sheet31 = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-sheet32 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-sheet33 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-sheet4 = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=3 } )
-sheet5 = graphics.newImageSheet( "animation/animation_6.png", options5 )
-sheet6 = graphics.newImageSheet( "animation/animation_7.png", options6 )
-sheet8 = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
-sheet91 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
-sheet92 = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
-sheet13 = graphics.newImageSheet( "animation/animation_13.png", options13 )
-sheet14 = graphics.newImageSheet( "animation/animation_14.png", options14 )
 
 soundTable = {
     sound1  = audio.loadSound( "sound/start.mp3" ),
@@ -64,6 +51,7 @@ h = display.actualContentHeight
 print(w..";"..h)
 
 Main = {}
+loadImageSheet = {}
 layoutComponent = {}
 createButton = {}
 buttonHandler = {}
@@ -403,6 +391,26 @@ function speakText( event )
     end
 end
 
+function loadImageSheet( )
+    -- body
+    soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
+sheet1 = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
+sheet31 = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+sheet32 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+sheet33 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
+sheet4 = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=3 } )
+sheet5 = graphics.newImageSheet( "animation/animation_6.png", options5 )
+sheet6 = graphics.newImageSheet( "animation/animation_7.png", options6 )
+sheet8 = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
+sheet91 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
+sheet92 = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
+sheet101 = graphics.newImageSheet( "animation/animation_10_1.png", { x=0, y=0, width=540, height=512, numFrames=5 } )
+sheet102 = graphics.newImageSheet( "animation/animation_10_2.png", options10 )
+sheet13 = graphics.newImageSheet( "animation/animation_13.png", options13 )
+sheet14 = graphics.newImageSheet( "animation/animation_14.png", options14 )
+sheet15 = graphics.newImageSheet( "animation/animation_15.png", { x=0, y=0, width=540, height=512, numFrames=4 } )
+end
+
 function Main()
 	-- body
 	backGroup = display.newGroup()
@@ -421,10 +429,11 @@ function Main()
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
 
+    loadImageSheet()
     speakGroup:addEventListener( "touch", speakText )
     soundGroup:addEventListener( "touch", soundMute )
-    --composer.gotoScene( "pages.mainPage" )
-    composer.gotoScene( "pages.page13" )
+    composer.gotoScene( "pages.mainPage" )
+    --composer.gotoScene( "pages.page16" )
 end
 
 Main()
