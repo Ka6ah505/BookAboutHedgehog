@@ -31,14 +31,44 @@ local function onPageSwap( event )
     return true
 end
 
+local function listener( event )
+    local shouldLoad = true
+    if ( event.errorCode ) then
+        native.showAlert( "Error!", event.errorMessage, { "OK" } )
+        shouldLoad = false
+    end
+
+    return shouldLoad
+end
+
+local options =
+{
+    hasBackground=true,
+    --baseUrl=system.DocumentsDirectory,
+    urlRequest=listener
+}
+
+local function webListener( event )
+    if ( event.errorCode ) then
+        native.showAlert( "Error!", event.errorMessage, { "OK" } )
+    end
+end
+
 local function gotoVK( event )
     -- body
     if event.phase == "ended" then
         if event.target.id == "vk" then
+            --print(network.canDetectNetworkStatusChanges)
+            --if network.canDetectNetworkStatusChanges then
             --network.upload()
             --local webView = native.newWebView( display.contentCenterX, display.contentCenterY, 320, 480 )
             --webView:request( "http://vk.com/gleblok" )
-            native.showWebPopup( "http://vk.com/gleblok" )
+            --system.openURL( "http://www.coronalabs.com" )
+            native.showWebPopup( "http://vk.com/gleblok", options )
+            --webView:addEventListener( "urlRequest", webListener )
+            --else
+            --    print("shgdjgalhgkalhdgagahjdaf.k")
+            --end
         end
     end
 end
