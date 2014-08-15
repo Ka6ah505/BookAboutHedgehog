@@ -26,12 +26,21 @@ settings = {
                     }
                 }
             }
+
             --]]
 
-            UIAppFonts =
-			{
-				"Noteworthy-Bold.otf"
-			},
+            CFBundleIconFiles = {
+            "Icon-76.png",
+            "Icon-76@2x.png",
+            },
+
+            UIAppFonts = {	"Noteworthy-Bold.otf"	},
+
+			UISupportedInterfaceOrientations = {	"UIInterfaceOrientationLandscapeRight",	},
+            CFBundleVersion = "1.0",
+            CFBundleShortVersionString = "1.0",
+            UIApplicationExitsOnSuspend = false,
+            CFBundleIdentifier = "ru.hintsolutions.ezhik",
 
 		}
 	},
