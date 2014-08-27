@@ -12,7 +12,8 @@ local options10 = { frames = require("animation.sequence10").frames, }
 local options13 = { frames = require("animation.sequence13").frames, }
 local options14 = { frames = require("animation.sequence14").frames, }
 
-soundTable = {
+soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
+--[[soundTable = {
     sound1  = audio.loadSound( "sound/start.mp3" ),
     sound2  = audio.loadSound( "sound/1.mp3"  ),
     sound3  = audio.loadSound( "sound/2.mp3"  ),
@@ -29,7 +30,8 @@ soundTable = {
     sound14 = audio.loadSound( "sound/13.mp3" ),
     sound15 = audio.loadSound( "sound/14.mp3" ),
     sound16 = audio.loadSound( "sound/15.mp3" )
-}
+}]]
+soundTable = {}
 
 local backGroup
 local centerRect
@@ -39,8 +41,8 @@ crH = 1
 crX = 1
 crY = 1
 
-isCheckSound = false
-isCheckSoundSpeak = false
+isCheckSound = true
+isCheckSoundSpeak = true
 
 countPage = 1
 countTextImage = 2
@@ -51,7 +53,8 @@ h = display.actualContentHeight
 print(w..";"..h)
 
 Main = {}
-loadImageSheet = {}
+--loadImageSheet = {}
+--loadSoundTable = {}
 layoutComponent = {}
 createButton = {}
 buttonHandler = {}
@@ -74,9 +77,6 @@ function isCheckPage()
         arrowBack.isVisible = true
         inStart.isVisible = true 
     elseif countPage == 2 then
-        if isCheckSound then
-            onMute()
-        end
         buttonStart.isVisible = false
         arrowNext.isVisible = true
         arrowBack.isVisible = false
@@ -87,7 +87,9 @@ function isCheckPage()
         arrowBack.isVisible = true
         inStart.isVisible = true   
     elseif countPage == 1 then
-        offMuteSpecial()
+        if isCheckSound then
+            onMute()
+        end
 	    buttonStart.isVisible = true
         arrowNext.isVisible = false
         arrowBack.isVisible = false
@@ -312,7 +314,7 @@ function changeSoundSpeak()
         speakSound.anchorX, speakSound.anchorY = 0, 0
         speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
         speakGroup:insert( speakSound )
-        soundChanelSpeak = audio.play( soundTable["sound"..countPage], {onComplete=checkChanelSpeak} )
+        soundChanelSpeak = audio.play( soundTable[--[["sound"..]]countPage], {onComplete=checkChanelSpeak} )
     end
 end
 
@@ -322,15 +324,6 @@ function offMute( event )
     rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
     rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
     isCheckSound = false
-    audio.pause( soundChanel )
-    soundGroup:insert( rectSound )
-end
-function offMuteSpecial( event )
-    -- body
-    soundGroup[1]:removeSelf()
-    rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
-    rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
-    --isCheckSound = false
     audio.pause( soundChanel )
     soundGroup:insert( rectSound )
 end
@@ -365,7 +358,7 @@ function onSpeakMute( event )
     speakSound.anchorX, speakSound.anchorY = 0, 0
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
-    soundChanelSpeak = audio.play( soundTable["sound"..countPage], {onComplete=checkChanelSpeak} )
+    soundChanelSpeak = audio.play( soundTable[countPage], {onComplete=checkChanelSpeak} )
 end
 
 function offSpeakMute( event )
@@ -391,26 +384,6 @@ function speakText( event )
     end
 end
 
-function loadImageSheet( )
-    -- body
-    soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
-sheet1 = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
-sheet31 = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-sheet32 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-sheet33 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
-sheet4 = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=3 } )
-sheet5 = graphics.newImageSheet( "animation/animation_6.png", options5 )
-sheet6 = graphics.newImageSheet( "animation/animation_7.png", options6 )
-sheet8 = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
-sheet91 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
-sheet92 = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
-sheet101 = graphics.newImageSheet( "animation/animation_10_1.png", { x=0, y=0, width=540, height=512, numFrames=5 } )
-sheet102 = graphics.newImageSheet( "animation/animation_10_2.png", options10 )
-sheet13 = graphics.newImageSheet( "animation/animation_13.png", options13 )
-sheet14 = graphics.newImageSheet( "animation/animation_14.png", options14 )
-sheet15 = graphics.newImageSheet( "animation/animation_15.png", { x=0, y=0, width=540, height=512, numFrames=4 } )
-end
-
 function Main()
 	-- body
 	backGroup = display.newGroup()
@@ -420,24 +393,22 @@ function Main()
 	createButton()
 	layoutText()
 
-    rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    rectSound = display.newImageRect( "slicing/ui/icon_music_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
     rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
     soundGroup:insert( rectSound )
 
-    speakSound = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    speakSound = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
     speakSound.anchorX, speakSound.anchorY = 0, 0
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
 
-    loadImageSheet()
+    soundChanel = audio.play( soundBackdround, {loops = -1} )
+
     speakGroup:addEventListener( "touch", speakText )
     soundGroup:addEventListener( "touch", soundMute )
-    composer.gotoScene( "pages.mainPage" )
-    --composer.gotoScene( "pages.page16" )
+    composer.gotoScene( "pages.loadPage" )
+    
 end
 
 Main()
 
-soundChanelSpeak = audio.play( soundTable["sound1"], {onComplete=checkChanelSpeak} )
-soundChanel = audio.play( soundBackdround, {loops = -1} )
-audio.pause( soundChanel )

@@ -16,7 +16,7 @@ local sheetImage, instance, scaleEzik
 function createAnimation()
     -- body
     --sheetImage = graphics.newImageSheet( "animation/animation_7.png", { x=0, y=0, width=1079, height=1024, numFrames=4 } ) 
-    instance = display.newSprite( sheet6, { name="ezik", start=1, count=4, time=2000 } )
+    instance = display.newSprite( sheet6, { name="ezik", start=1, count=4, time=8000, loopCount = 1 } )
     instance.anchorX, instance.anchorY = 0, 0
     instance.x = 20
     instance.y = 20

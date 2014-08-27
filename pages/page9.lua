@@ -24,8 +24,8 @@ function createAnimation()
     instance1.anchorX, instance1.anchorY = 0, 0
     instance1.x = 20
     instance1.y = 20
-    instance1.xScale = scaleEzik
-    instance1.yScale = scaleEzik
+    instance1.xScale = scaleEzik*2
+    instance1.yScale = scaleEzik*2
     group:insert( instance1 )
 
     --sheetImage = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=1079, height=1024, numFrames=3 } )
@@ -33,8 +33,8 @@ function createAnimation()
     instance.anchorX, instance.anchorY = 0, 1
     instance.x = crX
     instance.y = crH+20
-    instance.xScale = scaleEzik
-    instance.yScale = scaleEzik
+    instance.xScale = scaleEzik*2
+    instance.yScale = scaleEzik*2
     group:insert( instance )
 end
 

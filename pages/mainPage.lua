@@ -8,24 +8,31 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 -- local forward references should go here
-
+progressView = nil
 -- -------------------------------------------------------------------------------
 
 -- "scene:create()"
 function scene:create( event )
     print("main: create")
     group = self.view
+    isCheckPage()
+    
+    speakSound.isVisible = true
+    rectSound.isVisible = true
+    titles.isVisible = true
     local image = display.newImageRect( "images/1.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
     group:insert( image )
     --audio.pause( soundChanel )
+    countPage = 1
+    countTextImage = 2
 end
 
 
 -- "scene:show()"
 function scene:show( event )
-    print("show: create")
+    print("main: show")
     local sceneGroup = self.view
     local phase = event.phase
 
@@ -41,7 +48,7 @@ end
 
 -- "scene:hide()"
 function scene:hide( event )
-    print("hide: create")
+    print("main: hide")
     local sceneGroup = self.view
     local phase = event.phase
 
@@ -57,7 +64,7 @@ end
 
 -- "scene:destroy()"
 function scene:destroy( event )
-    print("destroy: create")
+    print("main: destroy")
     local sceneGroup = self.view
     group:removeSelf()
     -- Called prior to the removal of scene's view ("sceneGroup").

@@ -5,7 +5,7 @@ settings = {
 	
 	orientation = {
 		default = "landscapeRight",
-		supported = { "landscapeRight", "landscapeLeft", }
+		supported = { "landscapeRight", }
 	},
 	
 	iphone = {
@@ -36,7 +36,7 @@ settings = {
 
             UIAppFonts = {	"Noteworthy-Bold.otf"	},
 
-			UISupportedInterfaceOrientations = {	"UIInterfaceOrientationLandscapeRight",	"UIInterfaceOrientationLandscapeLeft", },
+			UISupportedInterfaceOrientations = {	"UIInterfaceOrientationLandscapeRight",	},
             CFBundleVersion = "1.0",
             CFBundleShortVersionString = "1.0",
             UIApplicationExitsOnSuspend = false,

@@ -78,6 +78,7 @@ function scene:create( event )
 
     createAnimation()
     moveTimer = timer.performWithDelay(20, update, 0)
+
 end
 
 

@@ -18,7 +18,7 @@ local scaleEzik
 local function createAnimation()
     -- body
     --sheetImage = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=3 } )
-    instance = display.newSprite( sheet4, { name="ezik", start=1, count=3, time=500 } )
+    instance = display.newSprite( sheet4, { name="ezik", start=1, count=3, time=1000 } )
     instance.anchorX, instance.anchorY = 0, 0
     instance.x = crW+20
     instance.y = crH-150
@@ -29,8 +29,8 @@ end
 
 local function update( event )
     -- body
-    instance.x = instance.x - 3
-    instance.y = instance.y - 3
+    instance.x = instance.x - 2
+    instance.y = instance.y - 2
     if instance.x < -368 then
         print("pause")
         instance.x = crW+20
