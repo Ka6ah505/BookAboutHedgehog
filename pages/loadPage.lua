@@ -61,24 +61,24 @@ local function blockB()
 end
 local function blockAC()
     
-    table.insert(soundTable, audio.loadStream( "sound/10.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/11.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/12.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/13.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/14.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/15.mp3" ))
-    updateProgressBar(0.5)
+    table.insert(soundTable, audio.loadSound( "sound/10.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/11.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/12.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/13.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/14.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/15.mp3" ))
+    updateProgressBar(0.9)
     timer.performWithDelay(500, blockB)
 end
 local function blockAB()
     -- body
     
-    table.insert(soundTable, audio.loadStream( "sound/4.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/5.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/6.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/7.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/8.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/9.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/4.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/5.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/6.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/7.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/8.mp3" ))
+    table.insert(soundTable, audio.loadSound( "sound/9.mp3" ))
     updateProgressBar(0.3)
     timer.performWithDelay(500, blockAC)
 end 
@@ -87,7 +87,7 @@ local function blockA()
     table.insert(soundTable, audio.loadSound( "sound/start.mp3" ))
     table.insert(soundTable, audio.loadSound( "sound/1.mp3" ))
     table.insert(soundTable, audio.loadSound( "sound/2.mp3" ))
-    table.insert(soundTable, audio.loadStream( "sound/3.mp3" ))
+    table.insert(soundTable, audio.loadSound("sound/3.mp3" ))
     updateProgressBar(0.2)
     timer.performWithDelay(500, blockAB)
 end
@@ -167,8 +167,6 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         --timer.performWithDelay( 100, increaseProgressView, 1 )
-        soundChanelSpeak = audio.play( soundTable["sound1"], {onComplete=checkChanelSpeak} )
-        audio.pause( soundChanelSpeak ) 
     end
 end
 
@@ -193,6 +191,11 @@ function scene:destroy( event )
     print("load: destroy")
     local sceneGroup = self.view
     group:remove()
+    soundChanelSpeak = audio.play( soundTable[1], {onComplete=checkChanelSpeak} )
+    --audio.stop( soundChanelSpeak ) 
+    --onSpeakMute()
+    soundChanel = audio.play( soundBackdround, {loops = -1} )
+    audio.setVolume( 0.1, {channel = soundChanel} )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

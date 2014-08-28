@@ -42,7 +42,7 @@ crX = 1
 crY = 1
 
 isCheckSound = true
-isCheckSoundSpeak = true
+isCheckSoundSpeak = false
 
 countPage = 1
 countTextImage = 2
@@ -302,6 +302,8 @@ function checkChanelSpeak( event )
         speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
         --isCheckSoundSpeak = true
         speakGroup:insert( speakSound )
+        --isCheckSoundSpeak = true
+        audio.setVolume( 1.0, {channel = soundChanel} )
     end
 end
 
@@ -314,7 +316,11 @@ function changeSoundSpeak()
         speakSound.anchorX, speakSound.anchorY = 0, 0
         speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
         speakGroup:insert( speakSound )
+        --isCheckSoundSpeak = true
         soundChanelSpeak = audio.play( soundTable[--[["sound"..]]countPage], {onComplete=checkChanelSpeak} )
+        audio.setVolume( 0.1, {channel = soundChanel} )
+    else
+        --onSpeakMute() 
     end
 end
 
@@ -359,6 +365,10 @@ function onSpeakMute( event )
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
     soundChanelSpeak = audio.play( soundTable[countPage], {onComplete=checkChanelSpeak} )
+    --offMute()
+    --audio.pause(soundChanel)
+    audio.setVolume( 0.1, { channel=soundChanel} )
+    --audio.setVolume( 1.0, { channel=soundChanelSpeak} )
 end
 
 function offSpeakMute( event )
@@ -369,6 +379,9 @@ function offSpeakMute( event )
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
     audio.stop( soundChanelSpeak )
+    audio.setVolume( 1.0, { channel=soundChanel} )
+    --onMute()
+    --audio.resume(soundChanel)
 end
 
 function speakText( event )
@@ -376,9 +389,11 @@ function speakText( event )
     if event.phase == "ended" then
         if isCheckSoundSpeak == true then
             onSpeakMute()
+            --offSpeakMute()
             isCheckSoundSpeak = false
         elseif isCheckSoundSpeak == false then
             offSpeakMute()
+            --onSpeakMute()
             isCheckSoundSpeak = true
         end
     end
@@ -397,12 +412,10 @@ function Main()
     rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
     soundGroup:insert( rectSound )
 
-    speakSound = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
+    speakSound = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
     speakSound.anchorX, speakSound.anchorY = 0, 0
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
-
-    soundChanel = audio.play( soundBackdround, {loops = -1} )
 
     speakGroup:addEventListener( "touch", speakText )
     soundGroup:addEventListener( "touch", soundMute )

@@ -26,7 +26,7 @@ function createAnimation()
     group:insert( instance )
 end
 
-function update( event )
+local function update( event )
     -- body
     instance.x = instance.x - 3
     if instance.x < -220 then
