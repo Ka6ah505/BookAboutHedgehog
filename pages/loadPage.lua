@@ -16,11 +16,20 @@ local options13 = { frames = require("animation.sequence13").frames, }
 local options14 = { frames = require("animation.sequence14").frames, }
 
 -- -------------------------------------------------------------------------------
+local function loadMainPage()
+    -- body
+    composer.gotoScene("pages.mainPage")
+    composer.removeScene("pages.loadPage")
+
+end
 local function bam( ... )
     -- body
     if (newProgressView:getProgress() == 1.0 ) then
-        composer.gotoScene("pages.mainPage")
-        composer.removeScene("pages.loadPage")
+        local imagelogo = display.newImageRect("logo.png", h, w )
+        imagelogo.anchorX, imagelogo.anchorY = 0, 0
+        imagelogo.x, imagelogo.y = 0, 0
+        group:insert(imagelogo)
+        timer.performWithDelay(2000, loadMainPage)
     end
 end
 local function updateProgressBar(value)
@@ -42,6 +51,7 @@ local function blockBB()
     -- body
     
     sheet8 = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
+    sheet81 = graphics.newImageSheet( "animation/animation_8_1.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
     sheet91 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=539, height=512, numFrames=3 } )
     sheet92 = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=539, height=512, numFrames=3 } )
     sheet6 = graphics.newImageSheet( "animation/animation_7.png", options6 )
@@ -107,7 +117,7 @@ function scene:create( event )
     titles.isVisible = false
     inStart.isVisible = false 
 
-    local loader = display.newImageRect( "loader.png", w/4, w/4 )
+    local loader = display.newImageRect( "loader.png", w/3, w/4 )
     loader.anchorX, loader.anchorY = 0.5, 0.5
     loader.x, loader.y = h/2, w/2
     group:insert(loader)
@@ -192,7 +202,7 @@ function scene:destroy( event )
     local sceneGroup = self.view
     group:remove()
     soundChanelSpeak = audio.play( soundTable[1], {onComplete=checkChanelSpeak} )
-    --audio.stop( soundChanelSpeak ) 
+    audio.pause( soundChanelSpeak ) 
     --onSpeakMute()
     soundChanel = audio.play( soundBackdround, {loops = -1} )
     audio.setVolume( 0.1, {channel = soundChanel} )

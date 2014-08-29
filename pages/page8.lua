@@ -24,14 +24,30 @@ function createAnimation()
     instance.xScale = scaleEzik
     instance.yScale = scaleEzik
     group:insert( instance )
+
+    instance1 = display.newSprite( sheet81, { name="ezik", start=1, count=2, time=1000 } )
+    instance1.x = -220
+    instance1.y = display.contentHeight - display.contentHeight/4
+    instance1.xScale = scaleEzik
+    instance1.yScale = scaleEzik
+    instance1:scale(-1, 1)
+    group:insert( instance1 )
+
 end
 
 local function update( event )
     -- body
     instance.x = instance.x - 3
+    instance1.x = instance1.x + 6
+    instance1.y = instance1.y - 0.7
     if instance.x < -220 then
         print("pause")
         instance.x = w+220
+    end
+    if instance1.x > crW+220 then
+        print("pause")
+        instance1.x = -220
+        instance1.y = display.contentHeight - display.contentHeight/4
     end
 end
 
@@ -104,6 +120,7 @@ function scene:show( event )
         
         image:addEventListener( "touch", onPageSwap )
         instance:play()
+        instance1:play()
     end
 end
 

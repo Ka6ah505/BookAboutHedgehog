@@ -13,24 +13,6 @@ local options13 = { frames = require("animation.sequence13").frames, }
 local options14 = { frames = require("animation.sequence14").frames, }
 
 soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
---[[soundTable = {
-    sound1  = audio.loadSound( "sound/start.mp3" ),
-    sound2  = audio.loadSound( "sound/1.mp3"  ),
-    sound3  = audio.loadSound( "sound/2.mp3"  ),
-    sound4  = audio.loadSound( "sound/3.mp3"  ),
-    sound5  = audio.loadSound( "sound/4.mp3"  ),
-    sound6  = audio.loadSound( "sound/5.mp3"  ),
-    sound7  = audio.loadSound( "sound/6.mp3"  ),
-    sound8  = audio.loadSound( "sound/7.mp3"  ),
-    sound9  = audio.loadSound( "sound/8.mp3"  ),
-    sound10 = audio.loadSound( "sound/9.mp3"  ),
-    sound11 = audio.loadSound( "sound/10.mp3" ),
-    sound12 = audio.loadSound( "sound/11.mp3" ),
-    sound13 = audio.loadSound( "sound/12.mp3" ),
-    sound14 = audio.loadSound( "sound/13.mp3" ),
-    sound15 = audio.loadSound( "sound/14.mp3" ),
-    sound16 = audio.loadSound( "sound/15.mp3" )
-}]]
 soundTable = {}
 
 local backGroup
@@ -303,7 +285,7 @@ function checkChanelSpeak( event )
         --isCheckSoundSpeak = true
         speakGroup:insert( speakSound )
         --isCheckSoundSpeak = true
-        audio.setVolume( 1.0, {channel = soundChanel} )
+        --audio.setVolume( 1.0, {channel = soundChanel} )
     end
 end
 
@@ -315,10 +297,14 @@ function changeSoundSpeak()
         speakSound = display.newImageRect( "slicing/ui/icon_speak_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
         speakSound.anchorX, speakSound.anchorY = 0, 0
         speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
+        
         speakGroup:insert( speakSound )
         --isCheckSoundSpeak = true
         soundChanelSpeak = audio.play( soundTable[--[["sound"..]]countPage], {onComplete=checkChanelSpeak} )
-        audio.setVolume( 0.1, {channel = soundChanel} )
+        --audio.setVolume( 0.1, {channel = soundChanel} )
+        if(countPage ==1 or countPage == 16) then
+            audio.pause(soundChanelSpeak)
+        end
     else
         --onSpeakMute() 
     end
@@ -367,8 +353,11 @@ function onSpeakMute( event )
     soundChanelSpeak = audio.play( soundTable[countPage], {onComplete=checkChanelSpeak} )
     --offMute()
     --audio.pause(soundChanel)
-    audio.setVolume( 0.1, { channel=soundChanel} )
+    --audio.setVolume( 0.1, { channel=soundChanel} )
     --audio.setVolume( 1.0, { channel=soundChanelSpeak} )
+    if(countPage ==1 or countPage == 16) then
+            audio.pause(soundChanelSpeak)
+        end
 end
 
 function offSpeakMute( event )
