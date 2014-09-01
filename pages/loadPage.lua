@@ -22,20 +22,20 @@ local function loadMainPage()
     composer.removeScene("pages.loadPage")
 
 end
-local function bam( ... )
+local function showlogo( ... )
     -- body
     if (newProgressView:getProgress() == 1.0 ) then
         local imagelogo = display.newImageRect("logo.png", h, w )
         imagelogo.anchorX, imagelogo.anchorY = 0, 0
         imagelogo.x, imagelogo.y = 0, 0
         group:insert(imagelogo)
-        timer.performWithDelay(2000, loadMainPage)
+        timer.performWithDelay(3000, loadMainPage)
     end
 end
 local function updateProgressBar(value)
     newProgressView:setProgress(value)
     if (newProgressView:getProgress() == 1.0 ) then
-        timer.performWithDelay(500, bam)
+        timer.performWithDelay(500, showlogo)
     end
 end
 local function blockBC()
@@ -55,7 +55,7 @@ local function blockBB()
     sheet91 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=539, height=512, numFrames=3 } )
     sheet92 = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=539, height=512, numFrames=3 } )
     sheet6 = graphics.newImageSheet( "animation/animation_7.png", options6 )
-    updateProgressBar(0.9)
+    --updateProgressBar(0.9)
     timer.performWithDelay(500, blockBC)
 end
 local function blockB()
@@ -66,7 +66,7 @@ local function blockB()
     sheet33 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
     sheet4 = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=4 } )
     sheet5 = graphics.newImageSheet( "animation/animation_6.png", options5 )
-    updateProgressBar(0.7)
+    --updateProgressBar(0.7)
     timer.performWithDelay(500, blockBB)
 end
 local function blockAC()
@@ -77,7 +77,7 @@ local function blockAC()
     table.insert(soundTable, audio.loadSound( "sound/13.mp3" ))
     table.insert(soundTable, audio.loadSound( "sound/14.mp3" ))
     table.insert(soundTable, audio.loadSound( "sound/15.mp3" ))
-    updateProgressBar(0.9)
+    updateProgressBar(0.99)
     timer.performWithDelay(500, blockB)
 end
 local function blockAB()
