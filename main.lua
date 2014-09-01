@@ -25,6 +25,7 @@ crY = 1
 
 isCheckSound = true
 isCheckSoundSpeak = false
+checkMaiPage = true
 
 countPage = 1
 countTextImage = 2
