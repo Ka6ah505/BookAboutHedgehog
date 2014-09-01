@@ -8,7 +8,7 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 -- local forward references should go here
-local newProgressView
+local newProgressView, imagelogo
 local options5 = { frames = require("animation.sequence6").frames, }
 local options6 = { frames = require("animation.sequence7").frames, }
 local options10 = { frames = require("animation.sequence10").frames, }
@@ -20,16 +20,17 @@ local function loadMainPage()
     -- body
     composer.gotoScene("pages.mainPage")
     composer.removeScene("pages.loadPage")
-
 end
-local function showlogo( ... )
+local function showlogo()
     -- body
     if (newProgressView:getProgress() == 1.0 ) then
-        local imagelogo = display.newImageRect("logo.png", h, w )
+        imagelogo = display.newImageRect("logo.png", h, w )
         imagelogo.anchorX, imagelogo.anchorY = 0, 0
         imagelogo.x, imagelogo.y = 0, 0
+        imagelogo.alpha = 0
+        transition.fadeIn( imagelogo, { time=1500 } )
         group:insert(imagelogo)
-        timer.performWithDelay(3000, loadMainPage)
+        timer.performWithDelay( 4500, loadMainPage )
     end
 end
 local function updateProgressBar(value)

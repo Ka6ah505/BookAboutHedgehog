@@ -10,7 +10,7 @@ local scene = composer.newScene()
 -- local forward references should go here
 local textGroup
 local image
-local sheetImage, instance, moveTimer
+local sheetImage, instance, moveTimer, moveTimer1
 local imageMask, xMaskScale, yMaskScale
 local scaleEzik
 -- -------------------------------------------------------------------------------
@@ -38,17 +38,25 @@ end
 local function update( event )
     -- body
     instance.x = instance.x - 3
-    instance1.x = instance1.x + 6
-    instance1.y = instance1.y - 0.7
     if instance.x < -220 then
         print("pause")
         instance.x = w+220
     end
+end
+
+local function update1()
+    -- body
+    instance1.x = instance1.x + 3
+    instance1.y = instance1.y - 0.4
     if instance1.x > crW+220 then
-        print("pause")
         instance1.x = -220
         instance1.y = display.contentHeight - display.contentHeight/4
     end
+end
+
+local function preUpdate()
+    -- body
+    moveTimer1 = timer.performWithDelay(20, update1, 0)
 end
 
 local function onPageSwap( event )
@@ -101,6 +109,7 @@ function scene:create( event )
 
     createAnimation()
     moveTimer = timer.performWithDelay(20, update, 0)
+    timer.performWithDelay(2000, preUpdate, 1)
 end
 
 
