@@ -9,7 +9,7 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 progressView = nil
-local imagelogo
+local splash, backgroundLogo
 -- -------------------------------------------------------------------------------
 
 -- "scene:create()"
@@ -22,14 +22,6 @@ function scene:create( event )
     rectSound.isVisible = true
     titles.isVisible = true
 
-    if(checkMaiPage) then
-        imagelogo = display.newImageRect("logo.png", h, w )
-        imagelogo.anchorX, imagelogo.anchorY = 0, 0
-        imagelogo.x, imagelogo.y = 0, 0
-        transition.fadeOut( imagelogo, { time=1500 } )
-        checkMaiPage = false
-    end
-
     local image = display.newImageRect( "images/1.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
@@ -37,6 +29,22 @@ function scene:create( event )
     --audio.pause( soundChanel )
     countPage = 1
     countTextImage = 2
+
+    --[[if(checkMaiPage) then
+        backgroundLogo = display.newImageRect("logo.png", h, w )
+        backgroundLogo.anchorX, backgroundLogo.anchorY = 0, 0
+        backgroundLogo.x, backgroundLogo.y = 0, 0
+        group:insert(backgroundLogo)
+
+        splash = display.newImageRect("slicing/ui/splash.png", w/2, w/12 )
+        splash.anchorX, splash.anchorY = 0.5, 0.5
+        splash.x, splash.y = h/2, w/2
+        transition.fadeOut( splash, { time=2500 } )
+        group:insert(splash)
+        checkMaiPage = false
+
+        timer.performWithDelay(10000, group[2]:removeSelf(), 1)
+    end]]
 end
 
 

@@ -8,29 +8,39 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 -- local forward references should go here
-local newProgressView, imagelogo
+local newProgressView, backgroundLogo, splash
 local options5 = { frames = require("animation.sequence6").frames, }
 local options6 = { frames = require("animation.sequence7").frames, }
 local options10 = { frames = require("animation.sequence10").frames, }
 local options13 = { frames = require("animation.sequence13").frames, }
 local options14 = { frames = require("animation.sequence14").frames, }
-
 -- -------------------------------------------------------------------------------
 local function loadMainPage()
     -- body
     composer.gotoScene("pages.mainPage")
     composer.removeScene("pages.loadPage")
 end
+local function ds( ... )
+    -- body
+    transition.fadeOut( splash, { time=2500 } )
+end
 local function showlogo()
     -- body
     if (newProgressView:getProgress() == 1.0 ) then
-        imagelogo = display.newImageRect("logo.png", h, w )
-        imagelogo.anchorX, imagelogo.anchorY = 0, 0
-        imagelogo.x, imagelogo.y = 0, 0
-        imagelogo.alpha = 0
-        transition.fadeIn( imagelogo, { time=1500 } )
-        group:insert(imagelogo)
-        timer.performWithDelay( 4500, loadMainPage )
+        backgroundLogo = display.newImageRect("logo.png", h, w )
+        backgroundLogo.anchorX, backgroundLogo.anchorY = 0, 0
+        backgroundLogo.x, backgroundLogo.y = 0, 0
+        backgroundLogo.alpha = 1
+        group:insert(backgroundLogo)
+
+        splash = display.newImageRect("slicing/ui/splash.png", w/2, w/12 )
+        splash.anchorX, splash.anchorY = 0.5, 0.5
+        splash.x, splash.y = h/2, w/2
+        splash.alpha = 0
+        transition.fadeIn( splash, { time=2500 } )
+        group:insert(splash)
+        timer.performWithDelay( 3500, ds, 1)
+        timer.performWithDelay( 7000, loadMainPage )
     end
 end
 local function updateProgressBar(value)
