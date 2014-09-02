@@ -26,7 +26,7 @@ function createAnimation()
     group:insert( instance )
 
     instance1 = display.newSprite( sheet81, { name="ezik", start=1, count=2, time=1000 } )
-    instance1.x = -220
+    instance1.x = -820
     instance1.y = display.contentHeight - display.contentHeight/4
     instance1.xScale = scaleEzik
     instance1.yScale = scaleEzik
@@ -52,11 +52,6 @@ local function update1()
         instance1.x = -220
         instance1.y = display.contentHeight - display.contentHeight/4
     end
-end
-
-local function preUpdate()
-    -- body
-    moveTimer1 = timer.performWithDelay(20, update1, 0)
 end
 
 local function onPageSwap( event )
@@ -109,7 +104,7 @@ function scene:create( event )
 
     createAnimation()
     moveTimer = timer.performWithDelay(20, update, 0)
-    timer.performWithDelay(2000, preUpdate, 1)
+    moveTimer1 = timer.performWithDelay(20, update1, 0)
 end
 
 

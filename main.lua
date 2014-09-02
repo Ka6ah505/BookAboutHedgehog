@@ -25,7 +25,6 @@ crY = 1
 
 isCheckSound = true
 isCheckSoundSpeak = false
-checkMaiPage = true
 
 countPage = 1
 countTextImage = 2
@@ -369,7 +368,7 @@ function offSpeakMute( event )
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
     audio.stop( soundChanelSpeak )
-    audio.setVolume( 1.0, { channel=soundChanel} )
+    --audio.setVolume( 1.0, { channel=soundChanel} )
     --onMute()
     --audio.resume(soundChanel)
 end
@@ -414,4 +413,16 @@ function Main()
 end
 
 Main()
+
+local monitorMem = function()
+
+    collectgarbage()
+    print( "MemUsage: " .. collectgarbage("count")/1000 )
+    collectgarbage("collect")
+    local textMem = system.getInfo( "textureMemoryUsed" ) / 1000000
+    print( "TexMem:   " .. textMem )
+    collectgarbage("collect")
+end
+
+Runtime:addEventListener( "enterFrame", monitorMem )
 
