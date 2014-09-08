@@ -12,7 +12,8 @@ local options10 = { frames = require("animation.sequence10").frames, }
 local options13 = { frames = require("animation.sequence13").frames, }
 local options14 = { frames = require("animation.sequence14").frames, }
 
-soundBackdround = audio.loadSound( "sound/SoundBackground.mp3" )
+soundBackdroundForStartAndEndPage = nil
+soundBackdroundForAnyPage = nil
 soundTable = {}
 
 local backGroup
@@ -35,8 +36,6 @@ h = display.actualContentHeight
 print(w..";"..h)
 
 Main = {}
---loadImageSheet = {}
---loadSoundTable = {}
 layoutComponent = {}
 createButton = {}
 buttonHandler = {}
@@ -282,10 +281,7 @@ function checkChanelSpeak( event )
         speakSound = display.newImageRect( "slicing/ui/icon_speak_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
         speakSound.anchorX, speakSound.anchorY = 0, 0
         speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
-        --isCheckSoundSpeak = true
         speakGroup:insert( speakSound )
-        --isCheckSoundSpeak = true
-        --audio.setVolume( 1.0, {channel = soundChanel} )
     end
 end
 
@@ -299,16 +295,29 @@ function changeSoundSpeak()
         speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
         
         speakGroup:insert( speakSound )
-        --isCheckSoundSpeak = true
-        soundChanelSpeak = audio.play( soundTable[--[["sound"..]]countPage], {onComplete=checkChanelSpeak} )
-        --audio.setVolume( 0.1, {channel = soundChanel} )
+        soundChanelSpeak = audio.play( soundTable[countPage], {onComplete=checkChanelSpeak} )
         if(countPage ==1 or countPage == 16) then
             audio.pause(soundChanelSpeak)
         end
-    else
-        --onSpeakMute() 
     end
 end
+
+function changeSoundBackground()
+    -- body
+    print("YO!")
+    if isCheckSound == true then
+        if countPage == 1 or countPage == 16 then
+            audio.pause(soundBackdroundForAnyPage)
+            audio.resume(soundBackdroundForStartAndEndPage)
+        else
+            audio.pause(soundBackdroundForStartAndEndPage)
+            audio.resume(soundBackdroundForAnyPage)
+        end
+    end
+end
+
+--Runtime:addEventListener( "audio", changeSoundBackground )
+
 
 function offMute( event )
     -- body
@@ -316,7 +325,11 @@ function offMute( event )
     rectSound = display.newImageRect( "slicing/ui/icon_music_off.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
     rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
     isCheckSound = false
-    audio.pause( soundChanel )
+    if countPage == 1 or countPage == 16 then
+        audio.pause( soundBackdroundForStartAndEndPage )
+    else
+        audio.pause( soundBackdroundForAnyPage )
+    end
     soundGroup:insert( rectSound )
 end
 
@@ -326,7 +339,11 @@ function onMute( event )
     rectSound = display.newImageRect( "slicing/ui/icon_music_on.png", display.contentHeight/arrowWidth, display.contentHeight/arrowWidth )
     rectSound.x, rectSound.y = rightRect.width+leftRect.width/2-display.contentWidth/18, leftRect.contentHeight/1.7
     isCheckSound = true
-    audio.resume( soundChanel )
+    if countPage == 1 or countPage == 16 then
+        audio.resume( soundBackdroundForStartAndEndPage )
+    else
+        audio.resume( soundBackdroundForAnyPage )
+    end
     soundGroup:insert( rectSound )
 end
 
@@ -351,10 +368,6 @@ function onSpeakMute( event )
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
     soundChanelSpeak = audio.play( soundTable[countPage], {onComplete=checkChanelSpeak} )
-    --offMute()
-    --audio.pause(soundChanel)
-    --audio.setVolume( 0.1, { channel=soundChanel} )
-    --audio.setVolume( 1.0, { channel=soundChanelSpeak} )
     if(countPage ==1 or countPage == 16) then
             audio.pause(soundChanelSpeak)
         end
@@ -368,9 +381,6 @@ function offSpeakMute( event )
     speakSound.x, speakSound.y = rightRect.width+leftRect.width/2 + display.contentWidth/26, leftRect.contentHeight/1.8
     speakGroup:insert( speakSound )
     audio.stop( soundChanelSpeak )
-    --audio.setVolume( 1.0, { channel=soundChanel} )
-    --onMute()
-    --audio.resume(soundChanel)
 end
 
 function speakText( event )
@@ -378,11 +388,9 @@ function speakText( event )
     if event.phase == "ended" then
         if isCheckSoundSpeak == true then
             onSpeakMute()
-            --offSpeakMute()
             isCheckSoundSpeak = false
         elseif isCheckSoundSpeak == false then
             offSpeakMute()
-            --onSpeakMute()
             isCheckSoundSpeak = true
         end
     end
@@ -409,13 +417,11 @@ function Main()
     speakGroup:addEventListener( "touch", speakText )
     soundGroup:addEventListener( "touch", soundMute )
     composer.gotoScene( "pages.loadPage" )
-    
 end
 
 Main()
-
+Runtime:addEventListener( "enterFrame", changeSoundBackground )
 local monitorMem = function()
-
     collectgarbage()
     print( "MemUsage: " .. collectgarbage("count")/1000 )
     collectgarbage("collect")
@@ -424,5 +430,5 @@ local monitorMem = function()
     collectgarbage("collect")
 end
 
-Runtime:addEventListener( "enterFrame", monitorMem )
+--Runtime:addEventListener( "enterFrame", monitorMem )
 

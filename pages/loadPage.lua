@@ -78,7 +78,7 @@ local function blockB()
     sheet4 = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=512, height=558, numFrames=4 } )
     sheet5 = graphics.newImageSheet( "animation/animation_6.png", options5 )
     --updateProgressBar(0.7)
-    timer.performWithDelay(500, blockBB)
+    timer.performWithDelay(500, blockBB )
 end
 local function blockAC()
     
@@ -88,8 +88,9 @@ local function blockAC()
     table.insert(soundTable, audio.loadSound( "sound/13.mp3" ))
     table.insert(soundTable, audio.loadSound( "sound/14.mp3" ))
     table.insert(soundTable, audio.loadSound( "sound/15.mp3" ))
+    table.insert(soundTable, audio.loadSound("sound/SoundBackground.mp3"))
     updateProgressBar(0.99)
-    timer.performWithDelay(500, blockB)
+    timer.performWithDelay(500, blockB )
 end
 local function blockAB()
     -- body
@@ -214,9 +215,11 @@ function scene:destroy( event )
     group:remove()
     soundChanelSpeak = audio.play( soundTable[1], {onComplete=checkChanelSpeak} )
     audio.pause( soundChanelSpeak ) 
-    --onSpeakMute()
-    soundChanel = audio.play( soundBackdround, {loops = -1} )
-    audio.setVolume( 0.1, {channel = soundChanel} )
+
+    soundBackdroundForStartAndEndPage = audio.play( soundTable[1], {loops = -1} )
+
+    soundBackdroundForAnyPage = audio.play( soundTable[17], {loops = -1} )
+    audio.pause(soundBackdroundForAnyPage)
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
