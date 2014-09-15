@@ -56,17 +56,26 @@ function isCheckPage()
         buttonStart.isVisible = false
         arrowNext.isVisible = true
         arrowBack.isVisible = true
-        inStart.isVisible = true 
+        inStart.isVisible = true
+        aboutBook.isVisible = false 
+        rectSound.isVisible = true
+        speakSound.isVisible = true
     elseif countPage == 2 then
         buttonStart.isVisible = false
         arrowNext.isVisible = true
         arrowBack.isVisible = false
         inStart.isVisible = true  
+        aboutBook.isVisible = false
+        rectSound.isVisible = true
+        speakSound.isVisible = true
     elseif countPage == 16 then
         buttonStart.isVisible = false
         arrowNext.isVisible = false
         arrowBack.isVisible = true
-        inStart.isVisible = true   
+        inStart.isVisible = true  
+        aboutBook.isVisible = true 
+        rectSound.isVisible = true
+        speakSound.isVisible = true     
     elseif countPage == 1 then
         if isCheckSound then
             onMute()
@@ -75,6 +84,9 @@ function isCheckPage()
         arrowNext.isVisible = false
         arrowBack.isVisible = false
         inStart.isVisible = false 
+        aboutBook.isVisible = false
+        rectSound.isVisible = true
+        speakSound.isVisible = true
     end
 end
 
@@ -98,7 +110,18 @@ function layoutText( sceneGroup )
 		defaultFile = "slicing/ui/text_start.png",
 		onEvent = buttonHandler
 	}
-	inStart.isVisible = false
+    inStart.isVisible = false
+
+    aboutBook = widget.newButton {
+        id = "about",
+        x = rightRect.width + leftRect.width/2,
+        y = leftRect.contentHeight - leftRect.contentHeight/2.7,
+        width = display.contentWidth/14,
+        height = display.contentHeight/30,
+        defaultFile = "slicing/ui/about_btn.png",
+        onEvent = buttonHandler
+    }
+    aboutBook.isVisible = false
 end
 
 function layoutComponent()
@@ -227,11 +250,22 @@ function buttonHandler( event )
             arrowBack.isVisible = false
             inStart.isVisible = false
             titles.isVisible = false
+            aboutBook.isVisible = false
             composer.removeScene( "pages.page"..countPage )
-            composer.removeScene ( "pages.mainPage" )
             composer:gotoScene( "pages.titlePage" )
             rectSound.isVisible = false
             speakSound.isVisible = false
+        end
+
+        if event.target.id == "about" then
+            buttonStart.isVisible = false
+            arrowNext.isVisible = false
+            arrowBack.isVisible = false
+            inStart.isVisible = true
+            titles.isVisible = true
+            aboutBook.isVisible = false
+            composer.removeScene( "pages.page"..countPage )
+            composer:gotoScene( "pages.aboutBook" )
         end
     end
 end
@@ -304,7 +338,6 @@ end
 
 function changeSoundBackground()
     -- body
-    print("YO!")
     if isCheckSound == true then
         if countPage == 1 or countPage == 16 then
             audio.pause(soundBackdroundForAnyPage)
@@ -315,9 +348,6 @@ function changeSoundBackground()
         end
     end
 end
-
---Runtime:addEventListener( "audio", changeSoundBackground )
-
 
 function offMute( event )
     -- body

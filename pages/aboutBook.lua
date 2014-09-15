@@ -1,5 +1,4 @@
 local composer = require( "composer" )
-local widget = require( "widget" )
 
 local scene = composer.newScene()
 
@@ -8,69 +7,45 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 -- local forward references should go here
-local imageGroup
-local image
-local vkBtn
+local back
 -- -------------------------------------------------------------------------------
-local function onPageSwap( event )
-    local distance
-    if event.phase == "moved" then       
-    elseif event.phase == "ended" then
-        distance = event.xStart - event.x
-        if distance < -100 and distance < 0 then
-            countPage = 15
-            composer.removeScene( "pages.page16" )
-            composer.gotoScene( "pages.page15", "slideRight", 1500  )
-            changeBackground(false)
-            changeSoundSpeak()
-        end
-        isCheckPage()
-        display.getCurrentStage():setFocus( nil )
-    end
-    return true
-end
-
-local function gotoVK( event )
+local function about( event )
     -- body
     if event.phase == "ended" then
-        if event.target.id == "vk" then
-            system.openURL( "http://vk.com/gleblok" )
-        end
+        composer.removeScene( "pages.aboutBook" )
+        composer.gotoScene( "pages.page16" )
+        rectSound.isVisible = true
+        speakSound.isVisible = true
+        aboutBook.isVisible = true
+        arrowBack.isVisible = true
     end
 end
-
 -- "scene:create()"
 function scene:create( event )
-    print("16: create")
+    print("main: create")
     group = self.view
-    local params = event.params
-    imageGroup = display.newGroup()
 
-    image = display.newImageRect( "images/16.jpg", crW, crH )
-    image.anchorX, image.anchorY = 0, 0
-    image.x, image.y = crX, crY
-    group:insert( image )
+    rectSound.isVisible = false
+    speakSound.isVisible = false
 
-    vkBtn = widget.newButton {
-        id = "vk",
-        x = crW/1.6,
-        y = crH/3+ crH/3,
-        width = crW/1.8,
-        height = crH/8,
-        defaultFile = "slicing/ui/vk_btn.png",
-        label = "",
-        onEvent = gotoVK
-    }
-    group:insert( vkBtn )
+    local img = display.newImageRect( "slicing/ui/text_theend.png", crW, crH )
+    img.anchorX, img.anchorY = 0, 0
+    img.x, img.y = crX, crY
+    group:insert( img )
+
+    back = display.newImageRect( "slicing/ui/back_btn.png", display.contentWidth/14, display.contentHeight/30 )
+    back.x, back.y = rightRect.width+leftRect.width/2, leftRect.contentHeight - leftRect.contentHeight/5.9
+    group:insert( back )
+
+    back:addEventListener( "touch", about )
 end
 
 
 -- "scene:show()"
 function scene:show( event )
-    print("16: show")
+    print("main: show")
     local sceneGroup = self.view
     local phase = event.phase
-    local params = event.params
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen).
@@ -78,14 +53,13 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        image:addEventListener( "touch", onPageSwap )
     end
 end
 
 
 -- "scene:hide()"
 function scene:hide( event )
-    print("16: hide")
+    print("main: hide")
     local sceneGroup = self.view
     local phase = event.phase
 
@@ -101,11 +75,10 @@ end
 
 -- "scene:destroy()"
 function scene:destroy( event )
-    print("16: destroy")
+    print("main: destroy")
     local sceneGroup = self.view
     group:removeSelf()
-    imageGroup:removeSelf()
-    image:removeEventListener( "touch", onPageSwap)
+    back:removeEventListener( "touch", about )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
