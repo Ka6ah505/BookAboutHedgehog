@@ -24,8 +24,8 @@ local function createAnimation()
     instance.anchorX, instance.anchorY = 0, 0
     instance.x = image.width/4
     instance.y = crH/2+crH/6
-    instance.xScale = scaleEzik-0.2
-    instance.yScale = scaleEzik-0.2
+    instance.xScale = (scaleEzik-0.2)*2
+    instance.yScale = (scaleEzik-0.2)*2
     group:insert( instance )
 end
 

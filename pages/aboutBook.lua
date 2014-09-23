@@ -28,12 +28,12 @@ function scene:create( event )
     rectSound.isVisible = false
     speakSound.isVisible = false
 
-    local img = display.newImageRect( "slicing/ui/text_theend.png", crW, crH )
+    local img = display.newImageRect( "slicing/ui/text_theend.png", crW+20, crH+20 )
     img.anchorX, img.anchorY = 0, 0
     img.x, img.y = crX, crY
     group:insert( img )
 
-    back = display.newImageRect( "slicing/ui/back_btn.png", display.contentWidth/14, display.contentHeight/30 )
+    back = display.newImageRect( "slicing/ui/back_btn.png", display.contentWidth/15, display.contentHeight/30 )
     back.x, back.y = rightRect.width+leftRect.width/2, leftRect.contentHeight - leftRect.contentHeight/5.9
     group:insert( back )
 

@@ -62,6 +62,7 @@ function scene:create( event )
         onEvent = gotoVK
     }
     group:insert( vkBtn )
+    transition.blink(vkBtn, {time = 2000})
 end
 
 

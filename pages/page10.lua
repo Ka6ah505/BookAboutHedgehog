@@ -10,25 +10,24 @@ local scene = composer.newScene()
 -- local forward references should go here
 local textGroup
 local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
+local image
 local sheetImage, instance, scaleEzi, instance1
 -- -------------------------------------------------------------------------------
 
 function createAnimation()
     -- body
     instance = display.newSprite( sheet101, { name="ezik", start=1, count=5, time=1000, loopDirection = "bounce" } )
-    instance.anchorX, instance.anchorY = 0, 0
-    instance.x = crX
-    instance.y = crY
+    instance.anchorX, instance.anchorY = 0.6, 0.3
+    instance.x = crW
+    instance.y = image.height/2
     instance.xScale = scaleEzik*2
     instance.yScale = scaleEzik*2
     group:insert( instance )
 
     instance1 = display.newSprite( sheet102, { name="ezik", start=1, count=10, time=4000 } )
-    instance1.anchorX, instance1.anchorY = 0, 0
+    instance1.anchorX, instance1.anchorY = 0, 1
     instance1.x = crX
-    instance1.y = crY
+    instance1.y = crH
     instance1.xScale = scaleEzik*2
     instance1.yScale = scaleEzik*2
     group:insert( instance1 )

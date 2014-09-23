@@ -21,15 +21,15 @@ function createAnimation()
     instance = display.newSprite( sheet8, { name="ezik", start=1, count=2, time=1000 } )
     instance.x = w + 220
     instance.y = display.contentHeight/2 + 20
-    instance.xScale = scaleEzik
-    instance.yScale = scaleEzik
+    instance.xScale = scaleEzik*2
+    instance.yScale = scaleEzik*2
     group:insert( instance )
 
     instance1 = display.newSprite( sheet81, { name="ezik", start=1, count=2, time=1000 } )
     instance1.x = -820
     instance1.y = display.contentHeight - display.contentHeight/4
-    instance1.xScale = scaleEzik
-    instance1.yScale = scaleEzik
+    instance1.xScale = scaleEzik*2
+    instance1.yScale = scaleEzik*2
     instance1:scale(-1, 1)
     group:insert( instance1 )
 

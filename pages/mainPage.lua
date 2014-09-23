@@ -26,25 +26,8 @@ function scene:create( event )
     image.anchorX, image.anchorY = 0, 0
     image.x, image.y = crX, crY
     group:insert( image )
-    --audio.pause( soundChanel )
     countPage = 1
     countTextImage = 2
-
-    --[[if(checkMaiPage) then
-        backgroundLogo = display.newImageRect("logo.png", h, w )
-        backgroundLogo.anchorX, backgroundLogo.anchorY = 0, 0
-        backgroundLogo.x, backgroundLogo.y = 0, 0
-        group:insert(backgroundLogo)
-
-        splash = display.newImageRect("slicing/ui/splash.png", w/2, w/12 )
-        splash.anchorX, splash.anchorY = 0.5, 0.5
-        splash.x, splash.y = h/2, w/2
-        transition.fadeOut( splash, { time=2500 } )
-        group:insert(splash)
-        checkMaiPage = false
-
-        timer.performWithDelay(10000, group[2]:removeSelf(), 1)
-    end]]
 end
 
 

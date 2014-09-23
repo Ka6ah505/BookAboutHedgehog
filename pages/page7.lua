@@ -20,8 +20,8 @@ function createAnimation()
     instance.anchorX, instance.anchorY = 0, 0
     instance.x = 20
     instance.y = 20
-    instance.xScale = scaleEzik
-    instance.yScale = scaleEzik
+    instance.xScale = scaleEzik*2
+    instance.yScale = scaleEzik*2
     group:insert( instance )
 end
 

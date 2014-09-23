@@ -115,7 +115,7 @@ function layoutText( sceneGroup )
     aboutBook = widget.newButton {
         id = "about",
         x = rightRect.width + leftRect.width/2,
-        y = leftRect.contentHeight - leftRect.contentHeight/2.7,
+        y = leftRect.contentHeight - leftRect.contentHeight/5.9,--w - w/9,--leftRect.contentHeight/4 - leftRect.contentHeight/2.7,
         width = display.contentWidth/14,
         height = display.contentHeight/30,
         defaultFile = "slicing/ui/about_btn.png",
@@ -460,5 +460,5 @@ local monitorMem = function()
     collectgarbage("collect")
 end
 
---Runtime:addEventListener( "enterFrame", monitorMem )
+Runtime:addEventListener( "enterFrame", monitorMem )
 

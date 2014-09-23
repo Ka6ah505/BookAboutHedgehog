@@ -20,8 +20,8 @@ local function createAnimation()
     instance = display.newSprite( sheet31, { name="door1", start=1, count=3, time=2500 } )
     instance.x, instance.y = crX, crY
     instance.anchorX, instance.anchorY = 0, 0
-    instance.xScale = w/1200-0.1
-    instance.yScale = w/1200
+    instance.xScale = (w/1200-0.1)*2
+    instance.yScale = (w/1200)*2
     group:insert( instance )
 
     --sheetImage1 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
@@ -29,8 +29,8 @@ local function createAnimation()
     instance1 = display.newSprite( sheet32, { name="door1", start=1, count=3, time=3500 } )
     instance1.x, instance1.y = crX+30, crY
     instance1.anchorX, instance1.anchorY = 0, 0
-    instance1.xScale = w/1200-0.1
-    instance1.yScale = w/1200
+    instance1.xScale = (w/1200-0.1)*2
+    instance1.yScale = (w/1200)*2
     group:insert( instance1 )
 
     --sheetImage2 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=1200, height=1139, numFrames=3 } )
@@ -38,8 +38,8 @@ local function createAnimation()
     instance2 = display.newSprite( sheet33, { name="door3", start=1, count=3, time=4500 } )
     instance2.x, instance2.y = crX+30, crY
     instance2.anchorX, instance2.anchorY = 0, 0
-    instance2.xScale = w/1200-0.1
-    instance2.yScale = w/1200
+    instance2.xScale = (w/1200-0.1)*2
+    instance2.yScale = (w/1200)*2
     group:insert( instance2 )
 end
 
