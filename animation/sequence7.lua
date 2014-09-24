@@ -4,26 +4,26 @@ sheetData.frames = {
     {
         x = 0,
         y = 0,
-        width = 539,
-        height = 256,
+        width = 290,
+        height = 195,
     },
     {
-        x = 539,
+        x = 290,
         y = 0,
-        width = 539,
-        height = 256,
+        width = 290,
+        height = 195,
     },
     {
         x = 0,
-        y = 256,
-        width = 539,
-        height =256,
+        y = 195,
+        width = 290,
+        height =195,
     },
     {
-        x = 539,
-        y = 256,
-        width = 539,
-        height =256,
+        x = 290,
+        y = 195,
+        width = 290,
+        height =195,
     },
 }
 return sheetData

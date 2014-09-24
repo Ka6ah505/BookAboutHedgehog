@@ -18,8 +18,8 @@ local sheetImage, instance, scaleEzik
 function createAnimation()
     -- body
     instance = display.newSprite( sheet15, { name="ezik", start=1, count=4, time=6000, loopCount = 1 } )
-    instance.anchorX, instance.anchorY = 0, 0
-    instance.x = crX
+    instance.anchorX, instance.anchorY = 1, 0
+    instance.x = crW+crX
     instance.y = crY
     instance.xScale = scaleEzik*2
     instance.yScale = scaleEzik*2

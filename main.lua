@@ -116,8 +116,8 @@ function layoutText( sceneGroup )
         id = "about",
         x = rightRect.width + leftRect.width/2,
         y = leftRect.contentHeight - leftRect.contentHeight/5.9,--w - w/9,--leftRect.contentHeight/4 - leftRect.contentHeight/2.7,
-        width = display.contentWidth/14,
-        height = display.contentHeight/30,
+        width = display.contentWidth/16,
+        height = display.contentHeight/31,
         defaultFile = "slicing/ui/about_btn.png",
         onEvent = buttonHandler
     }
@@ -458,6 +458,8 @@ local monitorMem = function()
     local textMem = system.getInfo( "textureMemoryUsed" ) / 1000000
     print( "TexMem:   " .. textMem )
     collectgarbage("collect")
+
+    --print(system.getInfo("model"))
 end
 
 Runtime:addEventListener( "enterFrame", monitorMem )

@@ -55,7 +55,7 @@ local function blockBC()
     sheet102 = graphics.newImageSheet( "animation/animation_10_2.png", options10 )
     sheet13 = graphics.newImageSheet( "animation/animation_13.png", options13 )
     sheet14 = graphics.newImageSheet( "animation/animation_14.png", options14 )
-    sheet15 = graphics.newImageSheet( "animation/animation_15.png", { x=0, y=0, width=540, height=512, numFrames=4 } ) 
+    sheet15 = graphics.newImageSheet( "animation/animation_15.png", { x=0, y=0, width=362.5, height=440, numFrames=4 } ) 
 end
 
 local function blockBB()
@@ -70,10 +70,10 @@ local function blockBB()
 end
 local function blockB()
     -- body    
-    sheet1 = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=268, height=110, numFrames=3 } )
-    sheet31 = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=600, height=570, numFrames=3 } )
-    sheet32 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=600, height=570, numFrames=3 } )
-    sheet33 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=600, height=570, numFrames=3 } )
+    --sheet1 = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=268, height=110, numFrames=3 } )
+    sheet31 = graphics.newImageSheet( "animation/animation_4.png", { x=0, y=0, width=130, height=570, numFrames=3 } )
+    sheet32 = graphics.newImageSheet( "animation/animation_4-2.png", { x=0, y=0, width=230, height=440, numFrames=3 } )
+    sheet33 = graphics.newImageSheet( "animation/animation_4-3.png", { x=0, y=0, width=330, height=370, numFrames=3 } )
     sheet4 = graphics.newImageSheet( "animation/animation_5.png", { x=0, y=0, width=256, height=279, numFrames=4 } )
     sheet5 = graphics.newImageSheet( "animation/animation_6.png", options5 )
     --updateProgressBar(0.7)
@@ -128,11 +128,23 @@ function scene:create( event )
     titles.isVisible = false
     inStart.isVisible = false 
 
-    local loader = display.newImageRect( "loader.png", w/3, w/4 )
-    loader.anchorX, loader.anchorY = 0.5, 0.5
-    loader.x, loader.y = h/2, w/2
-    group:insert(loader)
+    sheet1 = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=268, height=110, numFrames=3 } )
 
+    local loader = display.newImageRect( "loader.png", w/3, w/10 )
+    loader.anchorX, loader.anchorY = 0.5, 0
+    loader.x, loader.y = h/2, w/2+w/10
+    group:insert(loader)
+    -------------------------------------------------
+    local scaleEzik = w/1024
+    local instance = display.newSprite( sheet1, { name="ezik", start=1, count=3, time=500 } )
+    instance.anchorX, instance.anchorY = 0.5, 0.5
+    instance.x = h/2
+    instance.y = w/2
+    instance.xScale = scaleEzik*2
+    instance.yScale = scaleEzik*2
+    group:insert( instance )
+    instance:play()
+--------------------------------------------------
     local options = {
         width = 16,
         height = 16,

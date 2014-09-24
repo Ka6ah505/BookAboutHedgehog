@@ -33,7 +33,7 @@ function scene:create( event )
     img.x, img.y = crX, crY
     group:insert( img )
 
-    back = display.newImageRect( "slicing/ui/back_btn.png", display.contentWidth/15, display.contentHeight/30 )
+    back = display.newImageRect( "slicing/ui/back_btn.png", display.contentWidth/16, display.contentHeight/33 )
     back.x, back.y = rightRect.width+leftRect.width/2, leftRect.contentHeight - leftRect.contentHeight/5.9
     group:insert( back )
 
@@ -48,11 +48,7 @@ function scene:show( event )
     local phase = event.phase
 
     if ( phase == "will" ) then
-        -- Called when the scene is still off screen (but is about to come on screen).
     elseif ( phase == "did" ) then
-        -- Called when the scene is now on screen.
-        -- Insert code here to make the scene come alive.
-        -- Example: start timers, begin animation, play audio, etc.
     end
 end
 
@@ -64,11 +60,7 @@ function scene:hide( event )
     local phase = event.phase
 
     if ( phase == "will" ) then
-        -- Called when the scene is on screen (but is about to go off screen).
-        -- Insert code here to "pause" the scene.
-        -- Example: stop timers, stop animation, stop audio, etc.
     elseif ( phase == "did" ) then
-        -- Called immediately after scene goes off screen.
     end
 end
 
@@ -77,11 +69,8 @@ end
 function scene:destroy( event )
     print("main: destroy")
     local sceneGroup = self.view
-    group:removeSelf()
     back:removeEventListener( "touch", about )
-    -- Called prior to the removal of scene's view ("sceneGroup").
-    -- Insert code here to clean up the scene.
-    -- Example: remove display objects, save state, etc.
+    group:removeSelf()
 end
 
 -- -------------------------------------------------------------------------------
