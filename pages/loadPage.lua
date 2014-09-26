@@ -155,9 +155,9 @@ function scene:create( event )
     -- Create the widget
     newProgressView = widget.newProgressView
     {
-        left = h/2-200,
-        top = h/2-30,
-        width = 400,
+        left = h/2-w/4,
+        top = w/2+w/4,--h/2-30,
+        width = w/2,
         sheet = progressSheet,
         fillOuterLeftFrame = 1,
         fillOuterMiddleFrame = 2,

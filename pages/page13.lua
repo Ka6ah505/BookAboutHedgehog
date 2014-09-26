@@ -17,10 +17,10 @@ local instance, scaleEzik
 
 function createAnimation()
     -- body
-    instance = display.newSprite( sheet13, { name="ezik", start=1, count=8, time=5000 } )
-    instance.anchorX, instance.anchorY = 0, 1
-    instance.x = crX
-    instance.y = image.height
+    instance = display.newSprite( sheet13, { name="ezik", start=1, count=8, time=10000 } )
+    instance.anchorX, instance.anchorY = 1, 1
+    instance.x = image.width
+    instance.y = image.height-20
     instance.xScale = scaleEzik*2
     instance.yScale = scaleEzik*2
     group:insert( instance )
@@ -58,7 +58,7 @@ function scene:create( event )
     textGroup = display.newGroup()
     imageGroup = display.newGroup()
 
-    scaleEzik = w/1150
+    scaleEzik = w/1124--w/1150
 
     image = display.newImageRect( "images/13.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
