@@ -11,7 +11,6 @@ local scene = composer.newScene()
 local textGroup
 local imageGroup
 local image, chat
-local soundBackdround1, soundChanel1
 local ezik, _timer
 local bamm = true
 -- -------------------------------------------------------------------------------

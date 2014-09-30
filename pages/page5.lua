@@ -68,7 +68,7 @@ function scene:create( event )
     group = self.view
     textGroup = display.newGroup()
         
-    xMaskScale, yMaskScale, scaleEzik = w/118-0.1, h/118, w/1024
+    xMaskScale, yMaskScale, scaleEzik = w/118-0.1, h/118-0.1, w/1024
 
     image = display.newImageRect( "images/5.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0

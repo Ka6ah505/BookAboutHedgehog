@@ -9,9 +9,7 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
+local image
 local sheetImage, instance, scaleEzik
 -- -------------------------------------------------------------------------------
 

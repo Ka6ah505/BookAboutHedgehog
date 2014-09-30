@@ -9,9 +9,7 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
+local image
 local instance, scaleEzik
 -- -------------------------------------------------------------------------------
 
@@ -54,9 +52,7 @@ end
 function scene:create( event )
     print("13: create")
     group = self.view
-    local params = event.params
     textGroup = display.newGroup()
-    imageGroup = display.newGroup()
 
     scaleEzik = w/1124--w/1150
 
@@ -78,7 +74,6 @@ function scene:show( event )
     print("13: show")
     local sceneGroup = self.view
     local phase = event.phase
-    local params = event.params
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen).
@@ -111,8 +106,6 @@ end
 -- "scene:destroy()"
 function scene:destroy( event )
     print("13: destroy")
-    local sceneGroup = self.view
-    imageGroup:removeSelf()
     textGroup:removeSelf()
     group:removeSelf()
     image:removeEventListener( "touch", onPageSwap )

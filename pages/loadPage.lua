@@ -62,7 +62,6 @@ local function blockBB()
     -- body
     sheet6 = graphics.newImageSheet( "animation/animation_7.png", options6 )
     sheet8 = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=217, height=43, numFrames=2 } )
-    sheet81 = graphics.newImageSheet( "animation/animation_8_1.png", { x=0, y=0, width=217, height=43, numFrames=2 } )
     sheet91 = graphics.newImageSheet( "animation/animation_9_12.png", { x=0, y=0, width=539, height=512, numFrames=3 } )
     sheet92 = graphics.newImageSheet( "animation/animation_9.png", { x=0, y=0, width=539, height=512, numFrames=3 } )
     --updateProgressBar(0.9)

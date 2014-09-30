@@ -218,7 +218,6 @@ function buttonHandler( event )
             composer.loadScene("pages.page"..countPage)
             composer.gotoScene( "pages.page"..countPage, "slideLeft", 1500 )
             print("Lua memory size, Kb = "..gcinfo())
-            print(countPage)
             changeBackground(true)
             changeSoundSpeak()
             isCheckPage()
@@ -229,7 +228,6 @@ function buttonHandler( event )
             countPage = countPage - 1 
             composer.gotoScene( "pages.page"..countPage, "slideRight", 1500 )
             print("Lua memory size, Kb = "..gcinfo())
-            print(countPage)
             changeBackground(false)
             changeSoundSpeak()
             isCheckPage()
@@ -462,5 +460,5 @@ local monitorMem = function()
     --print(system.getInfo("model"))
 end
 
-Runtime:addEventListener( "enterFrame", monitorMem )
+--Runtime:addEventListener( "enterFrame", monitorMem )
 
