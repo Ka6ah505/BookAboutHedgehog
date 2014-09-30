@@ -9,9 +9,7 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
-local soundBackdround1, soundChanel1
+local image
 local moveTimer
 -- -------------------------------------------------------------------------------
 local function onPageSwap( event )
@@ -49,9 +47,7 @@ end]]
 function scene:create( event )
     print("11: create")
     group = self.view
-    local params = event.params
     textGroup = display.newGroup()
-    imageGroup = display.newGroup()
 
     image = display.newImageRect( "images/11.jpg", crW, crH )
     image.anchorX, image.anchorY = 0.5, 0.5
@@ -81,6 +77,8 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         
         image:addEventListener( "touch", onPageSwap )
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -105,11 +103,12 @@ end
 function scene:destroy( event )
     print("11: destroy")
     local sceneGroup = self.view
-    imageGroup:removeSelf()
     textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )
     group:removeSelf()
     timer.cancel( moveTimer )
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

@@ -8,7 +8,6 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 -- local forward references should go here
-local imageGroup
 local image
 local vkBtn
 -- -------------------------------------------------------------------------------
@@ -44,7 +43,6 @@ function scene:create( event )
     print("16: create")
     group = self.view
     local params = event.params
-    imageGroup = display.newGroup()
 
     image = display.newImageRect( "images/16.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
@@ -80,6 +78,8 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -105,8 +105,9 @@ function scene:destroy( event )
     print("16: destroy")
     local sceneGroup = self.view
     group:removeSelf()
-    imageGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap)
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

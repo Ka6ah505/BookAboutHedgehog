@@ -111,6 +111,8 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.      
         image:addEventListener( "touch", onPageSwap )
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -139,6 +141,8 @@ function scene:destroy( event )
     textGroup:removeSelf()
     imageGroup:removeSelf()
     --group:removeSelf()
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     Runtime:removeEventListener( "enterFrame", collection );
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.

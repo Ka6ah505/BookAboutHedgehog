@@ -103,6 +103,8 @@ function scene:show( event )
         instance1:play()
         instance2:play()
         image:addEventListener( "touch", onPageSwap )
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -133,6 +135,8 @@ function scene:destroy( event )
     instance:pause()
     instance1:pause()
     instance2:pause()
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

@@ -86,6 +86,8 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
         instance:play()
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -113,6 +115,8 @@ function scene:destroy( event )
     --group:removeSelf()
     textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

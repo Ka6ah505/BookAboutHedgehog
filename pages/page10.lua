@@ -9,9 +9,8 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
 local image
-local sheetImage, instance, scaleEzi, instance1
+local instance, scaleEzi, instance1
 -- -------------------------------------------------------------------------------
 
 function createAnimation()
@@ -63,7 +62,6 @@ function scene:create( event )
     group = self.view
     local params = event.params
     textGroup = display.newGroup()
-    imageGroup = display.newGroup()
 
     scaleEzik = w/1100
 
@@ -88,17 +86,17 @@ function scene:show( event )
     local params = event.params
 
     if ( phase == "will" ) then
-        print("10: show: will")
         -- Called when the scene is still off screen (but is about to come on screen).
         
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        print("10: show: did")
         instance:play()
         instance1:play()
         image:addEventListener( "touch", onPageSwap )
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -124,9 +122,10 @@ function scene:destroy( event )
     print("10: destroy")
     local sceneGroup = self.view
     group:removeSelf()
-    imageGroup:removeSelf()
     textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

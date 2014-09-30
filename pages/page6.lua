@@ -10,7 +10,7 @@ local scene = composer.newScene()
 -- local forward references should go here
 local textGroup
 local image
-local sheetImage, instance, scaleEzik, sequenceData, _timer
+local instance, scaleEzik, sequenceData, _timer
 -- -------------------------------------------------------------------------------
 local function createAnimation()
     -- body
@@ -95,6 +95,8 @@ function scene:show( event )
         instance:play()
         --_timer = timer.performWithDelay( 2000, swapSheet )
         timer.performWithDelay( 2000, swapSheet )
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -121,6 +123,8 @@ function scene:destroy( event )
     local sceneGroup = self.view
     image:removeEventListener( "touch", onPageSwap )
     textGroup:removeSelf()
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     --timer.cancel( _timer )
     --group:removeSelf()
     -- Called prior to the removal of scene's view ("sceneGroup").

@@ -167,7 +167,7 @@ function createButton()
         defaultFile = "slicing/ui/btn_read_nonpressed.png",
         overFile = "slicing/ui/btn_read_pressed.png",
         label = "",
-        onEvent = buttonHandler
+        onRelease = buttonHandler
     }
     buttonStart.isVisible = true
 
@@ -179,7 +179,7 @@ function createButton()
         height = display.contentWidth/arrowWidth,
         defaultFile = "slicing/ui/btn_next.png",
         overFile = "slicing/ui/btn_next_pressed.png",
-        onEvent = buttonHandler
+        onRelease = buttonHandler
     }
     arrowNext.isVisible = false
 
@@ -191,7 +191,7 @@ function createButton()
         height = display.contentWidth/arrowWidth,
         defaultFile = "slicing/ui/btn_back.png",
         overFile = "slicing/ui/btn_back_pressed.png",
-        onEvent = buttonHandler
+        onRelease = buttonHandler
     }
     arrowBack.isVisible = false
 end

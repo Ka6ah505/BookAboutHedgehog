@@ -10,7 +10,7 @@ local scene = composer.newScene()
 -- local forward references should go here
 local textGroup
 local image
-local sheetImage, instance, moveTimer
+local instance, moveTimer
 local imageMask, xMaskScale, yMaskScale
 local scaleEzik
 -- -------------------------------------------------------------------------------
@@ -30,7 +30,6 @@ local function update( event )
     -- body
     instance.x = instance.x - 3
     if instance.x < -268 then
-        print("pause")
         instance.x = w+268
     end
 end
@@ -96,6 +95,8 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
         instance:play()
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -124,6 +125,8 @@ function scene:destroy( event )
     textGroup:removeSelf()
     group:removeSelf()
     timer.pause( moveTimer )
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.

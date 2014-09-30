@@ -9,8 +9,7 @@ local scene = composer.newScene()
 
 -- local forward references should go here
 local textGroup
-local imageGroup
-local image, chat
+local image
 local ezik, _timer
 local bamm = true
 -- -------------------------------------------------------------------------------
@@ -70,7 +69,6 @@ function scene:create( event )
     group = self.view
     local params = event.params
     textGroup = display.newGroup()
-    imageGroup = display.newGroup()
 
     image = display.newImageRect( "images/12.jpg", crW, crH )
     image.anchorX, image.anchorY = 0, 0
@@ -91,7 +89,6 @@ function scene:show( event )
     print("12: show")
     local sceneGroup = self.view
     local phase = event.phase
-    local params = event.params
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen).
@@ -100,6 +97,8 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc. 
         image:addEventListener( "touch", onPageSwap )
+        arrowNext:setEnabled(true)
+        arrowBack:setEnabled(true)
     end
 end
 
@@ -126,9 +125,10 @@ function scene:destroy( event )
     local sceneGroup = self.view
     _timer = nil
     group:removeSelf()
-    imageGroup:removeSelf()
     textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )
+    arrowNext:setEnabled(false)
+    arrowBack:setEnabled(false)
     --timer.cancel( _timer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
