@@ -19,7 +19,7 @@ local function createAnimation()
     --sheetImage = graphics.newImageSheet( "animation/animation_2.png", { x=0, y=0, width=536, height=219, numFrames=3 } )
     --instance = display.newSprite( sheetImage, { name="ezik", start=1, count=3, time=500 } )
     instance = display.newSprite( sheet1, { name="ezik", start=1, count=3, time=500 } )
-    instance.x = w/2
+    instance.x = w
     instance.y = display.contentHeight/2 + 20
     instance.xScale = scaleEzik*2
     instance.yScale = scaleEzik*2
@@ -77,7 +77,7 @@ function scene:create( event )
 
     createAnimation()
     moveTimer = timer.performWithDelay(20, update, 0)
-
+    instance:play()
 end
 
 
@@ -94,7 +94,7 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
-        instance:play()
+        --instance:play()
         arrowNext:setEnabled(true)
         arrowBack:setEnabled(true)
     end

@@ -86,6 +86,7 @@ function scene:create( event )
 
     createAnimation()
     moveTimer = timer.performWithDelay(20, update, 0)
+    instance:play()
 end
 
 
@@ -102,7 +103,7 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         image:addEventListener( "touch", onPageSwap )
-        instance:play()
+        --instance:play()
         arrowNext:setEnabled(true)
         arrowBack:setEnabled(true)
     end
@@ -131,7 +132,7 @@ function scene:destroy( event )
     local sceneGroup = self.view
     image:removeEventListener( "touch", onPageSwap )
     textGroup:removeSelf()
-    --group:removeSelf()
+    group:removeSelf()
     timer.cancel( moveTimer )
     arrowNext:setEnabled(false)
     arrowBack:setEnabled(false)

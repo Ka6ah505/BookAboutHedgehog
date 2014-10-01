@@ -46,7 +46,7 @@ end
 local function update1()
     -- body
     instance1.x = instance1.x + 3
-    instance1.y = instance1.y - 0.4
+    instance1.y = instance1.y - 0.37
     if instance1.x > crW+220 then
         instance1.x = -290
         instance1.y = display.contentHeight - display.contentHeight/4
@@ -108,7 +108,7 @@ function scene:create( event )
     createAnimation()
     moveTimer = timer.performWithDelay(20, update, 0)
 
-    timer.performWithDelay(4500, StartUpdate, 1)
+    timer.performWithDelay(4200, StartUpdate, 1)
 end
 
 
@@ -158,7 +158,7 @@ function scene:destroy( event )
     group:removeSelf()
     textGroup:removeSelf()
     timer.pause( moveTimer )
-    --timer.pause( moveTimer1 ) 
+    timer.pause( moveTimer1 ) 
     image:removeEventListener( "touch", onPageSwap )
     arrowNext:setEnabled(false)
     arrowBack:setEnabled(false)
