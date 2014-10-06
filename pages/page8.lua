@@ -17,7 +17,6 @@ local scaleEzik
 
 function createAnimation()
     -- body
-    --sheetImage = graphics.newImageSheet( "animation/animation_8.png", { x=0, y=0, width=435, height=85, numFrames=2 } )
     instance = display.newSprite( sheet8, { name="ezik", start=1, count=2, time=1000 } )
     instance.x = w + 220
     instance.y = display.contentHeight/2 + 20
@@ -54,7 +53,7 @@ local function update1()
 end
 
 local function StartUpdate()
-    moveTimer1 = timer.performWithDelay(20, update1, 0)
+    timer.resume(moveTimer1)
 end
 
 local function onPageSwap( event )
@@ -107,7 +106,8 @@ function scene:create( event )
 
     createAnimation()
     moveTimer = timer.performWithDelay(20, update, 0)
-
+    moveTimer1 = timer.performWithDelay(20, update1, 0)
+    timer.pause(moveTimer1)
     timer.performWithDelay(4200, StartUpdate, 1)
 end
 
@@ -158,7 +158,7 @@ function scene:destroy( event )
     group:removeSelf()
     textGroup:removeSelf()
     timer.pause( moveTimer )
-    timer.pause( moveTimer1 ) 
+    timer.cancel( moveTimer1 ) 
     image:removeEventListener( "touch", onPageSwap )
     arrowNext:setEnabled(false)
     arrowBack:setEnabled(false)
