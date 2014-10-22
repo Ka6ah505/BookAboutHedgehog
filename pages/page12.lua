@@ -123,13 +123,13 @@ end
 function scene:destroy( event )
     print("12: destroy")
     local sceneGroup = self.view
-    _timer = nil
+    --_timer = nil
     group:removeSelf()
     textGroup:removeSelf()
     image:removeEventListener( "touch", onPageSwap )
     arrowNext:setEnabled(false)
     arrowBack:setEnabled(false)
-    --timer.cancel( _timer )
+    timer.cancel( _timer )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
